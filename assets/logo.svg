@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="titulo">
+  <title id="titulo">Monograma LR de Libras em Reunião</title>
+  <rect x="2" y="2" width="124" height="124" rx="26" fill="#102B46"/>
+  <path d="M29 38V90H51" fill="none" stroke="#F4FAF9" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M68 90V38H82C93 38 99 44 99 53C99 62 92 68 82 68H68M82 68L100 90" fill="none" stroke="#82E0CB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
