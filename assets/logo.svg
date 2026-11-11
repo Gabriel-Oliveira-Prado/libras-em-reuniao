@@ -1,6 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="titulo">
-  <title id="titulo">Monograma LR de Libras em Reunião</title>
-  <rect x="2" y="2" width="124" height="124" rx="26" fill="#102B46"/>
-  <path d="M29 38V90H51" fill="none" stroke="#F4FAF9" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M68 90V38H82C93 38 99 44 99 53C99 62 92 68 82 68H68M82 68L100 90" fill="none" stroke="#82E0CB" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <title id="titulo">Monograma LR em dois balões de conversa</title>
+  <circle cx="64" cy="64" r="62" fill="#0E3B3A"/>
+  <path d="M65 48H89C100 48 108 56 108 67V83C108 92 102 99 94 101V110L81 102H65C54 102 46 94 46 83V67C46 56 54 48 65 48Z" fill="#F5A940"/>
+  <path d="M37 24H82C93 24 101 32 101 43V67C101 78 93 86 82 86H49L34 98V85C25 83 19 76 19 67V43C19 32 27 24 37 24Z" fill="#FFF1D5"/>
+  <g fill="none" stroke="#0E3B3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 38V72H53"/>
+    <path d="M66 72V38H75C82 38 86 42 86 48C86 54 82 58 75 58H66M75 58L87 72"/>
+  </g>
 </svg>
