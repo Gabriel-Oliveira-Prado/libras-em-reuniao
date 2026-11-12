@@ -17,6 +17,6 @@ Nesta versão, o ícone da extensão abre um painel lateral em português. A cap
 - `painel/` contém o HTML e os estilos da interface.
 - `assets/logo.svg` contém a marca circular. Os ícones PNG da extensão ficam em `assets/icones/`.
 
-As duas mãos e as linhas de movimento da marca foram adaptadas do [símbolo Acessível em Libras, criado pelo Centro de Comunicação da UFMG](https://www.ufmg.br/marca/libras/). Na marca do projeto, as mãos aparecem no centro da câmera de vídeo, com o monograma LR abaixo.
+As duas mãos e as linhas de movimento da marca foram adaptadas do [símbolo Acessível em Libras, criado pelo Centro de Comunicação da UFMG](https://www.ufmg.br/marca/libras/). Na marca do projeto, as mãos aparecem dentro de uma câmera de vídeo e o monograma LR lembra a identificação de um participante da chamada.
 
 Adaptado do exemplo oficial [Global Side Panel](https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/functional-samples/cookbook.sidepanel-global), licenciado sob a [Apache License 2.0](LICENSE).
