@@ -11,8 +11,64 @@
       <header class="marca">
         <img src="../assets/logo.svg" alt="" width="44" height="44">
         <h1>Libras em Reunião</h1>
+        <a class="abrir-aba" href="./index.html" target="_blank" rel="noopener">Abrir em aba</a>
       </header>
-      <p>Este protótipo inclui o painel lateral. O reconhecimento de sinais e o dicionário personalizado ainda estão em desenvolvimento.</p>
+      <nav class="modos" aria-label="Sentido da tradução">
+        <button type="button" aria-controls="modo-camera" aria-pressed="true">Libras para voz</button>
+        <button type="button" aria-controls="modo-fala" aria-pressed="false">Voz para Libras</button>
+      </nav>
+      <section id="modo-camera" aria-labelledby="titulo-camera">
+        <h2 id="titulo-camera">Soletração pela câmera</h2>
+        <p>Mostre uma letra com a mão e mantenha a posição até ela entrar no texto. Para repetir a mesma letra, retire a mão do quadro primeiro.</p>
+        <div class="quadro-camera">
+          <video id="camera" aria-label="Prévia da câmera" autoplay muted playsinline hidden></video>
+          <span id="camera-inativa">Câmera desligada</span>
+          <span id="letra-atual" aria-label="Letra detectada" hidden></span>
+        </div>
+        <div class="acoes">
+          <button type="button" id="alternar-camera">Ligar câmera</button>
+          <button type="button" id="adicionar-espaco" class="secundario">Espaço</button>
+          <button type="button" id="apagar-letra" class="secundario">Apagar letra</button>
+        </div>
+        <p id="estado-camera" role="status"></p>
+        <details>
+          <summary>Letras disponíveis</summary>
+          <p>A, B, C, D, E, F, G, I, K, L, M, N, O, P, Q, R, S, T, U, V e W. O modelo reconhece as formas de mão que aprendeu para essas letras.</p>
+        </details>
+        <label for="texto-camera">Texto para falar</label>
+        <textarea id="texto-camera" rows="3" maxlength="500" placeholder="As letras aparecem aqui. Você também pode corrigir o texto."></textarea>
+        <div class="acoes">
+          <button type="button" id="falar">Falar em português</button>
+          <button type="button" id="limpar-camera" class="secundario">Limpar</button>
+        </div>
+        <p id="estado-voz" role="status"></p>
+        <p class="privacidade">Para os outros ouvirem no Meet, abra o tradutor em uma aba e apresente essa aba com o áudio ativado.</p>
+      </section>
+      <section id="modo-fala" aria-labelledby="titulo-fala" hidden>
+        <h2 id="titulo-fala">Fala em português</h2>
+        <p>Use o microfone ou selecione a guia da reunião. Para ouvir a reunião, marque <strong>Compartilhar áudio da guia</strong> na janela do Chrome.</p>
+        <div class="acoes">
+          <button type="button" id="ouvir-microfone">Usar microfone</button>
+          <button type="button" id="ouvir-guia" class="secundario">Ouvir guia</button>
+          <button type="button" id="parar-fala" class="secundario" hidden>Transcrever trecho</button>
+        </div>
+        <p id="estado-fala" role="status"></p>
+        <label for="texto-fala">Texto em português</label>
+        <textarea id="texto-fala" rows="4" maxlength="500" placeholder="Fale, digite ou cole uma frase curta."></textarea>
+        <div class="acoes">
+          <button type="button" id="traduzir">Mostrar em Libras</button>
+          <button type="button" id="repetir" class="secundario" disabled>Repetir</button>
+          <button type="button" id="limpar-fala" class="secundario">Limpar</button>
+        </div>
+        <p class="privacidade">A transcrição roda no computador. Ao pedir a tradução, apenas o texto é enviado ao VLibras.</p>
+        <p id="estado-vlibras" role="status"></p>
+        <div id="avatar" class="quadro-avatar" hidden></div>
+        <details id="glosa" hidden>
+          <summary>Ver glosa do VLibras</summary>
+          <p id="texto-glosa"></p>
+        </details>
+      </section>
     </main>
+    <script type="module" src="./painel.js"></script>
   </body>
 </html>
