@@ -1,7 +1,7 @@
 import { reamostrar } from "./segmentacao-audio.mjs";
 import { criarEscutaRapida } from "./fala-rapida.mjs";
 
-export function montarFala({ aoTexto, prepararAvatar } = {}) {
+export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
   const microfone = document.querySelector("#ouvir-microfone");
   const guia = document.querySelector("#ouvir-guia");
   const pararBotao = document.querySelector("#parar-fala");
@@ -10,6 +10,12 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
   const tipo = document.querySelector("#tipo-escuta");
   const parcial = document.querySelector("#fala-parcial");
   let sessao, worker, modeloPronto = false, proximoId = 0;
+
+  function configuracaoMicrofone() {
+    const id = dispositivos?.selecionado("microfone");
+    return { echoCancellation: true, noiseSuppression: true, autoGainControl: false, channelCount: 1,
+      ...(id ? { deviceId: { exact: id } } : {}) };
+  }
 
   function liberarCaptura(atual) {
     if (atual.liberada) return;
@@ -158,7 +164,7 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
   async function iniciar(fonte) {
     if (sessao) return;
     if (fonte === "microfone" && tipo.value === "rapida") {
-      const atual = { fila: [], trabalho: null, online: true };
+      const atual = { fila: [], trabalho: null, online: true, fonte };
       sessao = atual;
       microfone.disabled = guia.disabled = tipo.disabled = true;
       pararBotao.hidden = false;
@@ -166,7 +172,26 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
       estado.textContent = "Abrindo o serviço de voz do Chrome…";
       prepararAvatar?.();
       try {
+        let faixa;
+        // A sobrecarga start(audioTrack) chegou ao Chrome desktop 135.
+        // Versões anteriores ignoram argumentos: nunca simular uma seleção de microfone.
+        const versao = Number(navigator.userAgent?.match(/(?:Chrome|Chromium)\/(\d+)/)?.[1] || 0);
+        if (dispositivos?.selecionado("microfone") && versao < 135) {
+          throw new Error("Para usar o microfone escolhido, atualize o Chrome (135 ou mais recente) ou selecione transcrição Local.");
+        }
+        if (versao >= 135) {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: configuracaoMicrofone() });
+          if (sessao !== atual) { stream.getTracks().forEach((track) => track.stop()); return; }
+          atual.stream = stream;
+          [faixa] = stream.getAudioTracks();
+          if (!faixa) throw new Error("O microfone escolhido não retornou uma faixa de áudio.");
+          faixa.addEventListener("ended", () => {
+            if (sessao === atual) encerrar("O microfone foi desconectado. Escolha outro e ligue a escuta novamente.");
+          }, { once: true });
+          dispositivos?.atualizar();
+        }
         atual.rapida = criarEscutaRapida({
+          faixa,
           aoTexto(frase) {
             if (sessao !== atual) return false;
             texto.value = [texto.value.trim(), frase].filter(Boolean).join(" ").slice(-texto.maxLength);
@@ -181,14 +206,20 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
           aoFim(mensagem) { if (sessao === atual) encerrar(mensagem); },
         });
         atual.rapida.iniciar();
-      } catch (erro) { encerrar(erro.message); }
+      } catch (erro) {
+        if (sessao === atual) encerrar(erro.name === "NotAllowedError"
+          ? "O Chrome bloqueou o microfone escolhido. Abra em aba e permita o acesso."
+          : erro.name === "NotFoundError" || erro.name === "OverconstrainedError"
+            ? "O microfone escolhido não está disponível. Escolha outro nas opções de dispositivos."
+            : erro.message);
+      }
       return;
     }
     if (!navigator.mediaDevices || !window.AudioWorkletNode) {
       estado.textContent = "Abra o tradutor em uma aba do Google Chrome ou digite a frase.";
       return;
     }
-    const atual = { fila: [], trabalho: null, escutando: false, parando: false };
+    const atual = { fila: [], trabalho: null, escutando: false, parando: false, fonte };
     sessao = atual;
     microfone.disabled = true;
     guia.disabled = true;
@@ -222,12 +253,13 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
           video: { displaySurface: "browser" }, audio: { suppressLocalAudioPlayback: false },
           selfBrowserSurface: "exclude", systemAudio: "exclude",
         })
-        : await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: false, channelCount: 1 } });
+        : await navigator.mediaDevices.getUserMedia({ audio: configuracaoMicrofone() });
       if (sessao !== atual) {
         stream.getTracks().forEach((track) => track.stop());
         return;
       }
       atual.stream = stream;
+      if (fonte === "microfone") dispositivos?.atualizar();
       const [faixa] = stream.getAudioTracks();
       const superficie = stream.getVideoTracks()[0]?.getSettings().displaySurface;
       if (!faixa || (superficie && superficie !== "browser")) {
@@ -257,7 +289,9 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
     } catch (erro) {
       if (sessao !== atual) return;
       console.warn("Captura de áudio:", erro?.name, erro?.message);
-      encerrar(erro.name === "NotAllowedError" || erro.name === "AbortError"
+      encerrar(erro.name === "NotFoundError" || erro.name === "OverconstrainedError"
+        ? "O microfone escolhido não está disponível. Escolha outro nas opções de dispositivos."
+        : erro.name === "NotAllowedError" || erro.name === "AbortError"
         ? "A captura foi cancelada ou bloqueada. Abra em aba e permita o microfone."
         : "Não foi possível iniciar a escuta. Tente em uma aba do Chrome ou digite a frase.");
     }
@@ -281,6 +315,11 @@ export function montarFala({ aoTexto, prepararAvatar } = {}) {
       worker = undefined;
       modeloPronto = false;
     } else parar.preparar();
+  });
+  dispositivos?.observar(({ tipo: dispositivo, removido }) => {
+    if (dispositivo !== "microfone" || sessao?.fonte !== "microfone") return;
+    encerrar(removido ? "O microfone escolhido foi desconectado. Escolha outro e ligue novamente." : "Trocando de microfone…");
+    if (!removido) iniciar("microfone");
   });
   return parar;
 }

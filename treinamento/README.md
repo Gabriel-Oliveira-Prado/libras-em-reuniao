@@ -83,3 +83,24 @@ node tests/verificar_fluxo_tcn.mjs "$env:TEMP/libras-tcn-oi"
 ```
 
 Para áudio real sintetizado e inferência inteiramente WASM, veja `tests/testar_sintese_local.mjs`, `tests/testar_transcricao_wasm.mjs` e seus relatórios. Os testes rodam bibliotecas reais no Node, sem automatizar Chrome, câmera, alto-falantes ou Meet. A comparação da fila/serviço rápido usa APIs simuladas, explicitamente separadas desses testes de modelos.
+
+## Dicionário pessoal (0.5.0)
+
+`preparar_teste_dicionario.py` usa as duas repetições já disponíveis e baixa as repetições 3–5 de seis classes: Acontecer, Amarelo, Banheiro, Conhecer, Maca e Vontade. Os 14 outros sinais da mesma pessoa, nas repetições 1–2, servem como exemplos fora do cadastro. Os vídeos permanecem em TEMP, com a revisão da fonte fixada e os hashes em `amostras.json`. Nomes de classes simulam rótulos pessoais; o ensaio não atribui sinais a pessoas reais.
+
+`tests/testar_dicionario_videos.mjs` reproduz a segmentação do painel e usa repetições 1–3 no cadastro, 4 na confirmação e 5 no teste. A comparação DTW usa posição e forma das duas mãos, corpo e rosto com pesos menores, 32 passos, faixa de alinhamento 8, média das duas referências mais próximas e recusa de ambiguidade. O limiar adaptado ao cadastro tem teto 0,22 e piso 0,06. Gravações muito diferentes e confirmações distantes são recusadas. Não há afrouxamento automático para fazer um cadastro passar.
+
+O primeiro ensaio com a pessoa 01 tinha teto 0,45 e produziu sete falsos positivos em 28 negativos, apesar de acertar os três cadastros aceitos. Foi reprovado; veja `resultado-dicionario-exploratorio.json`. Após tornar a regra mais conservadora, a pessoa 01 serviu apenas como desenvolvimento/regressão: três cadastros aceitos, dois acertos e uma recusa no teste; zero falas nos 28 negativos. Essa repetição não é uma avaliação independente.
+
+As regras foram então fixadas antes de executar o ensaio com a pessoa 02. Cinco dos seis cadastros passaram pela confirmação. Na quinta repetição houve quatro acertos e uma recusa; zero nomes errados. Nos 28 negativos, zero correspondências aceitas; um vídeo não produziu segmento válido. `resultado-dicionario-pessoal.json` resume esse ensaio final e `resultado-dicionario-pessoa02.json` preserva os casos. É uma amostra pequena e controlada, sem validação na webcam do usuário ou em conversa contínua.
+
+Comandos de reprodução, usando o ambiente Python já preparado:
+
+```powershell
+python treinamento/preparar_teste_dicionario.py --minds "$env:TEMP/libras-minds-holistic" --saida "$env:TEMP/libras-dicionario-pessoa02" --pessoa 2
+node tests/testar_dicionario_videos.mjs "$env:TEMP/libras-dicionario-pessoa02/amostras.json" "$env:TEMP/libras-dicionario-pessoa02/resultado.json"
+node --test tests/*.test.mjs
+node tests/testar_armazenamento.mjs "$env:TEMP/libras-asr-verificacao"
+```
+
+O último comando precisa de `fake-indexeddb@6.2.8` em `node_modules` na pasta informada, instalado apenas para teste. A extensão não depende desse pacote. O armazenamento em produção usa IndexedDB do próprio Chrome. Testes de interface usam objetos simulados, separados do ensaio com vetores reais e da síntese WASM real.

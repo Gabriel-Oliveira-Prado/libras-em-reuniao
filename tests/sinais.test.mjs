@@ -27,7 +27,7 @@ test("o mesmo corpo em capturas 16:9, 4:3 e retrato produz os mesmos atributos",
 
 test("modelo não aprovado não inventa legenda nem fala; candidato aprovado preserva palavrão", async () => {
   const originais = { document: globalThis.document, fetch: globalThis.fetch };
-  const elementos = Object.fromEntries(["estado-modelo", "sinal-atual", "legenda-camera"].map((id) => [`#${id}`, { textContent: "", hidden: true }]));
+  const elementos = Object.fromEntries(["estado-modelo", "sinal-atual", "legenda-camera", "area-legenda", "orientacao-camera"].map((id) => [`#${id}`, { textContent: "", hidden: true }]));
   globalThis.document = { querySelector: (id) => elementos[id] };
   let habilitado = false;
   const modelo = {
@@ -49,7 +49,8 @@ test("modelo não aprovado não inventa legenda nem fala; candidato aprovado pre
     desligado.receber(resultado, 0);
     assert.equal(desligado.temModelo(), false);
     assert.equal(falas.length, 0);
-    assert.match(elementos["#legenda-camera"].textContent, /validação/);
+    assert.match(elementos["#orientacao-camera"].textContent, /validação/);
+    assert.equal(elementos["#legenda-camera"].textContent, "Os sinais reconhecidos aparecem aqui.");
     habilitado = true;
     const sinais = montarSinais({ falarSinal: (v) => falas.push(v) });
     await sinais.pronto;
@@ -61,5 +62,39 @@ test("modelo não aprovado não inventa legenda nem fala; candidato aprovado pre
     sinais.parar();
     for (let t = 2000; t < 2500; t += 70) sinais.receber({}, t);
     assert.equal(falas.length, 1);
+  } finally { Object.assign(globalThis, originais); }
+});
+
+test("sinal pessoal tem prioridade, fala o nome com legenda e ambiguidade/cadastro bloqueiam a fala automática", async () => {
+  const originais = { document: globalThis.document, fetch: globalThis.fetch };
+  const elementos = Object.fromEntries(["estado-modelo", "sinal-atual", "legenda-camera", "area-legenda", "orientacao-camera"].map((id) => [`#${id}`, { textContent: "", hidden: true }]));
+  globalThis.document = { querySelector: (id) => elementos[id] };
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ habilitado: false, mensagem: "Sem modelo geral" }) });
+  const neutro = {
+    poseLandmarks: Array.from({ length: 33 }, (_, i) => ({ x: i === 11 ? 0.3 : 0.6, y: 0.5, z: 0, visibility: 1 })),
+    faceLandmarks: Array.from({ length: 478 }, () => ({ x: 0.5, y: 0.2, z: 0 })),
+  };
+  const mao = { ...neutro, leftHandLandmarks: Array.from({ length: 21 }, (_, i) => ({ x: 0.4 + i * 0.003, y: 0.4, z: 0 })) };
+  let capturando = false, ambiguo = false;
+  const falas = [], pessoais = { receber: () => capturando, temSinais: () => true, cancelar() {}, mensagemCaptura: () => "Gravando sinal pessoal",
+    reconhecer: () => ambiguo ? { registro: null, ambiguo: true } : { registro: { nome: "Gabriel" } } };
+  try {
+    const sinais = montarSinais({ falarSinal: (nome) => falas.push(nome), pessoais });
+    await sinais.pronto;
+    const fazer = (inicio) => {
+      for (let t = inicio; t < inicio + 1000; t += 70) sinais.receber(mao, t);
+      for (let t = inicio + 1050; t < inicio + 1600; t += 70) sinais.receber(neutro, t);
+    };
+    fazer(0);
+    assert.deepEqual(falas, ["Gabriel"]);
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel");
+    ambiguo = true; fazer(2000);
+    assert.deepEqual(falas, ["Gabriel"]);
+    assert.match(elementos["#orientacao-camera"].textContent, /dois sinais pessoais/);
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel", "aviso não substitui o que a pessoa sinalizou");
+    capturando = true; fazer(4000);
+    assert.deepEqual(falas, ["Gabriel"]);
+    assert.equal(elementos["#area-legenda"].hidden, true);
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel", "contagem e instruções ficam fora da legenda");
   } finally { Object.assign(globalThis, originais); }
 });

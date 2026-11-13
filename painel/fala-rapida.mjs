@@ -1,6 +1,6 @@
 // Alternativa opcional. O serviço de reconhecimento do Chrome pode enviar
 // áudio aos seus servidores; a interface exige a escolha explícita deste modo.
-export function criarEscutaRapida({ aoTexto, aoParcial, aoEstado, aoFim }, Reconhecimento = globalThis.SpeechRecognition ?? globalThis.webkitSpeechRecognition) {
+export function criarEscutaRapida({ aoTexto, aoParcial, aoEstado, aoFim, faixa }, Reconhecimento = globalThis.SpeechRecognition ?? globalThis.webkitSpeechRecognition) {
   if (!Reconhecimento) throw new Error("Este Chrome não oferece reconhecimento de voz rápido. Selecione Local.");
   let reconhecedor, encerrado = false, parando = false, reinicio, prazo, falhas = 0;
   function concluir(mensagem) {
@@ -23,11 +23,13 @@ export function criarEscutaRapida({ aoTexto, aoParcial, aoEstado, aoFim }, Recon
     const recebidos = new Set();
     const vigente = () => !encerrado && reconhecedor === atual;
     atual.onstart = () => { if (vigente()) aoEstado("Ouvindo pelo serviço de voz do Chrome…"); };
-    atual.onresult = ({ resultIndex, results }) => {
+    atual.onresult = ({ results }) => {
       if (!vigente()) return;
       falhas = 0;
       const parciais = [];
-      for (let i = resultIndex; i < results.length; i++) {
+      // Os índices anteriores podem conter parciais estáveis. Reconstrói toda
+      // a legenda provisória e usa o conjunto para não repetir finais.
+      for (let i = 0; i < results.length; i++) {
         const resultado = results[i], texto = resultado[0]?.transcript?.trim();
         if (!texto) continue;
         if (resultado.isFinal) {
@@ -54,12 +56,13 @@ export function criarEscutaRapida({ aoTexto, aoParcial, aoEstado, aoFim }, Recon
     };
     atual.onend = () => {
       if (!vigente()) return;
+      aoParcial("");
       if (parando) { concluir("Escuta encerrada. As falas confirmadas foram enviadas ao avatar."); return; }
       falhas++;
       if (falhas >= 3) { concluir("O serviço de voz encerrou a escuta. Tente novamente ou selecione Local."); return; }
       reinicio = setTimeout(iniciarRodada, 200 * falhas);
     };
-    try { atual.start(); }
+    try { if (faixa) atual.start(faixa); else atual.start(); }
     catch { concluir("Não foi possível iniciar o serviço de voz. Tente novamente ou selecione Local."); }
   }
   return {

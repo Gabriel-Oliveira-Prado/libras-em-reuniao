@@ -3,12 +3,16 @@ import { montarFala } from "./fala.js";
 import { montarVLibras } from "./vlibras.js";
 import { montarVoz } from "./voz.js";
 import { montarSinais } from "./sinais.js";
+import { montarDicionario } from "./sinais-pessoais.js";
+import { montarDispositivos } from "./dispositivos.js";
 
-const voz = montarVoz();
-const sinais = montarSinais({ falarSinal: voz.falarSinal });
-const pararCamera = montarCamera({ prepararVoz: voz.preparar, aoDetectar: sinais.receber, aoParar: sinais.parar, temModelo: sinais.temModelo });
+const dispositivos = montarDispositivos();
+const voz = montarVoz({ dispositivos });
+const pessoais = montarDicionario({ prepararVoz: voz.preparar, aoCapturar: voz.parar, aoTeste: (nome) => sinais.falarReconhecido(nome) });
+const sinais = montarSinais({ falarSinal: voz.falarSinal, pessoais });
+const pararCamera = montarCamera({ dispositivos, prepararVoz: voz.preparar, aoDetectar: sinais.receber, aoParar: sinais.parar, temModelo: sinais.temModelo });
 const avatar = montarVLibras();
-const pararFala = montarFala({ aoTexto: avatar.adicionar, prepararAvatar: avatar.abrir });
+const pararFala = montarFala({ dispositivos, aoTexto: avatar.adicionar, prepararAvatar: avatar.abrir });
 const botoesModo = [...document.querySelectorAll(".modos button")];
 
 function pararCameraEVoz() {
@@ -41,6 +45,8 @@ window.addEventListener("pagehide", () => {
   pararCameraEVoz();
   pararFala();
   avatar.destruir();
+  pessoais.destruir();
+  dispositivos.destruir();
 });
 
 document.querySelector("#limpar-fala").addEventListener("click", pararFala);

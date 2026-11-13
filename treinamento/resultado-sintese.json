@@ -1,27 +1,48 @@
 {
   "motor": "Spellophone/eSpeak WASM distribuído com a extensão",
-  "carregamento_ms": 75.4268,
+  "carregamento_ms": 161.1076,
   "resultados": [
     {
       "texto": "Oi",
       "sampleRate": 22050,
       "segundos": 0.233015873015873,
       "rms": 0.1224141731378746,
-      "sintese_ms": 5.282799999999995
+      "sintese_ms": 8.198300000000017
     },
     {
       "texto": "Oi. O som do tradutor está funcionando.",
       "sampleRate": 22050,
       "segundos": 2.7118367346938776,
       "rms": 0.09182430407634762,
-      "sintese_ms": 6.017399999999995
+      "sintese_ms": 9.28970000000001
     },
     {
       "texto": "merda",
       "sampleRate": 22050,
       "segundos": 0.40258503401360546,
       "rms": 0.07821280459776282,
-      "sintese_ms": 1.417900000000003
+      "sintese_ms": 2.6805999999999983
+    },
+    {
+      "texto": "Gabriel",
+      "sampleRate": 22050,
+      "segundos": 0.5524263038548752,
+      "rms": 0.1034389903392677,
+      "sintese_ms": 3.5563999999999965
+    },
+    {
+      "texto": "João",
+      "sampleRate": 22050,
+      "segundos": 0.3840816326530612,
+      "rms": 0.08564332145105824,
+      "sintese_ms": 2.4557000000000073
+    },
+    {
+      "texto": "Ana Clara",
+      "sampleRate": 22050,
+      "segundos": 0.6013151927437642,
+      "rms": 0.09417037085844575,
+      "sintese_ms": 1.9911000000000172
     }
   ],
   "limites": "Executado no Node. Valida a síntese de áudio, não o volume, a política de autoplay do Chrome ou o áudio compartilhado no Meet."

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Libras em Reunião",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "Protótipo de acessibilidade para o uso de Libras em reuniões online.",
   "icons": {
     "16": "assets/icones/icon-16.png",

@@ -1,0 +1,65 @@
+{
+  "data": "2026-11-13T12:16:06.517Z",
+  "tradutor": "https://traducao2.vlibras.gov.br/translate",
+  "dicionario": "https://dicionario2.vlibras.gov.br/2018.3.1/WEBGL/",
+  "casos": [
+    {
+      "texto": "Tudo bem?",
+      "glosa": "TUDO_BEM [INTERROGAÇÃO]",
+      "traducaoMs": 477
+    },
+    {
+      "texto": "Como você está?",
+      "glosa": "COMO VOCÊ BOM [INTERROGAÇÃO]",
+      "traducaoMs": 142
+    },
+    {
+      "texto": "Bom dia, tudo bem?",
+      "glosa": "BOM_DIA TUDO_BEM [INTERROGAÇÃO]",
+      "traducaoMs": 54
+    }
+  ],
+  "bundles": [
+    {
+      "sinal": "TUDO_BEM",
+      "status": 200,
+      "bytes": 21602,
+      "descargaMs": 414,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/TUDO_BEM",
+      "sha256": "3444617b2d669306159afd26b464efbae82a42a9cd20d49e6fd7dcec1ca3cf48"
+    },
+    {
+      "sinal": "COMO",
+      "status": 200,
+      "bytes": 26029,
+      "descargaMs": 423,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/COMO",
+      "sha256": "284d8d5acd0c1c5cbec9bce80bd8200110aec0251e601557edca756945a663ab"
+    },
+    {
+      "sinal": "VOCÊ",
+      "status": 200,
+      "bytes": 19807,
+      "descargaMs": 397,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/VOC%C3%8A",
+      "sha256": "787cde5e0f6662716cd201333d6fa92553134f303eb5b7f17da9663385e70278"
+    },
+    {
+      "sinal": "BOM",
+      "status": 200,
+      "bytes": 22922,
+      "descargaMs": 467,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/BOM",
+      "sha256": "61e6c6fe80f040a647141ac48ec3e47e1b124eeb57a10c7e8aba6f04d332a5e5"
+    },
+    {
+      "sinal": "BOM_DIA",
+      "status": 200,
+      "bytes": 22576,
+      "descargaMs": 469,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/BOM_DIA",
+      "sha256": "f3fd4aba02d07fb346797249a7b401fd9856591ff32f1e74e70b675697f1e26d"
+    }
+  ],
+  "limites": "Requisições HTTP fora do navegador. Confirma tradução, arquivos Unity e cabeçalho CORS; não confirma renderização, significado linguístico ou reprodução no Chrome/Meet."
+}

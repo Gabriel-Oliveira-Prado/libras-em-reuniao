@@ -18,6 +18,8 @@ test("avatar só aparece em Voz para Libras e captura para ao trocar de modo", (
     montarCamera: () => () => cameraParou++, montarFala: () => pararFala,
     montarSinais: () => ({ receber() {}, parar() {}, temModelo() {} }),
     montarVoz: () => ({ falarSinal() {}, preparar() {}, parar() {} }),
+    montarDicionario: () => ({ destruir() {} }),
+    montarDispositivos: () => ({ destruir() {} }),
     montarVLibras: () => ({ abrir: () => abriu++, parar: () => avatarParou++, adicionar() {}, destruir() {} }),
   };
   const fonte = readFileSync(new URL("../painel/painel.js", import.meta.url), "utf8").replace(/^import .*;\r?\n/gm, "");

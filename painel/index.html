@@ -12,10 +12,25 @@
         <img src="../assets/logo.svg" alt="" width="44" height="44">
         <div>
           <h1>Libras em Reunião</h1>
-          <p class="subtitulo">Comunicação no Meet, um passo de cada vez</p>
+          <p class="subtitulo">Libras · Língua Brasileira de Sinais</p>
         </div>
         <a class="abrir-aba" href="./index.html" target="_blank" rel="noopener">Abrir em aba</a>
       </header>
+      <details class="dispositivos">
+        <summary>Câmera, microfone e saída de som</summary>
+        <label for="dispositivo-camera">Câmera</label>
+        <select id="dispositivo-camera" aria-describedby="estado-dispositivos"></select>
+        <label for="dispositivo-microfone">Entrada de áudio · microfone</label>
+        <select id="dispositivo-microfone" aria-describedby="estado-dispositivos"></select>
+        <label for="dispositivo-saida">Saída de áudio · alto-falante ou fone</label>
+        <select id="dispositivo-saida" aria-describedby="estado-dispositivos"></select>
+        <div class="acoes">
+          <button type="button" id="permitir-dispositivos" class="secundario">Permitir e listar</button>
+          <button type="button" id="atualizar-dispositivos" class="secundario">Atualizar lista</button>
+        </div>
+        <p id="estado-dispositivos" role="status">Carregando dispositivos…</p>
+        <p class="privacidade">A escolha fica salva neste Chrome e controla o tradutor. No Meet, escolha seus dispositivos nas configurações da própria reunião. Ouvir guia usa o áudio da guia escolhida.</p>
+      </details>
       <nav class="modos" aria-label="Sentido da tradução">
         <button type="button" aria-controls="modo-camera" aria-pressed="true">Sinais → voz</button>
         <button type="button" aria-controls="modo-fala" aria-pressed="false">Voz → Libras</button>
@@ -24,8 +39,14 @@
         <div id="avatar" class="quadro-avatar"></div>
         <p id="estado-vlibras" role="status">Carregando o intérprete…</p>
         <div class="acoes">
+          <button type="button" id="testar-avatar" class="secundario">Testar “Tudo bem?”</button>
           <button type="button" id="repetir" class="secundario" disabled>Repetir sinalização</button>
+          <button type="button" id="pausar-avatar" class="secundario" aria-pressed="false" disabled>Pausar avatar</button>
           <button type="button" id="tentar-avatar" class="secundario" hidden>Tentar novamente</button>
+        </div>
+        <div class="velocidade-avatar">
+          <label for="velocidade-avatar">Velocidade dos sinais</label>
+          <select id="velocidade-avatar"><option value="0.5">0,5× · mais devagar</option><option value="1" selected>1× · normal</option><option value="1.5">1,5× · mais rápido</option><option value="2">2× · mais rápido</option></select>
         </div>
         <details id="glosa" hidden>
           <summary>Ver glosa do VLibras</summary>
@@ -34,31 +55,83 @@
       </section>
       <section id="modo-camera" aria-labelledby="titulo-camera">
         <h2 id="titulo-camera">Sinalize e ouça</h2>
-        <p class="instrucao">Enquadre rosto, tronco e mãos. Faça um sinal e abaixe as mãos por um instante. Quando reconhecido, ele aparece na legenda e é falado automaticamente.</p>
+        <p class="instrucao">Use Libras, a Língua Brasileira de Sinais. Enquadre rosto, tronco e mãos. Faça um sinal e abaixe as mãos por um instante: cada sinal reconhecido entra na legenda e é falado automaticamente.</p>
         <div class="quadro-camera">
           <video id="camera" aria-label="Prévia da câmera" autoplay muted playsinline hidden></video>
           <canvas id="desenho-maos" aria-hidden="true" hidden></canvas>
           <span id="camera-inativa">Câmera desligada</span>
           <span id="maos-detectadas" hidden></span>
           <span id="sinal-atual" hidden></span>
-          <span id="legenda-camera" aria-live="polite">Aguardando a câmera</span>
+          <div id="area-legenda">
+            <span class="rotulo-legenda">Legenda em português</span>
+            <span id="legenda-camera" aria-live="polite" aria-atomic="true">Os sinais reconhecidos aparecem aqui.</span>
+            <span id="voz-camera" aria-live="polite" hidden></span>
+          </div>
+          <div id="guia-cadastro-camera" class="guia-cadastro" hidden>
+            <span id="etapa-cadastro-camera" class="etapa-cadastro"></span>
+            <strong id="contagem-cadastro" aria-hidden="true" hidden></strong>
+            <p id="instrucao-cadastro-camera" role="status" aria-live="polite"></p>
+            <span id="tempo-cadastro" hidden></span>
+            <div class="acoes">
+              <button type="button" id="continuar-cadastro-camera" hidden>Continuar</button>
+              <button type="button" id="cancelar-cadastro-camera" class="secundario">Cancelar cadastro</button>
+            </div>
+          </div>
         </div>
         <div class="acoes">
           <button type="button" id="alternar-camera">Ligar câmera</button>
           <button type="button" id="testar-som" class="secundario">Testar som</button>
         </div>
         <p id="estado-camera" role="status"></p>
-        <p id="estado-modelo" role="status">Preparando o reconhecimento…</p>
+        <p id="orientacao-camera" role="status">Ligue a câmera para começar.</p>
+        <details class="meus-sinais" id="meus-sinais">
+          <summary>Meus sinais em Libras · pessoas e termos</summary>
+          <p>Guarde o sinal usado para chamar uma pessoa ou representar um termo. Ao reconhecê-lo, o tradutor mostra e fala o nome que você escolheu.</p>
+          <button type="button" id="novo-pessoal" disabled>Cadastrar um sinal</button>
+          <div id="cadastro-pessoal" hidden>
+            <ol id="etapas-pessoal" class="etapas-pessoal" aria-label="Passos do cadastro">
+              <li id="passo-nome">1. Nome</li>
+              <li id="passo-gravacoes">2. Três gravações</li>
+              <li id="passo-confirmacao">3. Teste final</li>
+            </ol>
+            <p id="resumo-pessoal" class="resumo-pessoal"></p>
+            <div id="dados-pessoal">
+            <label for="nome-pessoal">Nome ou termo para mostrar e falar</label>
+            <input id="nome-pessoal" type="text" maxlength="60" autocomplete="off" placeholder="Ex.: Gabriel, Bia ou nome do projeto">
+            <label for="tipo-pessoal">Este sinal representa</label>
+            <select id="tipo-pessoal"><option value="pessoa">Uma pessoa</option><option value="termo">Um termo ou expressão</option></select>
+            </div>
+            <p id="ajuda-gravacao">Ligue a câmera e enquadre rosto, ombros e mãos. Você vai repetir o mesmo sinal de Libras três vezes e mais uma vez no teste final. Espere a contagem antes de cada gravação.</p>
+            <p id="etapa-pessoal" class="etapa-pessoal"></p>
+            <progress id="progresso-pessoal" value="0" max="4" aria-label="Gravações concluídas"></progress>
+            <div class="acoes">
+              <button type="button" id="gravar-pessoal">Começar gravação 1 de 3</button>
+              <button type="button" id="regravar-pessoal" class="secundario" hidden>Regravar exemplos</button>
+              <button type="button" id="cancelar-pessoal" class="secundario">Cancelar</button>
+            </div>
+          </div>
+          <p id="estado-pessoais" role="status">Carregando seus sinais…</p>
+          <p id="quantidade-pessoais"></p>
+          <ul id="lista-pessoais" class="lista-pessoais" aria-label="Sinais pessoais salvos"></ul>
+          <div class="acoes">
+            <button type="button" id="exportar-pessoais" class="secundario" disabled>Salvar cópia</button>
+            <button type="button" id="importar-pessoais" class="secundario">Importar cópia</button>
+            <input id="arquivo-pessoais" type="file" accept="application/json,.json" hidden>
+          </div>
+          <p class="privacidade">Nomes e pontos de movimento ficam neste perfil do Chrome, sem vídeos ou áudio. Use Salvar cópia antes de trocar de computador ou remover a extensão. O reconhecimento pessoal é experimental e precisa de gravações consistentes.</p>
+        </details>
         <details class="ajuda">
           <summary>Quais sinais estão disponíveis?</summary>
+          <p id="estado-modelo" role="status">Preparando o reconhecimento…</p>
           <p>Acontecer, aluno, amarelo, América, aproveitar, bala, banco, banheiro, barulho, cinco, conhecer, espelho, esquina, filho, maçã, medo, ruim, sapo, vacina e vontade.</p>
-          <p>“Oi” ainda está em treinamento e não está habilitado. Use Testar som para conferir a voz sem depender do reconhecimento.</p>
-          <p>Outros sinais ainda podem não ser reconhecidos ou ser confundidos. Não há censura de palavras: este vocabulário é o que o modelo foi treinado para reconhecer.</p>
+          <p>“Oi” ainda não está no modelo geral. Você pode tentar cadastrá-lo como termo em Meus sinais, com o seu próprio gesto. Use Testar som para conferir a voz.</p>
+          <p>O modelo usa exemplos de Libras do Brasil e ainda reconhece apenas sinais isolados do vocabulário disponível. Outros sinais e variações regionais podem não ser reconhecidos. Não há censura de palavras.</p>
         </details>
         <label for="texto-camera">Mensagem em português</label>
         <textarea id="texto-camera" rows="3" maxlength="500" placeholder="O sinal reconhecido aparece aqui. Você também pode digitar e falar."></textarea>
         <div class="acoes">
           <button type="button" id="falar">Falar mensagem</button>
+          <button type="button" id="parar-voz" class="secundario" hidden>Parar voz</button>
           <button type="button" id="limpar-camera" class="secundario">Limpar</button>
         </div>
         <p id="estado-voz" role="status"></p>

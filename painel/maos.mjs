@@ -52,10 +52,11 @@ export function desenharMaos(canvas, maos, corpo = []) {
       contexto.lineTo(pontos[b].x * largura, pontos[b].y * altura);
       contexto.stroke();
     }
-    for (const ponto of pontos) {
+    for (const [indice, ponto] of pontos.entries()) {
+      const ponta = [4, 8, 12, 16, 20].includes(indice);
       contexto.beginPath();
-      contexto.arc(ponto.x * largura, ponto.y * altura, 4.5, 0, Math.PI * 2);
-      contexto.fillStyle = "#ab233a";
+      contexto.arc(ponto.x * largura, ponto.y * altura, Math.max(4.5, largura / 180) * (ponta ? 1.35 : 1), 0, Math.PI * 2);
+      contexto.fillStyle = ponta ? "#51152b" : "#ab233a";
       contexto.fill();
       contexto.strokeStyle = "#ffffff";
       contexto.lineWidth = 1.5;

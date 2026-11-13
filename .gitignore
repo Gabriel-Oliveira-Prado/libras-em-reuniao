@@ -1,3 +1,4 @@
 .vs/
 tests/fixtures/
 __pycache__/
+meus-sinais-libras*.json

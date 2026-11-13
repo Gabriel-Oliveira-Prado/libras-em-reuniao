@@ -1,7 +1,7 @@
 import { carregarDetectorDeMaos } from "./reconhecimento.js";
 import { desenharMaos } from "./maos.mjs";
 
-export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {}) {
+export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, dispositivos } = {}) {
   const video = document.querySelector("#camera");
   const desenho = document.querySelector("#desenho-maos");
   const inativa = document.querySelector("#camera-inativa");
@@ -15,6 +15,7 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
     sessao = null;
     if (anterior) {
       cancelAnimationFrame(anterior.animacao);
+      anterior.cancelarMetadados?.();
       anterior.stream?.getTracks().forEach((track) => track.stop());
     }
     desenho.getContext("2d").clearRect(0, 0, desenho.width, desenho.height);
@@ -42,7 +43,8 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
     let etapa = "camera";
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } },
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 },
+          ...(dispositivos?.selecionado("camera") ? { deviceId: { exact: dispositivos.selecionado("camera") } } : {}) },
         audio: false,
       });
       if (sessao !== atual) {
@@ -50,6 +52,7 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
         return;
       }
       atual.stream = stream;
+      dispositivos?.atualizar();
       stream.getVideoTracks()[0].addEventListener("ended", () => {
         if (sessao === atual) parar("A câmera foi desconectada.");
       }, { once: true });
@@ -58,9 +61,16 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
       await video.play();
       if (sessao !== atual) return;
       if (!video.videoWidth || !video.videoHeight) {
-        await new Promise((resolve) => video.addEventListener("loadedmetadata", resolve, { once: true }));
+        await new Promise((resolve, reject) => {
+          const limpar = () => { clearTimeout(prazo); video.removeEventListener("loadedmetadata", carregou); atual.cancelarMetadados = undefined; };
+          const carregou = () => { limpar(); resolve(); };
+          const prazo = setTimeout(() => { limpar(); reject(new Error("A câmera não iniciou a prévia.")); }, 8000);
+          atual.cancelarMetadados = carregou;
+          video.addEventListener("loadedmetadata", carregou, { once: true });
+        });
         if (sessao !== atual) return;
       }
+      if (!video.videoWidth || !video.videoHeight) throw new Error("A câmera retornou dimensões vazias.");
       desenho.width = video.videoWidth;
       desenho.height = video.videoHeight;
       video.hidden = false;
@@ -78,18 +88,23 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
           if (instante - atual.instante >= 66 && video.readyState >= 2 && video.currentTime !== atual.ultimoQuadro) {
             atual.instante = instante;
             atual.ultimoQuadro = video.currentTime;
+            if (desenho.width !== video.videoWidth || desenho.height !== video.videoHeight) {
+              desenho.width = video.videoWidth; desenho.height = video.videoHeight;
+            }
             const resultado = detectar(video, instante);
             // Algumas versões da API Web agrupam landmarks em um array de pessoas.
             for (const campo of ["leftHandLandmarks", "rightHandLandmarks", "poseLandmarks", "faceLandmarks"]) {
               if (Array.isArray(resultado[campo]?.[0])) resultado[campo] = resultado[campo][0];
             }
             const maos = [resultado.leftHandLandmarks, resultado.rightHandLandmarks].filter((mao) => mao?.length);
+            const maoPequena = maos.some((mao) => Math.max(...mao.map((p) => p.x)) - Math.min(...mao.map((p) => p.x)) < 0.04 &&
+              Math.max(...mao.map((p) => p.y)) - Math.min(...mao.map((p) => p.y)) < 0.05);
             desenharMaos(desenho, maos, resultado.poseLandmarks);
             detectadas.hidden = maos.length === 0;
-            if (maos.length) detectadas.textContent = `${maos.length} ${maos.length === 1 ? "mão localizada" : "mãos localizadas"}`;
-            estado.textContent = maos.length
-              ? (temModelo?.() ? "Acompanhando seus movimentos." : "Rastreamento ativo. A tradução automática ainda está em validação.")
-              : "Enquadre rosto, tronco e mãos, com boa iluminação.";
+            const contagem = `${maos.length} ${maos.length === 1 ? "mão localizada" : "mãos localizadas"}`;
+            if (maos.length && detectadas.textContent !== contagem) detectadas.textContent = contagem;
+            const mensagem = maoPequena ? "Aproxime um pouco as mãos, mantendo rosto e ombros no quadro." : "";
+            if (estado.textContent !== mensagem) estado.textContent = mensagem;
             aoDetectar?.(resultado, instante, video.videoWidth / video.videoHeight);
           }
           atual.animacao = requestAnimationFrame(atualizar);
@@ -124,6 +139,12 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {
       prepararVoz?.();
       ligar();
     }
+  });
+
+  dispositivos?.observar(({ tipo, removido }) => {
+    if (tipo !== "camera" || !sessao) return;
+    parar(removido ? "A câmera escolhida foi desconectada. Escolha outra câmera e ligue novamente." : "Trocando de câmera…");
+    if (!removido) ligar();
   });
 
   return parar;

@@ -25,6 +25,8 @@ test("modo rápido mostra parcial e só envia texto final uma vez ao avatar, sem
     motor.onresult({ resultIndex: 0, results: [a.resultado("bom", false)] });
     assert.deepEqual(a.parciais, ["bom"]);
     assert.equal(a.falas.length, 0);
+    motor.onresult({ resultIndex: 1, results: [a.resultado("bom", false), a.resultado("dia", false)] });
+    assert.equal(a.parciais.at(-1), "bom dia", "preserva os parciais anteriores ao índice alterado");
     motor.onresult({ resultIndex: 0, results: [a.resultado("Bom dia", true)] });
     motor.onresult({ resultIndex: 0, results: [a.resultado("Bom dia", true), a.resultado("merda", true)] });
     assert.deepEqual(a.falas, ["Bom dia", "merda"]);
@@ -35,6 +37,23 @@ test("modo rápido mostra parcial e só envia texto final uma vez ao avatar, sem
     assert.deepEqual(a.falas, ["Bom dia", "merda", "Fim"]);
     assert.equal(a.fins.length, 1);
   } finally { a.escuta.abortar(); }
+});
+
+test("modo rápido recebe a faixa do microfone escolhido também ao reiniciar", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const faixa = { kind: "audio", readyState: "live" }, faixas = [], motores = [];
+  class Reconhecimento {
+    constructor() { motores.push(this); }
+    start(recebida) { faixas.push(recebida); }
+    abort() {}
+  }
+  const escuta = criarEscutaRapida({ faixa, aoTexto() {}, aoParcial() {}, aoEstado() {}, aoFim() {} }, Reconhecimento);
+  try {
+    escuta.iniciar();
+    motores[0].onend();
+    t.mock.timers.tick(200);
+    assert.deepEqual(faixas, [faixa, faixa]);
+  } finally { escuta.abortar(); }
 });
 
 test("cancelamento descarta resultados tardios e erro de rede oferece modo local", () => {

@@ -11,7 +11,7 @@ const motor = await createEspeak({
 });
 await motor.loadVoice("pt-br");
 const carregamento = performance.now() - inicio;
-const frases = ["Oi", "Oi. O som do tradutor está funcionando.", "merda"];
+const frases = ["Oi", "Oi. O som do tradutor está funcionando.", "merda", "Gabriel", "João", "Ana Clara"];
 const resultados = [];
 for (const texto of frases) {
   const antes = performance.now();
