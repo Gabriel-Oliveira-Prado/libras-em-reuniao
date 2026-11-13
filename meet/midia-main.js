@@ -506,6 +506,12 @@
       config = { ...proposta };
       if (!config.vozNoMeet) { cancelarPcm(); limparPreparacaoAudio(); }
       status("");
+      // Cada configuração válida recebe confirmação, mesmo quando o status não mudou.
+      aoMeet({ tipo: "meet-confirmado" });
+      return;
+    }
+    if (dados.tipo === "meet-ping") {
+      aoMeet({ tipo: "meet-pronto" });
       return;
     }
     if (!sessao || dados.sessao !== sessao) return;

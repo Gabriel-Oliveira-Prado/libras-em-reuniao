@@ -16,7 +16,7 @@ class Elemento {
   replaceChildren(...itens) { this.children = itens; }
 }
 function ambiente({ consultar = async () => [] } = {}) {
-  const nomes = ["reuniao-meet", "estado-meet", "conectar-meet", "desconectar-meet", "posicao-meet", "tamanho-meet", "voz-no-meet", "testar-voz-meet", "atualizar-meet"];
+  const nomes = ["reuniao-meet", "estado-meet", "conexao-meet", "conectar-meet", "desconectar-meet", "posicao-meet", "tamanho-meet", "voz-no-meet", "testar-voz-meet", "atualizar-meet"];
   const elementos = Object.fromEntries(nomes.map(nome => [nome, new Elemento()]));
   const carregando = new Elemento(); carregando.textContent = "Carregando reuniões…";
   elementos["reuniao-meet"].children = [carregando];
@@ -113,7 +113,7 @@ test("desconexão inicial lê lastError e refaz comunicação após 500 ms sem c
   a.porta().receber({ tipo: "reunioes", reunioes: [{ id: 4, titulo: "Reunião recuperada", ativa: true }] });
   assert.equal(a.elementos["reuniao-meet"].value, "4");
   velha.receber({ tipo: "reunioes", reunioes: [{ id: 3, titulo: "Antiga", ativa: true }] });
-  velha.receber({ tipo: "conectado", tabId: 3, disponivel: true });
+  velha.receber({ tipo: "conectado", tabId: 3, disponivel: true, confirmado: true });
   assert.equal(a.elementos["reuniao-meet"].value, "4"); assert.equal(a.app.ativa(), false);
   assert.deepEqual(a.hooks, []); assert.equal(totalEnviadas(a, "conectar"), 0); assert.equal(a.capturas(), 0);
   a.app.destruir();
@@ -158,7 +158,7 @@ test("prazos de listagem e conexão devolvem controle sem declarar sucesso", asy
   assert.equal(a.elementos["conectar-meet"].disabled, false);
   assert.equal(a.app.ativa(), false); assert.deepEqual(a.hooks, []);
   assert.match(a.estado(), /[Rr]ecarreg|[Aa]tualiz|[Nn]ão|demor|respon/);
-  a.porta().receber({ tipo: "conectado", tabId: 7, disponivel: true });
+  a.porta().receber({ tipo: "conectado", tabId: 7, disponivel: true, confirmado: true });
   assert.equal(a.app.ativa(), false); assert.deepEqual(a.hooks, []);
   assert.equal(a.elementos["conectar-meet"].disabled, false);
   a.app.destruir();
@@ -170,7 +170,7 @@ test("destruir cancela todos os timers e ignora consulta ou mensagens tardias", 
   assert.equal(a.timers.size, 0); const quantidade = a.portas.length, estado = a.estado();
   consulta.resolve([reuniao()]); await flush();
   velha.receber({ tipo: "reunioes", reunioes: [{ id: 4, titulo: "Tardia" }] });
-  velha.receber({ tipo: "conectado", tabId: 4, disponivel: true });
+  velha.receber({ tipo: "conectado", tabId: 4, disponivel: true, confirmado: true });
   await a.avancar(10000);
   assert.equal(a.portas.length, quantidade); assert.equal(a.estado(), estado);
   assert.equal(a.app.ativa(), false); assert.deepEqual(a.hooks, []); assert.equal(a.timers.size, 0);

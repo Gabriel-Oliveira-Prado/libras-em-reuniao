@@ -209,3 +209,8 @@ select { width: 100%; padding: 0.65rem; border: 1px solid var(--borda); border-r
 .lista-biblioteca button { min-height: 2.2rem; flex: none; }
 
 #ouvir-microfone[aria-pressed="false"] { background: var(--acao); color: #fff; border-color: var(--acao); }
+
+.conexao-meet { display: inline-block; margin: 10px 0; padding: 7px 11px; border: 1px solid #d4d5e5; border-radius: 8px; background: #f5f5fa; color: #11114e; font-weight: 700; }
+.conexao-pendente { background: #f1edfa; border-color: #846dc2; }
+.conexao-ligado { background: #e8f5ec; border-color: #2d7543; color: #18572c; }
+.conexao-erro { background: #fff0f0; border-color: #a82439; color: #8c1930; }

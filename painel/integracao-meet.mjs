@@ -3,6 +3,7 @@ import { configuracao, glosaValida, ehMeet } from "../meet/protocolo.mjs";
 export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
   const seletor = document.querySelector("#reuniao-meet");
   const estado = document.querySelector("#estado-meet");
+  const indicador = document.querySelector("#conexao-meet");
   const conectar = document.querySelector("#conectar-meet");
   const desconectar = document.querySelector("#desconectar-meet");
   const posicao = document.querySelector("#posicao-meet"), tamanho = document.querySelector("#tamanho-meet");
@@ -12,7 +13,40 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
   let ultimaMidia, statusAvatar = "", ultimaConfiguracao = "", reunioes = [];
   const pendentes = new Map();
   let timerLista, timerConexao, timerReconexao, tentativas = 0, pedidoLista = 0, listaConcluida = 0;
-  let aguardandoConexao = false, guiaPreparada = false;
+  let aguardandoConexao = false, guiaPreparada = false, timerProgresso, segundos = 0, falhaConexao = false;
+  function indicar(valor, texto) {
+    if (!indicador) return;
+    indicador.textContent = texto;
+    indicador.className = "conexao-meet conexao-" + valor;
+  }
+  function pararPrazo() {
+    clearTimeout(timerConexao); timerConexao = undefined;
+    clearInterval(timerProgresso); timerProgresso = undefined;
+  }
+  function notificarConexao(valor) {
+    try { aoConexao?.(valor); }
+    catch {
+      estado.textContent += " Os controles do tradutor não responderam. Reabra o painel.";
+    }
+  }
+  function esperarConfirmacao() {
+    if (aguardandoConexao || destruido) return;
+    aguardandoConexao = true; segundos = 6;
+    conectar.disabled = true; conectar.textContent = "Conectando…";
+    desconectar.hidden = false; desconectar.textContent = "Cancelar conexão";
+    indicar("pendente", "Conectando… 6 s");
+    timerProgresso = setInterval(() => {
+      if (!aguardandoConexao) return;
+      segundos = Math.max(0, segundos - 1);
+      indicar("pendente", "Conectando… " + segundos + " s");
+    }, 1000);
+    timerConexao = setTimeout(() => {
+      if (destruido || !aguardandoConexao) return;
+      enviar({ tipo: "desconectar" });
+      encerrar("Não foi possível conectar: o Meet não confirmou a integração em 6 segundos. Recarregue a guia do Meet e tente conectar novamente.", true);
+    }, 6000);
+  }
+  indicar("desligado", "Desconectado");
   const avisoRecarregar = "Recarregue a extensão em chrome://extensions e reabra o painel para conectar ao Meet.";
   function opcaoVazia(texto) {
     const o = document.createElement("option"); o.value = ""; o.textContent = texto;
@@ -97,11 +131,11 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
     }
     if (!ultimaMidia) {
       estado.textContent = modo === "fala"
-        ? ["Conectado. Ligue a câmera do Meet; o avatar entra no vídeo assim que carregar.", statusAvatar].filter(Boolean).join(" ")
-        : "Conectado. Para mostrar o avatar na câmera do Meet, selecione Voz → Libras.";
+        ? ["Conectado ao Meet. Ligue a câmera do Meet; o avatar entra no vídeo assim que carregar.", statusAvatar].filter(Boolean).join(" ")
+        : "Conectado ao Meet. Para mostrar o avatar na câmera do Meet, selecione Voz → Libras.";
       return;
     }
-    const partes = [];
+    const partes = ["Conectado ao Meet."];
     if (modo === "fala") partes.push(ultimaMidia.camera && ultimaMidia.avatar
       ? "Avatar integrado à câmera."
       : ultimaMidia.camera ? "Câmera pronta. Aguardando o vídeo do avatar carregar."
@@ -116,14 +150,17 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
     partes.push("Confira imagem e som com outro participante.");
     estado.textContent = partes.join(" ");
   }
-  function encerrar(motivo) {
-    clearTimeout(timerConexao); timerConexao = undefined; aguardandoConexao = false;
+  function encerrar(motivo, falhou = false) {
+    falhaConexao = falhou;
+    pararPrazo(); aguardandoConexao = false;
     const antes = ligado; ligado = false; ultimaMidia = undefined; statusAvatar = "";
     destino = -1; guiaPreparada = false;
     cancelarPendentes("A conexão com o Meet foi encerrada.");
-    conectar.disabled = false; seletor.disabled = false; desconectar.hidden = true; testar.disabled = true;
+    conectar.disabled = false; conectar.textContent = "Conectar ao Meet";
+    seletor.disabled = false; desconectar.hidden = true; desconectar.textContent = "Desconectar"; testar.disabled = true;
+    indicar(falhou ? "erro" : "desligado", falhou ? "Não conectado" : "Desconectado");
     estado.textContent = motivo || "Integração desligada.";
-    if (antes) aoConexao?.(false);
+    if (antes) notificarConexao(false);
   }
   function abrirPorta() {
     if (destruido || porta) return;
@@ -136,17 +173,35 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
         if (d.tipo === "reunioes") mostrarReunioes(d.reunioes, Number.isInteger(d.pedido) ? d.pedido : pedidoLista);
         if (d.tipo === "conectado") {
           if (!ligado && !aguardandoConexao) return;
-          clearTimeout(timerConexao); timerConexao = undefined; aguardandoConexao = false;
+          if (d.confirmado !== true) {
+            const antes = ligado;
+            ligado = false; guiaPreparada = false; ultimaMidia = undefined; testar.disabled = true;
+            if (antes) cancelarPendentes("A conexão com o Meet precisa ser confirmada novamente.");
+            if (!aguardandoConexao) esperarConfirmacao();
+            estado.textContent = d.disponivel === false
+              ? "O Meet ainda não recebeu a integração. Recarregue esta guia do Meet e tente conectar novamente."
+              : "Guia encontrada. Aguardando confirmação do Meet…";
+            if (antes) notificarConexao(false);
+            return;
+          }
+          pararPrazo(); aguardandoConexao = false;
           const novo = !ligado || destino !== d.tabId;
-          ligado = true; destino = d.tabId; conectar.disabled = true; seletor.disabled = true;
-          desconectar.hidden = false; testar.disabled = !vozMeet.checked;
-          if (novo) { ultimaMidia = undefined; statusAvatar = ""; aoConexao?.(true); }
-          guiaPreparada = d.disponivel !== false;
-          if (!guiaPreparada) ultimaMidia = undefined;
+          ligado = true; destino = d.tabId; guiaPreparada = true; falhaConexao = false;
+          conectar.disabled = true; conectar.textContent = "Conectado ao Meet"; seletor.disabled = true;
+          desconectar.hidden = false; desconectar.textContent = "Desconectar"; testar.disabled = !vozMeet.checked;
+          indicar("ligado", "Conectado ao Meet");
           informar();
+          if (novo) notificarConexao(true);
         }
-        if (d.tipo === "aguardando-meet") { guiaPreparada = false; ultimaMidia = undefined; informar(); }
-        if (d.tipo === "midia-status") { guiaPreparada = true; ultimaMidia = d; informar(); }
+        if (d.tipo === "aguardando-meet" && (ligado || aguardandoConexao)) {
+          const antes = ligado;
+          ligado = false; guiaPreparada = false; ultimaMidia = undefined;
+          cancelarPendentes("A conexão com o Meet foi interrompida.");
+          testar.disabled = true; esperarConfirmacao();
+          estado.textContent = "A guia do Meet foi interrompida. Aguardando confirmação para reconectar…";
+          if (antes) notificarConexao(false);
+        }
+        if (d.tipo === "midia-status" && (ligado || aguardandoConexao)) { ultimaMidia = d; informar(); }
         if (["avatar-status", "captura-status"].includes(d.tipo)) { statusAvatar = d.erro || d.estado || ""; informar(); }
         if (d.tipo === "audio-recebido") {
           const p = pendentes.get(d.id); if (!p) return;
@@ -154,10 +209,10 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
           if (d.aceito) p.resolve(true);
           else p.reject(erroMeet(d.erro || "O Meet não conseguiu receber esta fala. Confira o microfone da reunião."));
         }
-        if (d.tipo === "desconectado") encerrar(d.motivo);
+        if (d.tipo === "desconectado" && !(falhaConexao && !ligado && !aguardandoConexao)) encerrar(d.motivo);
         if (d.tipo === "erro") {
           estado.textContent = d.erro;
-          if (!ligado) { clearTimeout(timerConexao); timerConexao = undefined; aguardandoConexao = false; conectar.disabled = false; }
+          if (!ligado) encerrar(d.erro || "Não foi possível conectar ao Meet.", true);
         }
       });
       atual.onDisconnect.addListener(() => {
@@ -183,16 +238,11 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
     const id = Number(seletor.value);
     if (!seletor.value || !Number.isInteger(id)) { estado.textContent = "Abra uma guia do Google Meet e atualize as reuniões."; return; }
     clearTimeout(timerReconexao); timerReconexao = undefined;
-    abrirPorta(); conectar.disabled = true; aguardandoConexao = true;
-    estado.textContent = "Conectando à reunião…";
+    ultimaMidia = undefined; statusAvatar = ""; falhaConexao = false;
+    abrirPorta(); esperarConfirmacao();
+    estado.textContent = "Conectando à reunião. Aguardando resposta do Meet…";
     ultimaConfiguracao = JSON.stringify(config());
-    clearTimeout(timerConexao);
-    timerConexao = setTimeout(() => {
-      timerConexao = undefined;
-      if (destruido || !aguardandoConexao) return;
-      enviar({ tipo: "desconectar" }); encerrar(avisoRecarregar);
-    }, 6000);
-    if (!enviar({ tipo: "conectar", tabId: id, config: config() })) { encerrar(avisoRecarregar); }
+    if (!enviar({ tipo: "conectar", tabId: id, config: config() })) { encerrar(avisoRecarregar, true); }
   });
   desconectar.addEventListener("click", () => { enviar({ tipo: "desconectar" }); encerrar(); });
   document.querySelector("#atualizar-meet").addEventListener("click", () => {
@@ -225,7 +275,7 @@ export function montarIntegracaoMeet({ aoConexao, aoTesteVoz } = {}) {
     pararAudio() { cancelarPendentes("A voz foi interrompida."); if (ligado) enviar({ tipo: "audio-parar" }); },
     destruir() {
       destruido = true; pedidoLista++;
-      clearInterval(batida); clearTimeout(timerLista); clearTimeout(timerConexao); clearTimeout(timerReconexao);
+      clearInterval(batida); clearTimeout(timerLista); pararPrazo(); clearTimeout(timerReconexao);
       enviar({ tipo: "desconectar" }); encerrar(); porta?.disconnect(); porta = undefined;
     }
   };

@@ -676,3 +676,33 @@ test("troca de sessão durante a permissão nativa não integra áudio de uma so
   assert.equal(e.respostaAudio(1).aceito, false);
   assert.equal(e.contextos.length, 0);
 });
+
+test("MAIN confirma cada configuração válida mesmo com status deduplicado, sem ligar câmera ou microfone", () => {
+  const e = ambiente(), ack = () => e.emitidas.filter(d => d.tipo === "meet-confirmado");
+  const config = { conectado: true, modo: "fala", posicao: "inferior-esquerdo", tamanho: "medio", vozNoMeet: true };
+  e.enviar({ tipo: "config", config }, { source: {} });
+  e.enviar({ tipo: "config", config }, { origin: "https://outro.example" });
+  e.enviar({ tipo: "config", config: { ...config, posicao: "fora" } });
+  e.enviar({ tipo: "config", config, sessao: "" });
+  assert.equal(ack().length, 0);
+  e.configurar();
+  assert.equal(ack().length, 1);
+  assert.equal(ack()[0].sessao, "sessao-teste");
+  assert.equal(ack()[0].canal, CANAL);
+  const status = e.emitidas.filter(d => d.tipo === "midia-status").length;
+  e.configurar();
+  assert.equal(ack().length, 2);
+  assert.equal(e.emitidas.filter(d => d.tipo === "midia-status").length, status);
+  e.configurar({ modo: "sinais" });
+  assert.equal(ack().length, 3);
+  assert.equal(e.chamadas.length, 0);
+  assert.equal(e.contextos.length, 0);
+});
+
+test("MAIN responde ao ping da ponte antes da configuração da sessão", () => {
+  const e = ambiente();
+  e.enviar({ tipo: "meet-ping" });
+  const pronto = e.emitidas.find(d => d.tipo === "meet-pronto");
+  assert.equal(pronto.canal, CANAL);
+  assert.equal(pronto.sessao, null);
+});

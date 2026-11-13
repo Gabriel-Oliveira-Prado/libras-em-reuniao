@@ -14,8 +14,8 @@ class Elemento {
   emitir(tipo = "click") { return this.listeners.get(tipo)?.(); }
   replaceChildren(...itens) { this.children = itens; }
 }
-function ambiente({ salvo, erroEnvio = false } = {}) {
-  const nomes = ["reuniao-meet", "estado-meet", "conectar-meet", "desconectar-meet", "posicao-meet", "tamanho-meet", "voz-no-meet", "testar-voz-meet", "atualizar-meet"];
+function ambiente({ salvo, erroEnvio = false, aoConexao } = {}) {
+  const nomes = ["reuniao-meet", "estado-meet", "conexao-meet", "conectar-meet", "desconectar-meet", "posicao-meet", "tamanho-meet", "voz-no-meet", "testar-voz-meet", "atualizar-meet"];
   const elementos = Object.fromEntries(nomes.map(n => [n, new Elemento()]));
   const dados = new Map(salvo === undefined ? [] : [["libras-meet-config", JSON.stringify(salvo)]]);
   const portas = [], hooks = [], timers = new Map();
@@ -41,13 +41,13 @@ function ambiente({ salvo, erroEnvio = false } = {}) {
     clearInterval(i) { timers.delete(i); }
   });
   vm.runInContext(fonte, contexto);
-  const app = contexto.montar({ aoConexao: valor => hooks.push(valor), aoTesteVoz: () => { testes += 1; } });
+  const app = contexto.montar({ aoConexao: valor => { hooks.push(valor); aoConexao?.(valor); }, aoTesteVoz: () => { testes += 1; } });
   return {
     app, elementos, dados, portas, hooks, timers, falhar: v => { falhar = v; }, testes: () => testes,
     porta: () => portas.at(-1),
     tempo(ms) { for (const [i, t] of [...timers]) if (t.ms === ms) { if (!t.intervalo) timers.delete(i); t.fn(); } },
     conectar(tabId = 2) { elementos["reuniao-meet"].value = String(tabId); elementos["conectar-meet"].emitir(); },
-    confirmar(tabId = 2) { portas.at(-1).receber({ tipo: "conectado", tabId, disponivel: true, sessao: "sessao-teste" }); },
+    confirmar(tabId = 2) { portas.at(-1).receber({ tipo: "conectado", tabId, disponivel: true, confirmado: true, sessao: "sessao-teste" }); },
     midia(audio = true) { portas.at(-1).receber({ tipo: "midia-status", audio, camera: true, avatar: true }); },
     estado: () => elementos["estado-meet"].textContent
   };
@@ -163,8 +163,9 @@ test("parar e desconectar cancelam áudios; ACK tardio não revive promessas nem
 test("reload de Meet limpa estado de mídia; fechamento de porta/painel encerra e ignora callbacks antigos", async () => {
   const a = ambiente(); a.conectar(); a.confirmar(); a.midia();
   a.porta().receber({ tipo: "aguardando-meet" });
-  await assert.rejects(a.app.encaminharAudio(entrada()), /ainda não foi integrado/);
-  a.midia();
+  assert.equal(a.app.ativa(), false);
+  assert.equal(await a.app.encaminharAudio(entrada()), false);
+  a.confirmar(); a.midia();
   const audio = a.app.encaminharAudio(entrada()), check = assert.rejects(audio, /encerrada/);
   const velha = a.porta(); velha.disconnect(); await check;
   assert.equal(a.app.ativa(), false);
@@ -197,12 +198,77 @@ test("biblioteca manda glosa exata ao Meet apenas no modo fala e não inicia cap
 test("guia sem integração instalada pede recarga e só informa câmera pronta após resposta de mídia", () => {
   const a = ambiente(); a.app.mudarModo("fala"); a.conectar();
   a.porta().receber({ tipo: "conectado", tabId: 2, disponivel: false });
-  assert.equal(a.app.ativa(), true);
+  assert.equal(a.app.ativa(), false);
   assert.match(a.estado(), /Recarregue esta guia do Meet/);
   assert.doesNotMatch(a.estado(), /Avatar integrado/);
-  a.porta().receber({ tipo: "conectado", tabId: 2, disponivel: true });
+  a.porta().receber({ tipo: "conectado", tabId: 2, disponivel: true, confirmado: true });
   assert.match(a.estado(), /Ligue a c.mera do Meet/);
   a.porta().receber({ tipo: "midia-status", camera: true, avatar: false, audio: false });
   assert.match(a.estado(), /Aguardando o v.deo do avatar/);
+  a.app.destruir();
+});
+
+
+test("exceção ao atualizar controles não deixa conexão confirmada presa em Conectando", () => {
+  const a = ambiente({ aoConexao() { throw new Error("controle indisponível"); } });
+  a.conectar();
+  assert.doesNotThrow(() => a.confirmar());
+  assert.equal(a.app.ativa(), true);
+  assert.equal(a.elementos["conexao-meet"].textContent, "Conectado ao Meet");
+  assert.match(a.estado(), /Conectado ao Meet/);
+  assert.doesNotMatch(a.estado(), /Conectando/);
+  a.tempo(6000);
+  assert.equal(a.elementos["conexao-meet"].textContent, "Conectado ao Meet");
+  assert.doesNotThrow(() => a.app.destruir());
+  assert.equal(a.timers.size, 0);
+});
+
+test("enviar configuração não confirma conexão; conta o prazo e rejeita confirmação após expirar", () => {
+  const a = ambiente(); a.conectar();
+  a.porta().receber({ tipo: "conectado", tabId: 2, disponivel: true, confirmado: false });
+  a.midia();
+  assert.equal(a.app.ativa(), false);
+  assert.deepEqual(a.hooks, []);
+  assert.match(a.elementos["conexao-meet"].textContent, /Conectando/);
+  a.tempo(1000); assert.match(a.elementos["conexao-meet"].textContent, /5 s/);
+  a.tempo(6000);
+  assert.equal(a.elementos["conexao-meet"].textContent, "Não conectado");
+  assert.match(a.estado(), /não confirmou.*6 segundos/);
+  assert.equal(a.elementos["conectar-meet"].disabled, false);
+  a.confirmar(); assert.equal(a.app.ativa(), false);
+  a.app.destruir(); assert.equal(a.timers.size, 0);
+});
+
+test("cancelar espera interrompe contagem e não conecta nem dispara callback", () => {
+  const a = ambiente(); a.conectar();
+  assert.equal(a.elementos["desconectar-meet"].hidden, false);
+  assert.equal(a.elementos["desconectar-meet"].textContent, "Cancelar conexão");
+  a.elementos["desconectar-meet"].emitir();
+  a.tempo(1000); a.tempo(6000); a.confirmar();
+  assert.equal(a.app.ativa(), false); assert.deepEqual(a.hooks, []);
+  assert.equal(a.elementos["conexao-meet"].textContent, "Desconectado");
+  assert.equal(a.elementos["conectar-meet"].disabled, false);
+  a.app.destruir();
+});
+
+test("mídia recebida antes do ACK é mantida sem declarar conexão antes da confirmação", () => {
+  const a = ambiente(); a.app.mudarModo("fala"); a.conectar(); a.midia();
+  assert.equal(a.app.ativa(), false);
+  a.confirmar();
+  assert.equal(a.app.ativa(), true);
+  assert.match(a.estado(), /Conectado ao Meet.*Avatar integrado/);
+  assert.equal(a.elementos["conectar-meet"].textContent, "Conectado ao Meet");
+  a.app.destruir();
+});
+
+
+test("resposta de desligamento do serviço não apaga a falha de timeout", () => {
+  const a = ambiente(); a.conectar(); a.tempo(6000);
+  const mensagem = a.estado();
+  a.porta().receber({ tipo: "desconectado", motivo: "Integração desligada." });
+  assert.equal(a.estado(), mensagem);
+  assert.equal(a.elementos["conexao-meet"].textContent, "Não conectado");
+  a.conectar(); a.confirmar();
+  assert.equal(a.elementos["conexao-meet"].textContent, "Conectado ao Meet");
   a.app.destruir();
 });

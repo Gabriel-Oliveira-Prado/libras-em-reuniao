@@ -15,6 +15,7 @@
         <strong>Libras em Reunião</strong>
         <button id="pausar-avatar" type="button" disabled aria-pressed="false">Pausar avatar</button>
         <button id="tentar-avatar" type="button" hidden>Tentar novamente</button>
+        <button id="reconectar-avatar" type="button" hidden>Reconectar intérprete</button>
       </div>
       <p id="estado-vlibras" role="status" aria-live="polite">Conectando ao Meet…</p>
       <p id="estado-captura" role="status" aria-live="polite"></p>
@@ -30,6 +31,7 @@
       <select id="velocidade-avatar" aria-label="Velocidade do avatar"><option value="1">Normal</option></select>
     </div>
   </main>
-  <script type="module" src="avatar.js"></script>
+  <script src="bootstrap-avatar.js"></script>
+  <script id="modulo-avatar" type="module" src="avatar.js"></script>
 </body>
 </html>

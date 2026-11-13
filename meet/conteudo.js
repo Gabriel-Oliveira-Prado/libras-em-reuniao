@@ -49,6 +49,7 @@
           enviarMain({ tipo: "desconectar" }); removerAvatar(); config = undefined; sessao = undefined;
         }
       });
+      enviarMain({ tipo: "meet-ping" });
       atual.onDisconnect.addListener(() => {
         if (porta !== atual) return;
         enviarMain({ tipo: "desconectar" }); removerAvatar(); sessao = config = undefined; porta = undefined;
@@ -77,9 +78,14 @@
       }
       return;
     }
-    if (e.source !== window || e.origin !== origem || d.sessao !== sessao || !sessao) return;
+    if (e.source !== window || e.origin !== origem) return;
+    if (d.tipo === "meet-pronto") {
+      try { porta?.postMessage({ tipo: d.tipo }); } catch {}
+      return;
+    }
+    if (d.sessao !== sessao || !sessao) return;
     if (d.tipo === "avatar-frame-ack") quadro?.contentWindow?.postMessage(d, origemExtensao);
-    if (["midia-status", "audio-recebido"].includes(d.tipo)) {
+    if (["meet-pronto", "meet-confirmado", "midia-status", "audio-recebido"].includes(d.tipo)) {
       if (d.tipo === "midia-status" && rotulo) rotulo.textContent = d.camera && d.avatar
         ? "Avatar integrado à câmera · confira com outro participante"
         : "Avatar local · aguardando câmera e quadros";

@@ -41,17 +41,22 @@ function janela() {
     removeEventListener(tipo, fn) { if (eventos.get(tipo) === fn) eventos.delete(tipo); }
   };
 }
-function wrapper({ pronta = true } = {}) {
+function wrapper({ pronta = true, portaFalha = false } = {}) {
   let playerPronto = pronta;
   const timer = temporizadores(), window = janela(), aoUnity = [], portas = [], metodos = [];
   const iframe = { contentWindow: { postMessage(...args) { aoUnity.push(args); } } };
   let iframeAtual = iframe;
   const area = { querySelector: () => iframeAtual };
-  const estado = { textContent: "Carregando" }, captura = { textContent: "" };
+  const estado = { textContent: "Conectando ao Meet…" }, captura = { textContent: "" };
+  const inicializacao = [];
+  window.__librasMeetAvatar = {
+    confirmar: () => inicializacao.push("confirmar"),
+    falhar: mensagem => inicializacao.push(mensagem)
+  };
   const observadores = [];
   let aoPort, desconectar, desconectou = 0;
   const port = {
-    postMessage: msg => portas.push(msg),
+    postMessage: msg => { if (portaFalha) throw new Error("porta encerrada"); portas.push(msg); },
     onMessage: { addListener: fn => { aoPort = fn; } },
     onDisconnect: { addListener: fn => { desconectar = fn; } },
     disconnect: () => { desconectou += 1; }
@@ -75,7 +80,7 @@ function wrapper({ pronta = true } = {}) {
   });
   vm.runInContext(fonteWrapper, context);
   return {
-    timer, window, iframe, aoUnity, portas, metodos, estado, captura, observadores,
+    timer, window, iframe, aoUnity, portas, metodos, estado, captura, observadores, inicializacao,
     pronto: valor => { playerPronto = valor; },
     trocarIframe() {
       const novo = { contentWindow: { postMessage(...args) { aoUnity.push(args); } } };
@@ -319,4 +324,57 @@ test("wrapper reproduz sinal do catálogo diretamente e recusa glosa inválida o
   a.port({ tipo: "avatar-sinal", sessao: "teste-1", glosa: "../ruim", rotulo: "ruim" });
   assert.deepEqual(a.metodos.filter((m) => typeof m === "object"), [{ glosa: "BOM_DIA", rotulo: "Bom dia" }]);
   a.desligar();
+});
+
+test("wrapper só confirma configuração válida e encerra a espera após oito segundos", () => {
+  const a = wrapper();
+  a.port({ tipo: "config", sessao: "", config: { modo: "fala" } });
+  a.port({ tipo: "config", sessao: "teste-1", config: { modo: "incorreto" } });
+  assert.deepEqual(a.inicializacao, []);
+  assert.match(a.estado.textContent, /Conectando/);
+  a.timer.executar(8000);
+  assert.match(a.estado.textContent, /não confirmou a conexão/);
+  assert.equal(a.desconectou(), 1);
+  assert.ok(a.observadores.every(o => o.desconectado));
+  assert.equal(a.timer.tarefas.size, 0);
+  a.configurar();
+  assert.equal(a.metodos.includes("abrir"), false);
+  assert.ok(!a.inicializacao.includes("confirmar"));
+});
+
+test("wrapper confirma o Meet antes de abrir o intérprete e cancela o prazo inicial", () => {
+  const a = wrapper({ pronta: false });
+  a.configurar();
+  assert.deepEqual(a.inicializacao, ["confirmar"]);
+  assert.match(a.estado.textContent, /^Conectado ao Meet/);
+  a.timer.executar(8000);
+  assert.equal(a.desconectou(), 0);
+  assert.equal(a.metodos.includes("abrir"), true);
+  a.desligar();
+  assert.match(a.estado.textContent, /Conexão encerrada/);
+  assert.equal(a.timer.tarefas.size, 0);
+});
+
+test("wrapper mostra encerramento quando a porta fecha antes da configuração", () => {
+  const a = wrapper();
+  a.desligar();
+  assert.match(a.estado.textContent, /Conexão encerrada/);
+  assert.ok(!a.estado.textContent.includes("Conectando"));
+  assert.equal(a.timer.tarefas.size, 0);
+  assert.equal(a.desconectou(), 1);
+});
+
+test("wrapper não deixa Conectando quando postMessage falha na abertura", () => {
+  const a = wrapper({ portaFalha: true });
+  assert.match(a.estado.textContent, /Conexão encerrada/);
+  assert.equal(a.timer.tarefas.size, 0);
+  assert.equal(a.desconectou(), 1);
+});
+
+test("wrapper limpa a espera ao sair da página sem inventar erro de conexão", () => {
+  const a = wrapper();
+  a.window.eventos.get("pagehide")();
+  assert.equal(a.estado.textContent, "Conectando ao Meet…");
+  assert.deepEqual(a.inicializacao, []);
+  assert.equal(a.timer.tarefas.size, 0);
 });

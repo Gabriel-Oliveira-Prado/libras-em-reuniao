@@ -109,6 +109,17 @@ test("um painel controla uma guia; PCM e ACK só passam pela guia e sessão sele
   assert.equal(ultima(p1, "audio-recebido"), undefined);
 });
 
+test("ponte pronta dispara novo envio da configuração para concluir a conexão", async () => {
+  const a = ambiente(), p = a.painel(), m = a.meet(1);
+  await p.receber({ tipo: "conectar", tabId: 1, config: { modo: "fala" } });
+  const sessao = ultima(p, "conectado").sessao;
+  const antes = m.enviadas.filter(d => d.tipo === "config").length;
+  await m.receber({ tipo: "meet-pronto" });
+  assert.equal(m.enviadas.filter(d => d.tipo === "config").length, antes + 1);
+  assert.equal(ultima(m, "config").sessao, sessao);
+  assert.equal(ultima(p, "conectado").confirmado, false);
+});
+
 test("cancelar ou fechar painel durante tabs.get não ressuscita conexão; pedido mais novo vence", async () => {
   const a = ambiente(), p = a.painel(), d = diferido();
   a.obter(() => d.promise);
@@ -226,5 +237,48 @@ test("serviço conserva glosa da biblioteca na fila e a encaminha somente ao ava
   const depois = avatar.enviadas.length;
   await p.receber({ tipo: "avatar-sinal", glosa: "TUDO_BEM", rotulo: "Tudo bem" });
   assert.equal(avatar.enviadas.length, depois);
+  a.servico.destruir();
+});
+
+test("conexão só é confirmada pelo ACK do MAIN da guia e sessão selecionadas, sem ciclo ou duplicação", async () => {
+  const a = ambiente(), m1 = a.meet(1), m2 = a.meet(2), p = a.painel();
+  await p.receber({ tipo: "conectar", tabId: 1, config: { modo: "fala" } });
+  const selecionada = ultima(p, "conectado"), sessao = selecionada.sessao;
+  assert.equal(selecionada.disponivel, true);
+  assert.equal(selecionada.confirmado, false, "postMessage não confirma a integração");
+  await m2.receber({ tipo: "meet-confirmado", sessao });
+  await m1.receber({ tipo: "meet-confirmado", sessao: "sessao-antiga" });
+  assert.equal(ultima(p, "conectado").confirmado, false);
+  const configs = m1.enviadas.filter(d => d.tipo === "config").length;
+  await m1.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(ultima(p, "conectado").confirmado, true);
+  assert.equal(ultima(p, "conectado").config.modo, "fala");
+  const mensagens = p.enviadas.length;
+  await m1.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(p.enviadas.length, mensagens, "ACK repetido não duplica a confirmação");
+  assert.equal(m1.enviadas.filter(d => d.tipo === "config").length, configs, "ACK não reenvia config");
+  await p.receber({ tipo: "config", config: { modo: "fala", posicao: "superior-direito" } });
+  assert.equal(ultima(p, "conectado").confirmado, true);
+  assert.equal(ultima(m1, "config").config.posicao, "superior-direito");
+});
+
+test("reload e perda da porta exigem nova confirmação; ACK da porta antiga não confirma a nova", async () => {
+  const a = ambiente(), m = a.meet(1), p = a.painel();
+  await p.receber({ tipo: "conectar", tabId: 1, config: { modo: "fala" } });
+  const sessao = ultima(p, "conectado").sessao;
+  await m.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(ultima(p, "conectado").confirmado, true);
+  const nova = a.meet(1);
+  assert.equal(ultima(p, "conectado").confirmado, false);
+  await m.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(ultima(p, "conectado").confirmado, false);
+  await nova.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(ultima(p, "conectado").confirmado, true);
+  nova.disconnect(); await pausa();
+  assert.equal(ultima(p, "aguardando-meet").confirmado, false);
+  const terceira = a.meet(1);
+  assert.equal(ultima(p, "conectado").confirmado, false);
+  await terceira.receber({ tipo: "meet-confirmado", sessao });
+  assert.equal(ultima(p, "conectado").confirmado, true);
   a.servico.destruir();
 });

@@ -260,8 +260,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos, aoAtualizarT
         if (erro.name !== "NotSupportedError") throw erro;
         atual.contexto = new AudioContext();
       }
-      await atual.contexto.resume();
-      if (sessao !== atual) return;
+      const retomadaAudio = atual.contexto.resume();
       obterWorker().postMessage({ tipo: "carregar", modelo: qualidade?.value || "base" });
       atual.vad = new Worker(new URL("./vad-worker.js", import.meta.url), { type: "module" });
       atual.vad.onmessage = ({ data }) => {
@@ -292,6 +291,8 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos, aoAtualizarT
         encerrar("Selecione uma guia do Chrome e marque Compartilhar áudio da guia.");
         return;
       }
+      await retomadaAudio;
+      if (sessao !== atual) return;
       await atual.contexto.audioWorklet.addModule(new URL("./captura-audio.js", import.meta.url));
       if (sessao !== atual) return;
       atual.entrada = atual.contexto.createMediaStreamSource(new MediaStream([faixa]));

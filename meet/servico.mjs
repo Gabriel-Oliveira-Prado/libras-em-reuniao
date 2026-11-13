@@ -16,13 +16,17 @@ export function instalarServicoMeet(api) {
     enviar(atual.painel, { tipo: "desconectado", motivo });
     atual = undefined;
   }
+  function informarConexao(disponivel) {
+    if (!atual) return;
+    enviar(atual.painel, { tipo: "conectado", sessao: atual.sessao, tabId: atual.tabId,
+      disponivel, confirmado: atual.confirmado === true, config: atual.config });
+  }
   function configurar() {
     if (!atual) return;
     const d = { tipo: "config", sessao: atual.sessao, config: atual.config };
     const disponivel = enviar(meets.get(atual.tabId), d);
     enviar(avatares.get(atual.tabId), d);
-    enviar(atual.painel, { tipo: "conectado", sessao: atual.sessao, tabId: atual.tabId,
-      disponivel, config: atual.config });
+    informarConexao(disponivel);
   }
   function encaminharAvatar(d) {
     if (!atual) return false;
@@ -60,7 +64,7 @@ export function instalarServicoMeet(api) {
             if (!aberta || pedido !== pedidoConexao) return;
             if (!tab || !ehMeet(tab.url)) throw new Error("Escolha uma guia do Google Meet.");
             limpar("Outra conexão com o Meet foi iniciada.");
-            atual = { painel: porta, tabId: tab.id, sessao: crypto.randomUUID(), config: configuracao(d.config), textos: [] };
+            atual = { painel: porta, tabId: tab.id, sessao: crypto.randomUUID(), config: configuracao(d.config), textos: [], confirmado: false };
             configurar();
           } catch (e) { if (aberta && pedido === pedidoConexao) enviar(porta, { tipo: "erro", erro: e.message || "Não consegui conectar ao Meet." }); }
           return;
@@ -100,9 +104,19 @@ export function instalarServicoMeet(api) {
       const anterior = meets.get(id);
       if (anterior && anterior !== porta) { try { anterior.disconnect(); } catch {} }
       meets.set(id, porta);
-      if (atual?.tabId === id) configurar();
+      if (atual?.tabId === id) { atual.confirmado = false; configurar(); }
       porta.onMessage.addListener((d) => {
-        if (meets.get(id) !== porta || !atual || atual.tabId !== id || d?.sessao !== atual.sessao) return;
+        if (meets.get(id) !== porta || !atual || atual.tabId !== id ||
+            (d?.tipo !== "meet-pronto" && d?.sessao !== atual.sessao)) return;
+        if (d.tipo === "meet-pronto") {
+          atual.confirmado = false;
+          configurar();
+          return;
+        }
+        if (d.tipo === "meet-confirmado") {
+          if (!atual.confirmado) { atual.confirmado = true; informarConexao(true); }
+          return;
+        }
         if (d.tipo === "midia-status") enviar(atual.painel, { tipo: d.tipo, camera: d.camera === true,
           audio: d.audio === true, avatar: d.avatar === true, ativarAudio: d.ativarAudio === true,
           erro: typeof d.erro === "string" ? d.erro.slice(0, 250) : "" });
@@ -113,7 +127,10 @@ export function instalarServicoMeet(api) {
       porta.onDisconnect.addListener(() => {
         if (meets.get(id) !== porta) return;
         meets.delete(id);
-        if (atual?.tabId === id) enviar(atual.painel, { tipo: "aguardando-meet" });
+        if (atual?.tabId === id) {
+          atual.confirmado = false;
+          enviar(atual.painel, { tipo: "aguardando-meet", confirmado: false });
+        }
       });
       return;
     }

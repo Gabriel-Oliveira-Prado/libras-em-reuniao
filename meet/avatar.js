@@ -5,6 +5,7 @@ const CANAL = "libras-em-reuniao-meet-v1";
 const ORIGEM_AVATAR = "https://vlibras.gov.br";
 const ORIGEM_MEET = "https://meet.google.com";
 const sessaoValida = valor => typeof valor === "string" && /^[a-zA-Z0-9._:-]{1,160}$/.test(valor);
+const inicializacao = window.__librasMeetAvatar;
 const avatar = montarVLibras();
 const area = document.querySelector("#avatar");
 const estado = document.querySelector("#estado-vlibras");
@@ -13,10 +14,20 @@ const port = chrome.runtime.connect({ name: "libras-avatar" });
 let sessao, ativo = false, encerrado = false, iframe, handshake, pendente, prazoAck;
 let capturando = false;
 let ultimoEstado = "", ultimoEstadoCaptura = "";
+let prazoConexao = setTimeout(() => falharConexao("O Meet não confirmou a conexão. Confira a conexão no painel e clique em Reconectar intérprete."), 8000);
+
+function falharConexao(mensagem = "Conexão encerrada. Confira a conexão no painel e clique em Reconectar intérprete.") {
+  if (encerrado) return;
+  destruir();
+  estado.textContent = mensagem;
+  estadoCaptura.textContent = "";
+  inicializacao?.falhar(mensagem);
+}
+function portaDesconectada() { falharConexao(); }
 
 function enviarPort(mensagem) {
   if (encerrado) return;
-  try { port.postMessage(mensagem); } catch { destruir(); }
+  try { port.postMessage(mensagem); } catch { falharConexao(); }
 }
 function informarCaptura(mensagem, erro) {
   if (!sessao || mensagem === ultimoEstadoCaptura) return;
@@ -69,6 +80,9 @@ function pararCaptura() {
 }
 function configurar(mensagem) {
   if (!sessaoValida(mensagem.sessao) || !["fala", "sinais"].includes(mensagem.config?.modo)) return;
+  clearTimeout(prazoConexao);
+  prazoConexao = undefined;
+  inicializacao?.confirmar();
   const mudou = sessao !== mensagem.sessao;
   if (mudou || mensagem.config.modo !== "fala") pararCaptura();
   if (mudou) {
@@ -78,7 +92,8 @@ function configurar(mensagem) {
   }
   sessao = mensagem.sessao;
   ativo = mensagem.config.modo === "fala";
-  if (!ativo) { avatar.parar(); return; }
+  if (!ativo) { avatar.parar(); estado.textContent = "Conectado ao Meet. Intérprete em espera."; return; }
+  if (mudou) estado.textContent = "Conectado ao Meet. Carregando o intérprete…";
   avatar.abrir();
   conferirIframe();
   if (!handshake) handshake = setInterval(conferirIframe, 1000);
@@ -87,7 +102,7 @@ function receberPort(mensagem) {
   if (encerrado || !mensagem || typeof mensagem !== "object") return;
   if (mensagem.tipo === "config") { configurar(mensagem); return; }
   if (!sessao || mensagem.sessao !== sessao) return;
-  if (mensagem.tipo === "desconectar") { destruir(); return; }
+  if (mensagem.tipo === "desconectar") { falharConexao(); return; }
   if (mensagem.tipo === "avatar-parar") { avatar.parar(); return; }
   if (mensagem.tipo === "avatar-sinal" && ativo && glosaValida(mensagem.glosa) &&
       typeof mensagem.rotulo === "string" && mensagem.rotulo.length <= 160) {
@@ -142,6 +157,8 @@ function receberJanela(evento) {
 function destruir() {
   if (encerrado) return;
   pararCaptura();
+  clearTimeout(prazoConexao);
+  prazoConexao = undefined;
   ativo = false;
   encerrado = true;
   observadorEstado.disconnect();
@@ -162,7 +179,7 @@ observadorEstado.observe(estado, { childList: true, characterData: true, subtree
 const observadorAvatar = new MutationObserver(conferirIframe);
 observadorAvatar.observe(area, { childList: true });
 port.onMessage.addListener(receberPort);
-port.onDisconnect.addListener(destruir);
+port.onDisconnect.addListener(portaDesconectada);
 window.addEventListener("message", receberJanela);
 window.addEventListener("pagehide", destruir);
 enviarPort({ tipo: "avatar-pronto" });

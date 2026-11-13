@@ -97,3 +97,25 @@ test("status e ACKs têm sessão exata; desconexão remove avatar e cancela míd
   b.msg({ tipo: "midia-status", audio: true });
   assert.equal(b.porta.mensagens.length, 1);
 });
+
+test("ponte encaminha confirmação somente do MAIN, origem e sessão atuais", () => {
+  const b = bancada();
+  b.msg({ tipo: "meet-pronto" });
+  assert.equal(b.porta.mensagens.at(-1).tipo, "meet-pronto");
+  b.msg({ tipo: "meet-confirmado" });
+  assert.equal(b.porta.mensagens.length, 1, "não confirma antes da configuração");
+  b.config();
+  const filho = b.filhos[0].contentWindow;
+  b.msg({ tipo: "meet-confirmado" }, {}, MEET);
+  b.msg({ tipo: "meet-confirmado" }, b.window, "https://outro.example");
+  b.msg({ tipo: "meet-confirmado", sessao: "antiga" });
+  b.msg({ tipo: "meet-confirmado" }, filho, EXT);
+  assert.equal(b.porta.mensagens.length, 1);
+  b.msg({ tipo: "meet-confirmado" });
+  assert.equal(b.porta.mensagens.length, 2);
+  assert.equal(b.porta.mensagens[1].tipo, "meet-confirmado");
+  assert.equal(b.porta.mensagens[1].sessao, "sessao-1");
+  b.config({ modo: "sinais" });
+  b.msg({ tipo: "meet-confirmado" });
+  assert.equal(b.porta.mensagens.length, 3, "modo sinais também confirma sem abrir avatar");
+});

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Libras em Reunião",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Protótipo de acessibilidade para o uso de Libras em reuniões online.",
   "icons": {
     "16": "assets/icones/icon-16.png",
@@ -74,6 +74,7 @@
       "resources": [
         "meet/avatar.html",
         "meet/avatar.js",
+        "meet/bootstrap-avatar.js",
         "meet/avatar.css"
       ],
       "matches": [
