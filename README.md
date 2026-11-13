@@ -2,11 +2,11 @@
 
 Extensão experimental do Chrome para comunicação no Google Meet usando **Libras, a Língua Brasileira de Sinais**. Versão **0.8.4**.
 
-## BMC e pitch
+## BMC, pitch e vídeo
 
-| Modelo de negócio | Apresentação do projeto |
-| --- | --- |
-| **[Abrir o BMC no Canva](https://www.canva.com/design/DAHazDROCsw/6qu2A1dF_SKvo0PKSNXtGg/edit)** | **[Abrir o pitch no Canva](https://www.canva.com/design/DAHazDROCsw/6qu2A1dF_SKvo0PKSNXtGg/edit)** |
+| Modelo de negócio | Apresentação do projeto | Vídeo do produto |
+| --- | --- | --- |
+| **[Abrir o BMC no Canva](https://www.canva.com/design/DAHazDROCsw/6qu2A1dF_SKvo0PKSNXtGg/edit)** | **[Abrir o pitch no Canva](https://www.canva.com/design/DAHazDROCsw/6qu2A1dF_SKvo0PKSNXtGg/edit)** | **[Assistir ao vídeo no YouTube](https://youtube.com/watch?is=cY0f7b4NOm6KJDKS&v=VbQeearfwOA&feature=youtu.be)** |
 
 ## Funcionalidades
 
