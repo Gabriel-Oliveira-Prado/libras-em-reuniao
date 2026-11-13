@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "licenca": "Apache-2.0",
+  "pacote_personalizado": true,
+  "base_holistic": {
+    "origem": "https://storage.googleapis.com/mediapipe-models/holistic_landmarker/holistic_landmarker/float16/1/holistic_landmarker.task",
+    "sha256": "e2dab61191e2dcd0a15f943d8e3ed1dce13c82dfa597b9dd39f562975a50c3f8"
+  },
+  "alteracao": "Somente pose_landmarks_detector.tflite foi substituído. Mãos, rosto, recorte e detector de pessoa são os mesmos do pacote original.",
+  "variantes": [
+    {
+      "variante": "full",
+      "origem_pose": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
+      "sha256_pose": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sha256_pesos_pose": "82be6d591b9dad7d29fe21dc9fd892bf8b9602c458fb05209283de8282a0c488",
+      "arquivo": "holistic_full.task",
+      "bytes": 17304107,
+      "sha256": "21b07b11eec2e0a3aa0eb80c48daa41c7b1af7667113876980a588d653654c1a"
+    },
+    {
+      "variante": "heavy",
+      "origem_pose": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
+      "sha256_pose": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+      "sha256_pesos_pose": "a0fe0e6cbaeb36b6075fe520cfca38b0e212b258b6c4c6caf407c7ef5e3ff55c",
+      "arquivo": "holistic_heavy.task",
+      "bytes": 38570151,
+      "sha256": "73a1cd22bffb911077c5a2fe782e6f6982c44d40740eca4cc25fa35cbf96526b"
+    }
+  ]
+}

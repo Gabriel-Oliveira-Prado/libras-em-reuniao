@@ -1,0 +1,25 @@
+{
+  "motor": "Kokoro v1.0 q8 + fonemização eSpeak pt-br, ONNX WASM distribuído, uma thread no Node",
+  "carregamentoMs": 1259,
+  "resultados": [
+    {
+      "perfil": "pf_dora",
+      "texto": "Oi!",
+      "segundos": 0.52,
+      "rms": 0.08410928744163472,
+      "sinteseMs": 2771,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pf_dora-0.wav",
+      "repeticaoMs": 0.872899999999845
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Oi!",
+      "segundos": 0.5,
+      "rms": 0.09342605149513324,
+      "sinteseMs": 3485,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pm_alex-1.wav",
+      "repeticaoMs": 0.04019999999945867
+    }
+  ],
+  "limites": "Não verifica reprodução nos alto-falantes ou áudio do Meet. A naturalidade e a pronúncia precisam de avaliação humana."
+}

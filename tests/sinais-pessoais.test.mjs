@@ -2,8 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { montarDicionario } from "../painel/sinais-pessoais.js";
 import { gesto } from "./apoio-gestos.mjs";
+import { criarRegistro } from "../painel/dicionario-pessoal.mjs";
 const tick = () => new Promise((resolve) => setImmediate(resolve));
-const idsCadastro = ["estado-pessoais", "lista-pessoais", "cadastro-pessoal", "nome-pessoal", "tipo-pessoal", "gravar-pessoal", "cancelar-pessoal", "novo-pessoal", "progresso-pessoal", "quantidade-pessoais", "exportar-pessoais", "importar-pessoais", "arquivo-pessoais", "regravar-pessoal", "guia-cadastro-camera", "continuar-cadastro-camera", "cancelar-cadastro-camera", "area-legenda", "etapa-cadastro-camera", "contagem-cadastro", "instrucao-cadastro-camera", "tempo-cadastro", "dados-pessoal", "resumo-pessoal", "etapas-pessoal", "ajuda-gravacao", "passo-nome", "passo-gravacoes", "passo-confirmacao", "etapa-pessoal", "camera"];
+const idsCadastro = ["estado-pessoais", "lista-pessoais", "cadastro-pessoal", "nome-pessoal", "tipo-pessoal", "gravar-pessoal", "cancelar-pessoal", "novo-pessoal", "progresso-pessoal", "quantidade-pessoais", "exportar-pessoais", "importar-pessoais", "arquivo-pessoais", "regravar-pessoal", "guia-cadastro-camera", "continuar-cadastro-camera", "cancelar-cadastro-camera", "area-legenda", "etapa-cadastro-camera", "contagem-cadastro", "instrucao-cadastro-camera", "tempo-cadastro", "dados-pessoal", "resumo-pessoal", "etapas-pessoal", "ajuda-gravacao", "passo-nome", "passo-gravacoes", "passo-confirmacao", "etapa-pessoal", "camera", "ajustar-oi", "meus-sinais"];
 const criarElemento = () => ({ value: "", hidden: false, disabled: false, textContent: "", eventos: {}, filhos: [], dataset: {}, atributos: {},
   setAttribute(n, v) { this.atributos[n] = v; }, removeAttribute(n) { delete this.atributos[n]; },
   addEventListener(n, fn) { this.eventos[n] = fn; }, append(...filhos) { this.filhos.push(...filhos); },
@@ -16,13 +17,13 @@ test("cadastro requer câmera, três exemplos e confirmação, persiste, testa o
   globalThis.document = { querySelector: (s) => elementos[s.slice(1)], createElement: criarElemento, body: criarElemento() };
   globalThis.BroadcastChannel = class { postMessage() {} close() {} };
   let tempo = 0, dicionario;
-  const gravar = async () => {
+  const gravar = async (tipoGesto = 0) => {
     dicionario.receber(Array(228).fill(0), tempo);
     await elementos["gravar-pessoal"].eventos.click();
     assert.equal(elementos["contagem-cadastro"].textContent, "3");
     assert.equal(elementos["guia-cadastro-camera"].dataset.fase, "preparando");
     tempo += 3100;
-    for (const v of [...gesto(), ...Array.from({ length: 6 }, () => Array(228).fill(0))]) dicionario.receber(v, tempo += 70);
+    for (const v of [...gesto(tipoGesto), ...Array.from({ length: 6 }, () => Array(228).fill(0))]) dicionario.receber(v, tempo += 70);
     await tick();
   };
   try {
@@ -69,6 +70,17 @@ test("cadastro requer câmera, três exemplos e confirmação, persiste, testa o
     await dicionario.pronto;
     assert.equal(dicionario.temSinais(), false, "reabrir mantém o cadastro pausado");
     assert.match(elementos["lista-pessoais"].filhos[0].filhos[0].filhos[0].textContent, /Gabi.*pausado/);
+    const oi = criarRegistro({ nome: "Oi", tipo: "termo", exemplos: [gesto(2), gesto(2), gesto(2)], confirmacao: gesto(2) });
+    salvos.set(oi.id, oi);
+    dicionario.destruir(); dicionario = montarDicionario({ armazenamento, agora: () => tempo }); await dicionario.pronto;
+    elementos["ajustar-oi"].click();
+    assert.equal(elementos["meus-sinais"].open, true);
+    assert.equal(elementos["nome-pessoal"].value, "Oi");
+    assert.equal(elementos["tipo-pessoal"].value, "termo");
+    for (let i = 0; i < 4; i++) await gravar(2);
+    assert.equal(salvos.size, 2, "ajuste substitui o Oi existente depois da confirmação");
+    assert.equal(salvos.get(oi.id).nome, "Oi");
+    assert.equal(elementos["cadastro-pessoal"].hidden, true);
   } finally { dicionario?.destruir(); Object.assign(globalThis, anteriores); }
 });
 

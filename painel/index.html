@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Libras em Reunião</title>
+    <meta name="theme-color" content="#11114e">
+    <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/icones/icon-32.png" type="image/png" sizes="32x32">
+    <link rel="shortcut icon" href="../assets/favicon.ico">
     <link rel="stylesheet" href="painel.css">
   </head>
   <body>
@@ -20,6 +24,13 @@
         <summary>Câmera, microfone e saída de som</summary>
         <label for="dispositivo-camera">Câmera</label>
         <select id="dispositivo-camera" aria-describedby="estado-dispositivos"></select>
+        <label for="qualidade-rastreamento">Leitura da câmera</label>
+        <select id="qualidade-rastreamento" aria-describedby="estado-rastreamento">
+          <option value="lite" selected>Recomendada · Lite</option>
+          <option value="full">Full · experimental</option>
+          <option value="heavy">Heavy · experimental, mais pesado</option>
+        </select>
+        <p id="estado-rastreamento" role="status">Lite é a opção recomendada pelos testes atuais. Full e Heavy ainda não melhoraram o reconhecimento de Libras. Trocar a leitura encerra uma gravação de sinal em andamento.</p>
         <label for="dispositivo-microfone">Entrada de áudio · microfone</label>
         <select id="dispositivo-microfone" aria-describedby="estado-dispositivos"></select>
         <label for="dispositivo-saida">Saída de áudio · alto-falante ou fone</label>
@@ -31,13 +42,48 @@
         <p id="estado-dispositivos" role="status">Carregando dispositivos…</p>
         <p class="privacidade">A escolha fica salva neste Chrome e controla o tradutor. No Meet, escolha seus dispositivos nas configurações da própria reunião. Ouvir guia usa o áudio da guia escolhida.</p>
       </details>
+      <details class="integracao-meet" open>
+        <summary>Conectar ao Google Meet</summary>
+        <label for="reuniao-meet">Reunião aberta neste Chrome</label>
+        <select id="reuniao-meet"><option value="">Carregando reuniões…</option></select>
+        <div class="acoes">
+          <button type="button" id="conectar-meet">Conectar ao Meet</button>
+          <button type="button" id="atualizar-meet" class="secundario">Atualizar reuniões</button>
+          <button type="button" id="desconectar-meet" class="secundario" hidden>Desconectar</button>
+        </div>
+        <div class="opcoes-meet">
+          <div><label for="posicao-meet">Canto do avatar no vídeo enviado</label>
+          <select id="posicao-meet"><option value="inferior-esquerdo">Inferior esquerdo</option><option value="inferior-direito">Inferior direito</option><option value="superior-esquerdo">Superior esquerdo</option><option value="superior-direito">Superior direito</option></select></div>
+          <div><label for="tamanho-meet">Tamanho do avatar</label>
+          <select id="tamanho-meet"><option value="pequeno">Pequeno</option><option value="medio" selected>Médio</option><option value="grande">Grande</option></select></div>
+        </div>
+        <label class="escolha-meet"><input type="checkbox" id="voz-no-meet" checked> Enviar a voz dos sinais ao áudio do Meet</label>
+        <button type="button" id="testar-voz-meet" class="secundario" disabled>Testar voz na reunião</button>
+        <p id="estado-meet" role="status">Escolha a reunião para conectar.</p>
+        <p class="privacidade">Integração experimental. Conecte antes de entrar na chamada. Após atualizar a extensão, recarregue a guia do Meet uma vez. Em Voz → Libras, o avatar aparece no vídeo da câmera assim que carregar. Em Voz → Libras, clique em Ligar microfone e autorize o acesso; clique de novo para desligar. Em Sinais → voz, deixe o microfone ligado no Meet para os outros ouvirem. Confira imagem e som com outra pessoa.</p>
+        <p class="privacidade">O canto escolhido vale para o vídeo enviado; sua prévia espelhada pode mostrar o lado oposto. O avatar vai dentro do vídeo da câmera: os outros participantes não precisam instalar a extensão. Ele também fica visível sobre a página do Meet. A tradução do texto usa o serviço VLibras; câmera e composição permanecem no computador.</p>
+      </details>
       <nav class="modos" aria-label="Sentido da tradução">
         <button type="button" aria-controls="modo-camera" aria-pressed="true">Sinais → voz</button>
         <button type="button" aria-controls="modo-fala" aria-pressed="false">Voz → Libras</button>
       </nav>
+      <details class="biblioteca" id="biblioteca-libras">
+        <summary>Biblioteca de sinais do avatar</summary>
+        <p>Pesquise no dicionário oficial do VLibras e veja o sinal. Esta biblioteca mostra animações; os sinais reconhecidos pela câmera são informados em Sinais → voz.</p>
+        <label for="buscar-sinal">Qual sinal você quer ver?</label>
+        <input id="buscar-sinal" type="search" maxlength="100" autocomplete="off" placeholder="Ex.: oi, bom dia, obrigado">
+        <p id="estado-biblioteca" role="status">Abra para consultar os sinais disponíveis.</p>
+        <ul id="lista-biblioteca" class="lista-biblioteca" aria-label="Sinais encontrados"></ul>
+        <div class="acoes">
+          <button type="button" id="mais-biblioteca" class="secundario" hidden>Mostrar mais</button>
+          <button type="button" id="atualizar-biblioteca" class="secundario">Atualizar biblioteca</button>
+        </div>
+        <p class="privacidade">A lista acompanha a extensão. Para reproduzir a animação e atualizar a lista, é preciso internet. Ver um sinal muda para Voz → Libras sem ligar o microfone automaticamente.</p>
+      </details>
       <section class="interprete" id="interprete" aria-label="Intérprete de Libras" hidden>
         <div id="avatar" class="quadro-avatar"></div>
         <p id="estado-vlibras" role="status">Carregando o intérprete…</p>
+        <p id="trecho-avatar" class="trecho-avatar" hidden></p>
         <div class="acoes">
           <button type="button" id="testar-avatar" class="secundario">Testar “Tudo bem?”</button>
           <button type="button" id="repetir" class="secundario" disabled>Repetir sinalização</button>
@@ -55,7 +101,7 @@
       </section>
       <section id="modo-camera" aria-labelledby="titulo-camera">
         <h2 id="titulo-camera">Sinalize e ouça</h2>
-        <p class="instrucao">Use Libras, a Língua Brasileira de Sinais. Enquadre rosto, tronco e mãos. Faça um sinal e abaixe as mãos por um instante: cada sinal reconhecido entra na legenda e é falado automaticamente.</p>
+        <p class="instrucao">Use Libras, a Língua Brasileira de Sinais. Enquadre rosto, tronco e mãos. Faça Oi, pause cerca de meio segundo e faça o próximo sinal cadastrado, por exemplo Gabriel. A legenda e a voz seguem a ordem dos sinais reconhecidos.</p>
         <div class="quadro-camera">
           <video id="camera" aria-label="Prévia da câmera" autoplay muted playsinline hidden></video>
           <canvas id="desenho-maos" aria-hidden="true" hidden></canvas>
@@ -63,7 +109,6 @@
           <span id="maos-detectadas" hidden></span>
           <span id="sinal-atual" hidden></span>
           <div id="area-legenda">
-            <span class="rotulo-legenda">Legenda em português</span>
             <span id="legenda-camera" aria-live="polite" aria-atomic="true">Os sinais reconhecidos aparecem aqui.</span>
             <span id="voz-camera" aria-live="polite" hidden></span>
           </div>
@@ -77,6 +122,12 @@
               <button type="button" id="cancelar-cadastro-camera" class="secundario">Cancelar cadastro</button>
             </div>
           </div>
+        </div>
+        <div class="escolha-voz">
+          <label for="perfil-voz">Voz do tradutor</label>
+          <select id="perfil-voz" aria-describedby="estado-vozes"><option value="pf_dora">Dora · feminina</option><option value="pm_alex">Alex · masculina</option></select>
+          <button type="button" id="atualizar-vozes" class="secundario">Atualizar vozes</button>
+          <p id="estado-vozes" class="privacidade"></p>
         </div>
         <div class="acoes">
           <button type="button" id="alternar-camera">Ligar câmera</button>
@@ -124,7 +175,9 @@
           <summary>Quais sinais estão disponíveis?</summary>
           <p id="estado-modelo" role="status">Preparando o reconhecimento…</p>
           <p>Acontecer, aluno, amarelo, América, aproveitar, bala, banco, banheiro, barulho, cinco, conhecer, espelho, esquina, filho, maçã, medo, ruim, sapo, vacina e vontade.</p>
-          <p>“Oi” ainda não está no modelo geral. Você pode tentar cadastrá-lo como termo em Meus sinais, com o seu próprio gesto. Use Testar som para conferir a voz.</p>
+          <p>“Oi” tem um reconhecedor experimental para a forma O → I: comece com a mão em O e abra o dedo mínimo durante o movimento. Um aceno de mão aberta pode ser ambíguo com “tchau” e não é traduzido automaticamente como “Oi”.</p>
+          <button type="button" id="ajustar-oi" class="secundario">Ajustar meu “Oi”</button>
+          <p>Se sua forma de sinalizar não for reconhecida, esse botão abre o cadastro de “Oi” para você. <a href="https://goiaslibras.educacao.go.gov.br/sinal/oi" target="_blank" rel="noopener">Ver um exemplo em Libras</a>.</p>
           <p>O modelo usa exemplos de Libras do Brasil e ainda reconhece apenas sinais isolados do vocabulário disponível. Outros sinais e variações regionais podem não ser reconhecidos. Não há censura de palavras.</p>
         </details>
         <label for="texto-camera">Mensagem em português</label>
@@ -137,22 +190,27 @@
         <p id="estado-voz" role="status"></p>
         <details class="ajuda">
           <summary>Como compartilhar o áudio no Meet</summary>
-          <p>Para os outros ouvirem, abra o tradutor em uma aba e apresente essa aba no Meet com o áudio da guia ativado.</p>
+          <p>Use Conectar ao Google Meet, mantenha Enviar a voz dos sinais ao áudio do Meet marcado e ligue o microfone da reunião. Com a integração desligada, você também pode apresentar a aba do tradutor com o áudio da guia ativado. Use apenas uma dessas rotas para evitar som duplicado.</p>
         </details>
       </section>
       <section id="modo-fala" aria-labelledby="titulo-fala" hidden>
         <h2 id="titulo-fala">Ouvir e mostrar em Libras</h2>
-        <p class="instrucao">Ligue o microfone e fale perto dele. O texto aparece e o avatar sinaliza a cada pequena pausa. A redução de ruído ajuda com sons do ambiente, mas pode captar outras pessoas falando.</p>
+        <p class="instrucao">Clique em Ligar microfone e fale. Clique no mesmo botão para desligar: a captura e as transcrições pendentes param na hora. O texto já confirmado fica salvo na tela.</p>
         <label for="tipo-escuta">Transcrição do microfone</label>
         <select id="tipo-escuta" aria-describedby="privacidade-escuta">
           <option value="local" selected>Local — áudio neste computador</option>
           <option value="rapida">Resposta rápida — serviço de voz do Chrome</option>
         </select>
         <p id="privacidade-escuta" class="privacidade">Resposta rápida pode enviar áudio ao serviço de voz do Chrome e depende de internet. Local usa o Whisper no computador. Ouvir guia sempre usa Local.</p>
+        <label for="motor-transcricao">Onde executar a transcrição local</label>
+        <select id="motor-transcricao"><option value="navegador" selected>Navegador · sem serviço adicional</option><option value="acelerado">Acelerado neste computador · serviço local</option></select>
+        <p class="privacidade">Acelerado exige abrir o serviço descrito no README. O áudio fica neste computador; nenhum servidor externo recebe o áudio nesse modo.</p>
+        <label for="modelo-transcricao">Modelo da transcrição local</label>
+        <select id="modelo-transcricao"><option value="base" selected>Base · equilíbrio</option><option value="tiny">Tiny · mais leve</option><option value="small" id="opcao-small" disabled>Small · fidelidade, maior atraso</option></select>
+        <p id="estado-modelo-transcricao" class="privacidade">A escolha vale também para Ouvir guia. Small é opcional e exige instalação local; veja o README. Se acumular atraso, escolha Base, Tiny ou Resposta rápida.</p>
         <div class="acoes">
-          <button type="button" id="ouvir-microfone">Ligar microfone</button>
-          <button type="button" id="ouvir-guia" class="secundario">Ouvir guia</button>
-          <button type="button" id="parar-fala" class="secundario" hidden>Parar escuta</button>
+          <button type="button" id="ouvir-microfone" aria-pressed="false">Ligar microfone</button>
+          <button type="button" id="ouvir-guia" class="secundario" aria-pressed="false">Ouvir guia</button>
         </div>
         <p id="estado-fala" role="status"></p>
         <p id="fala-parcial" role="status" hidden></p>
@@ -162,6 +220,13 @@
           <button type="button" id="traduzir">Sinalizar texto editado</button>
           <button type="button" id="limpar-fala" class="secundario">Limpar</button>
         </div>
+        <details class="ajuda">
+          <summary>Revisão opcional com Qwen</summary>
+          <p>Peça uma sugestão de pontuação, acentos e maiúsculas usando o Ollama neste computador. Confira antes de usar: sugestões podem errar. O texto original continua no campo e a consulta não envia áudio ou câmera.</p>
+          <div class="acoes"><button type="button" id="verificar-auxiliar" class="secundario">Verificar Qwen</button><button type="button" id="revisar-auxiliar" class="secundario">Sugerir revisão</button></div>
+          <p id="estado-auxiliar" role="status"></p>
+          <div id="resultado-auxiliar" hidden><label for="sugestao-auxiliar">Sugestão · confira antes de usar</label><textarea id="sugestao-auxiliar" rows="3" maxlength="500" readonly></textarea><button type="button" id="aplicar-auxiliar" class="secundario">Usar no campo de texto</button></div>
+        </details>
         <p class="privacidade">Enquanto a escuta estiver ligada, cada trecho de texto confirmado é enviado automaticamente ao VLibras. O avatar precisa de tempo para traduzir, carregar e executar os sinais. Ao ouvir a reunião, marque “Compartilhar áudio da guia”.</p>
       </section>
     </main>

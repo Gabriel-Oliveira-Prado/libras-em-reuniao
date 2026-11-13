@@ -1,0 +1,62 @@
+{
+  "motor": "Kokoro v1.0 q8 + fonemização eSpeak pt-br, ONNX WASM distribuído, uma thread no Node",
+  "carregamentoMs": 1525,
+  "resultados": [
+    {
+      "perfil": "pf_dora",
+      "texto": "Oi!",
+      "segundos": 0.725,
+      "rms": 0.06727844000554167,
+      "sinteseMs": 3172,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pf_dora-0.wav",
+      "repeticaoMs": 1.5392000000001644
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Gabriel.",
+      "segundos": 1,
+      "rms": 0.06630599793625755,
+      "sinteseMs": 5199,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pf_dora-1.wav",
+      "repeticaoMs": 0.11750000000029104
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Oi. Bom dia, tudo bem? Meu nome é Gabriel.",
+      "segundos": 2.75,
+      "rms": 0.06450185984554807,
+      "sinteseMs": 14010,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pf_dora-2.wav",
+      "repeticaoMs": 0.3315999999977066
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Oi!",
+      "segundos": 0.725,
+      "rms": 0.06896863190357984,
+      "sinteseMs": 3662,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pm_alex-3.wav",
+      "repeticaoMs": 0.1231999999981781
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Gabriel.",
+      "segundos": 1.05,
+      "rms": 0.0683213944039892,
+      "sinteseMs": 5228,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pm_alex-4.wav",
+      "repeticaoMs": 0.165499999995518
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Oi. Bom dia, tudo bem? Meu nome é Gabriel.",
+      "segundos": 2.825,
+      "rms": 0.06875086135823935,
+      "sinteseMs": 13179,
+      "arquivo": "C:\\Users\\Gabri\\AppData\\Local\\Temp\\libras-vozes-neurais\\pm_alex-5.wav",
+      "repeticaoMs": 0.1301999999996042
+    }
+  ],
+  "limites": "Não verifica reprodução nos alto-falantes ou áudio do Meet. A naturalidade e a pronúncia precisam de avaliação humana.",
+  "nota": "Ensaio inicial; as falas Oi deste relatório foram substituídas pelo recorte verificado em resultado-oi-voz-wasm.json. Outros textos mantêm o mesmo caminho de síntese."
+}

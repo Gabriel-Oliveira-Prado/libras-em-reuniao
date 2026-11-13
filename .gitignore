@@ -2,3 +2,6 @@
 tests/fixtures/
 __pycache__/
 meus-sinais-libras*.json
+# Modelo opcional de ~249 MB; instale com scripts/instalar-transcricao.ps1.
+modelos/whisper-small/
+*.download

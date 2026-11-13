@@ -6,7 +6,7 @@ import { createHash } from "node:crypto";
 const tradutor = "https://traducao2.vlibras.gov.br/translate";
 const dicionario = "https://dicionario2.vlibras.gov.br/2018.3.1/WEBGL/";
 const casos = [];
-for (const texto of ["Tudo bem?", "Como você está?", "Bom dia, tudo bem?"]) {
+for (const texto of ["Olá, tudo bem?", "Como você está?", "Onde é?", "Qual seu nome?", "Quem é você?", "Quero te conhecer.", "Tudo bem?", "Bom dia, tudo bem?"]) {
   const antes = performance.now();
   const resposta = await fetch(tradutor, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: texto }),

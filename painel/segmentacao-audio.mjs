@@ -1,6 +1,6 @@
 export class SegmentadorDeFala {
-  constructor(taxa, { limiar = 0.006, pausaMs = 450, maximoMs = 5000, minimoVozMs = 160 } = {}) {
-    Object.assign(this, { taxa, limiar, pausaMs, maximoMs, minimoVozMs });
+  constructor(taxa, { limiar = 0.006, pausaMs = 450, maximoMs = 5000, minimoVozMs = 160, alvoMs = maximoMs, pausaCurtaMs = pausaMs } = {}) {
+    Object.assign(this, { taxa, limiar, pausaMs, maximoMs, minimoVozMs, alvoMs, pausaCurtaMs });
     this.reiniciar();
   }
 
@@ -34,7 +34,8 @@ export class SegmentadorDeFala {
       this.voz += amostras.length;
       this.silencio = 0;
     } else this.silencio += amostras.length;
-    if (this.silencio >= this.taxa * this.pausaMs / 1000 || this.total >= this.taxa * this.maximoMs / 1000) {
+    const pausaNatural = this.total >= this.taxa * this.alvoMs / 1000 && this.silencio >= this.taxa * this.pausaCurtaMs / 1000;
+    if (pausaNatural || this.silencio >= this.taxa * this.pausaMs / 1000 || this.total >= this.taxa * this.maximoMs / 1000) {
       return this.concluir();
     }
     return null;

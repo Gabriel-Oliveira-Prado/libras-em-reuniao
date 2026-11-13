@@ -126,11 +126,11 @@ export function montarDicionario({ prepararVoz, aoCapturar, aoTeste, armazenamen
     nome.disabled = tipo.disabled = false; gravar.disabled = cancelar.disabled = false;
     avisar(mensagem);
   }
-  function iniciarCadastro() {
+  function iniciarCadastro(sugestao) {
     if (!disponivel) return;
     if (registros.length >= MAX_SINAIS_PESSOAIS) { avisar(`O limite é de ${MAX_SINAIS_PESSOAIS} sinais. Exclua um para cadastrar outro.`); return; }
-    cancelarCadastro(""); rascunho = { exemplos: [] }; formulario.hidden = false;
-    nome.value = ""; tipo.value = "pessoa"; atualizarEtapa(); nome.focus();
+    cancelarCadastro(""); rascunho = { exemplos: [], substituir: sugestao?.nome ? registros.find((r) => chaveNome(r.nome) === chaveNome(sugestao.nome)) : undefined }; formulario.hidden = false;
+    nome.value = sugestao?.nome ?? ""; tipo.value = sugestao?.tipo ?? "pessoa"; atualizarEtapa(); nome.focus();
     avisar("1. Digite o nome. 2. Grave o mesmo sinal três vezes. 3. Repita esse sinal no teste final.");
   }
   function testar(registro) {
@@ -153,7 +153,7 @@ export function montarDicionario({ prepararVoz, aoCapturar, aoTeste, armazenamen
         atual.exemplos.push(exemplo);
         mensagem = atual.exemplos.length === 3 ? "Três gravações prontas! No teste final, repita o MESMO sinal mais uma vez." : `Gravação ${atual.exemplos.length} de 3 salva. Abaixe as mãos e clique para repetir o MESMO sinal.`;
       } else {
-        const registro = criarRegistro({ nome: atual.nome, tipo: atual.tipo, exemplos: atual.exemplos, confirmacao: exemplo }, registros);
+        const registro = criarRegistro({ id: atual.substituir?.id, nome: atual.nome, tipo: atual.tipo, exemplos: atual.exemplos, confirmacao: exemplo }, registros);
         atual.salvando = true;
         gravar.disabled = cancelar.disabled = true;
         progresso.value = 4;
@@ -182,10 +182,10 @@ export function montarDicionario({ prepararVoz, aoCapturar, aoTeste, armazenamen
     if (!rascunho.teste && !rascunho.exemplos.length) {
       const valor = nome.value.trim().replace(/\s+/g, " ");
       if (!valor || valor.length > 60) { avisar("Escreva um nome ou termo de até 60 caracteres."); nome.focus(); return; }
-      if (registros.some((r) => chaveNome(r.nome) === chaveNome(valor))) { avisar("Este nome já tem um sinal. Use Renomear ou escolha outro nome."); return; }
+      if (registros.some((r) => r.id !== rascunho.substituir?.id && chaveNome(r.nome) === chaveNome(valor))) { avisar("Este nome já tem um sinal. Use Renomear ou escolha outro nome."); return; }
       rascunho.nome = valor; rascunho.tipo = tipo.value;
     }
-    aoCapturar?.(); prepararVoz?.();
+    aoCapturar?.(); prepararVoz?.(rascunho.nome ?? rascunho.teste?.nome);
     captura = { inicio: agora() + 3000, segmentador: new SegmentadorDeSinais() };
     atualizarEtapa(); nome.disabled = tipo.disabled = true;
     contar();
@@ -195,7 +195,12 @@ export function montarDicionario({ prepararVoz, aoCapturar, aoTeste, armazenamen
       mostrarGuia("erro", "Não captei um sinal completo. Mantenha rosto e mãos no quadro, faça o mesmo sinal um pouco mais devagar e abaixe as mãos ao terminar.", { proxima: true });
     }, 15000);
   });
-  novo.addEventListener("click", iniciarCadastro);
+  novo.addEventListener("click", () => iniciarCadastro());
+  el("ajustar-oi")?.addEventListener("click", () => {
+    el("meus-sinais").open = true;
+    iniciarCadastro({ nome: "Oi", tipo: "termo" });
+    avisar("Vamos ajustar o Oi à sua forma de sinalizar. Grave o mesmo sinal três vezes e faça o teste final.");
+  });
   el("regravar-pessoal").addEventListener("click", () => {
     if (!rascunho?.exemplos) return;
     liberarRelogios(); captura = undefined; rascunho.exemplos = []; atualizarEtapa(); ocultarGuia();
@@ -229,9 +234,14 @@ export function montarDicionario({ prepararVoz, aoCapturar, aoTeste, armazenamen
       if (!rascunho) return false;
       if (!captura) return true;
       if (agora() < captura.inicio) { atualizarContagem(); return true; }
-      if (orientacao) { captura.segmentador.reiniciar(); captura.instrucao = orientacao; atualizarContagem(); return true; }
+      if (orientacao) {
+        captura.orientacaoDesde ??= instante;
+        if (instante - captura.orientacaoDesde >= 250) captura.segmentador.reiniciar();
+        captura.instrucao = orientacao; atualizarContagem(); return true;
+      }
+      captura.orientacaoDesde = undefined;
       const sequencia = captura.segmentador.receber(v, instante);
-      captura.instrucao = captura.segmentador.quadros.length ? "Gravando seu sinal. Ao terminar, abaixe as mãos." : "Sinalize agora. Mantenha as mãos dentro do quadro.";
+      captura.instrucao = captura.segmentador.quadros.length ? "Gravando seu sinal. Ao terminar, faça uma breve pausa." : "Sinalize agora. Mantenha as mãos dentro do quadro.";
       atualizarContagem();
       if (sequencia) concluir(sequencia);
       return true;

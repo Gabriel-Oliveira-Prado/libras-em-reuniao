@@ -1,0 +1,47 @@
+{
+  "data_utc": "2026-11-13T15:21:43.645632+00:00",
+  "ollama": "0.40.16",
+  "modelo": "qwen3.5:4b-q4_K_M",
+  "bytes_download": 3324173934,
+  "digest": "d8b0f5e9760cd1682034f292d7ef72ec46f432149be0df7574bf2d6e92e38c04",
+  "capacidades_declaradas": [
+    "completion",
+    "vision",
+    "tools",
+    "thinking"
+  ],
+  "configuracao": {
+    "contexto": 2048,
+    "threads": 4,
+    "pensamento": false
+  },
+  "modelos_carregados": [
+    {
+      "name": "qwen3.5:4b-q4_K_M",
+      "size": 3077528615,
+      "size_vram": 0,
+      "context_length": 2048
+    }
+  ],
+  "resultados": [
+    {
+      "teste": "primeira_resposta",
+      "texto": "Teste local concluído.",
+      "primeiro_texto_s": 7.758,
+      "total_s": 8.372,
+      "carregamento_s": 7.13,
+      "tokens_gerados": 8,
+      "tokens_por_s": 12.9
+    },
+    {
+      "teste": "modelo_carregado",
+      "texto": "Oi, Gabriel! Tudo bem?",
+      "primeiro_texto_s": 0.91,
+      "total_s": 1.592,
+      "carregamento_s": 0.009,
+      "tokens_gerados": 8,
+      "tokens_por_s": 12.21
+    }
+  ],
+  "limites": "Teste de texto na API local, fora do navegador e sem Meet. Não mede Libras, webcam, concorrência com os modelos da extensão ou qualidade de tradução. A extensão ainda não usa Qwen."
+}

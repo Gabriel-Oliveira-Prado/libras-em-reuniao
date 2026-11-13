@@ -9,7 +9,7 @@ export class DetectorDeFala {
     this.estado = new ort.Tensor("float32", new Float32Array(256), [2, 1, 128]);
     this.contexto = new Float32Array(64);
     this.pendente = new Float32Array(0);
-    this.segmentador = new SegmentadorDeFala(16000, { pausaMs: 320, maximoMs: 3500, minimoVozMs: 160 });
+    this.segmentador = new SegmentadorDeFala(16000, { pausaMs: 480, maximoMs: 12000, minimoVozMs: 160, alvoMs: 6000, pausaCurtaMs: 160 });
   }
 
   async receber(amostras) {

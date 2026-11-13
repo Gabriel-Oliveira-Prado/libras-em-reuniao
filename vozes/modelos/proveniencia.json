@@ -1,0 +1,24 @@
+{
+  "origem": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX",
+  "revisao": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+  "licenca": "Apache-2.0",
+  "modificacoes": "Modelo e perfis originais, sem alteração. Conversão de fonemas, cache e recorte de Oi implementados nesta extensão.",
+  "arquivos": {
+    "modelos/kokoro-q8.onnx": {
+      "bytes": 92361116,
+      "sha256": "fbae9257e1e05ffc727e951ef9b9c98418e6d79f1c9b6b13bd59f5c9028a1478"
+    },
+    "modelos/tokenizer.json": {
+      "bytes": 3497,
+      "sha256": "77a02c8e164413299b4b4c403b14f8e0e1c1b727db4d46a09d6327b861060a34"
+    },
+    "perfis/pf_dora.bin": {
+      "bytes": 522240,
+      "sha256": "3da7b5b2d91847ebf5646f57631af6ececae3c29a89cd300f06edf9aa6cfe9ee"
+    },
+    "perfis/pm_alex.bin": {
+      "bytes": 522240,
+      "sha256": "0175c753f59c54e7fd5a995bedef0c5ff2fb67e0043dd3dcb2ae74ec2acbeb2a"
+    }
+  }
+}

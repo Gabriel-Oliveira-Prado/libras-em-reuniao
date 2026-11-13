@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intérprete no Google Meet · Libras em Reunião</title>
+  <link rel="icon" href="../assets/icones/icon-32.png">
+  <link rel="stylesheet" href="avatar.css">
+</head>
+<body>
+  <main aria-label="Intérprete de Libras compartilhado">
+    <div id="avatar" aria-label="Avatar do VLibras"></div>
+    <footer>
+      <div class="controles">
+        <strong>Libras em Reunião</strong>
+        <button id="pausar-avatar" type="button" disabled aria-pressed="false">Pausar avatar</button>
+        <button id="tentar-avatar" type="button" hidden>Tentar novamente</button>
+      </div>
+      <p id="estado-vlibras" role="status" aria-live="polite">Conectando ao Meet…</p>
+      <p id="estado-captura" role="status" aria-live="polite"></p>
+    </footer>
+    <div hidden>
+      <p id="trecho-avatar"></p>
+      <details id="glosa" hidden><summary>Tradução</summary><p id="texto-glosa"></p></details>
+      <textarea id="texto-fala" aria-label="Texto para sinalizar"></textarea>
+      <button id="traduzir" type="button">Mostrar em Libras</button>
+      <button id="repetir" type="button" disabled>Repetir</button>
+      <button id="testar-avatar" type="button">Testar</button>
+      <button id="limpar-fala" type="button">Limpar</button>
+      <select id="velocidade-avatar" aria-label="Velocidade do avatar"><option value="1">Normal</option></select>
+    </div>
+  </main>
+  <script type="module" src="avatar.js"></script>
+</body>
+</html>

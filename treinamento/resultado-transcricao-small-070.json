@@ -1,0 +1,208 @@
+{
+  "backend": "Transformers.js da extensão, WASM, 1 thread, Node",
+  "modelos": {
+    "whisper-small": {
+      "carregamentoMs": 2366.4467,
+      "exatas": 14,
+      "total": 16,
+      "erros": 2,
+      "palavras": 68,
+      "wer": 0.029411764705882353,
+      "resultados": [
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Olá, tudo bem?",
+          "arquivo": "fala-feminina-0.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Olá, tudo bem?",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2403,
+          "inferenciaMs": 8090.1049
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Como você está?",
+          "arquivo": "fala-feminina-1.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Como você está.",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2132,
+          "inferenciaMs": 7948.9794999999995
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Onde é?",
+          "arquivo": "fala-feminina-2.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Onde é?",
+          "erros": 0,
+          "palavras": 2,
+          "duracaoMs": 1519,
+          "inferenciaMs": 11791.349300000002
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Qual seu nome?",
+          "arquivo": "fala-feminina-3.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Qual o seu nome?",
+          "erros": 1,
+          "palavras": 3,
+          "duracaoMs": 2070,
+          "inferenciaMs": 15122.0196
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Quem é você?",
+          "arquivo": "fala-feminina-4.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Quem é você?",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 1866,
+          "inferenciaMs": 14077.656199999998
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Quero te conhecer.",
+          "arquivo": "fala-feminina-5.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Quero te conhecer.",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2404,
+          "inferenciaMs": 15123.253300000004
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Eu não quero cancelar a reunião de amanhã.",
+          "arquivo": "fala-feminina-6.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Eu não quero cancelar a reunião de amanhã.",
+          "erros": 0,
+          "palavras": 8,
+          "duracaoMs": 3666,
+          "inferenciaMs": 14977.31670000001
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Maria Desktop",
+          "texto": "Gabriel, você pode repetir o que acabou de falar?",
+          "arquivo": "fala-feminina-7.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Gabriel, você pode repetir o que acabou de falar.",
+          "erros": 0,
+          "palavras": 9,
+          "duracaoMs": 4918,
+          "inferenciaMs": 14708.312300000005
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Olá, tudo bem?",
+          "arquivo": "fala-masculina-0.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Olá, tudo bem?",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2305,
+          "inferenciaMs": 15048.325899999996
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Como você está?",
+          "arquivo": "fala-masculina-1.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Como você está?",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2041,
+          "inferenciaMs": 15080.056400000001
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Onde é?",
+          "arquivo": "fala-masculina-2.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Onde é?",
+          "erros": 0,
+          "palavras": 2,
+          "duracaoMs": 1471,
+          "inferenciaMs": 15008.477000000014
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Qual seu nome?",
+          "arquivo": "fala-masculina-3.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Qual o seu nome?",
+          "erros": 1,
+          "palavras": 3,
+          "duracaoMs": 1988,
+          "inferenciaMs": 15578.767699999997
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Quem é você?",
+          "arquivo": "fala-masculina-4.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Quem é você?",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 1792,
+          "inferenciaMs": 15122.285999999993
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Quero te conhecer.",
+          "arquivo": "fala-masculina-5.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Quero te conhecer.",
+          "erros": 0,
+          "palavras": 3,
+          "duracaoMs": 2309,
+          "inferenciaMs": 17680.42669999998
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Eu não quero cancelar a reunião de amanhã.",
+          "arquivo": "fala-masculina-6.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Eu não quero cancelar a reunião de amanhã.",
+          "erros": 0,
+          "palavras": 8,
+          "duracaoMs": 3496,
+          "inferenciaMs": 18734.64750000002
+        },
+        {
+          "taxa": 16000,
+          "voz": "Microsoft Daniel",
+          "texto": "Gabriel, você pode repetir o que acabou de falar?",
+          "arquivo": "fala-masculina-7.wav",
+          "origem": "Sintetizado no Windows, não é gravação humana",
+          "obtido": "Gabriel, você pode repetir o que acabou de falar.",
+          "erros": 0,
+          "palavras": 9,
+          "duracaoMs": 4690,
+          "inferenciaMs": 18514.1023
+        }
+      ]
+    }
+  },
+  "limites": "Frases sintetizadas, conhecidas. Não mede sotaques, microfone real, Chrome, concorrência com Meet ou qualidade linguística do avatar."
+}

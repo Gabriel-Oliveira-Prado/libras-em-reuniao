@@ -1,0 +1,357 @@
+{
+  "motor": "Kokoro v1.0 q8, fonemas pt-br, ONNX CPU",
+  "revisaoModelo": "1939ad2a8e416c0acfeecc08a694d14ef25f2231",
+  "tratamentoOi": "Oi gerado em contexto e recortado na primeira pausa de 40 ms; só a saudação é reproduzida.",
+  "amostras": [
+    {
+      "perfil": "pf_dora",
+      "texto": "Acontecer",
+      "bytes": 108000,
+      "sampleRate": 24000,
+      "sha256": "2c733444a43f357e2a4e0aba1f388cfa7ba7e19de880771a111723e5c29bd63a"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Aluno",
+      "bytes": 84000,
+      "sampleRate": 24000,
+      "sha256": "0f001800679b213ce19bc752fb080420be4bd4c22b49d5846275fc9304bf6d8f"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Amarelo",
+      "bytes": 86400,
+      "sampleRate": 24000,
+      "sha256": "892cc6350d7a3075f920d8d74e99be618cd5d1b8bd07c20097706e4847ea598b"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "América",
+      "bytes": 98400,
+      "sampleRate": 24000,
+      "sha256": "4543ae3cfa6b7ea3551cbf39c1a7ad2e15026d281f6b54a25b33149a920eb411"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Aproveitar",
+      "bytes": 108000,
+      "sampleRate": 24000,
+      "sha256": "a17fa686ea4157d7b468e14c9294a5afe4291fe005f4ac2e51fa41042e8ac11b"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Bala",
+      "bytes": 76800,
+      "sampleRate": 24000,
+      "sha256": "e8ba6e9df1df75ab975eed0e5d2575d5a00843cc313e7884def83d0c1978563e"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Banco",
+      "bytes": 88800,
+      "sampleRate": 24000,
+      "sha256": "465595d349d3939b45dc40f517c161a8c03069c54e9ccee0ee3020dc3f3d9109"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Banheiro",
+      "bytes": 98400,
+      "sampleRate": 24000,
+      "sha256": "438980cbe38adf5b4bafe4d90dbb9a176a8da06c0e8052c75219016bba108589"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Barulho",
+      "bytes": 86400,
+      "sampleRate": 24000,
+      "sha256": "4e18607f8d4fcaf4478d1fcf56f075cb18de4793fdfdf56fb763a0f6ebd108d7"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Cinco",
+      "bytes": 74400,
+      "sampleRate": 24000,
+      "sha256": "97db7d134db42807f7b801c5e50f28834f02bfe96ef8220f70c8308250f19513"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Conhecer",
+      "bytes": 96000,
+      "sampleRate": 24000,
+      "sha256": "e7c1414b1013cac79d8301c7aee3bf3705e462a273d8da25f0d53fe5e922ccda"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Espelho",
+      "bytes": 81600,
+      "sampleRate": 24000,
+      "sha256": "ee4fc89834440e23911c88ef1a0397cf7bbb4bcfe0ed271db576109a2cea34b4"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Esquina",
+      "bytes": 91200,
+      "sampleRate": 24000,
+      "sha256": "6fa76548dc8fa60e1d861c311014313dd723f8ac39b332fb0192f2f38b18cc01"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Filho",
+      "bytes": 72000,
+      "sampleRate": 24000,
+      "sha256": "07472add8ae7abc0139912c763722e90d1f0225fdabdfec36b2cb139c6d2f544"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Maçã",
+      "bytes": 88800,
+      "sampleRate": 24000,
+      "sha256": "98788f95cd0766bea0ea87ddc4bb6de46a7e740b07f29545d6fbac3078fbae77"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Medo",
+      "bytes": 72000,
+      "sampleRate": 24000,
+      "sha256": "15b3b7e65c28e2b0ace75ff672f9e3375af525b71fc3a6a6b6dd2864d4d92524"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Ruim",
+      "bytes": 64800,
+      "sampleRate": 24000,
+      "sha256": "4e7244a2ed54f99e2f4377d5644b48b34ca8ef64a7ce62f86e3d5e7dcf4061a7"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Sapo",
+      "bytes": 67200,
+      "sampleRate": 24000,
+      "sha256": "864bbf7cb921c8899c92fe1837588eb2547e2a6fed527c5693de5f49428efade"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Vacina",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "3712027a8d288f8d8c5120cff52a5bec688591d40bfa591a513873b1a1fb847c"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Vontade",
+      "bytes": 105600,
+      "sampleRate": 24000,
+      "sha256": "82dca736efc7d193babf37bcd42622b9d8cd10e34736fc239083a32cda091b15"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Oi",
+      "bytes": 49920,
+      "sampleRate": 24000,
+      "sha256": "eddfc5820c32d65d596be20f79b722c990ceb7e55d7320f6c3875b5ae53de1c9"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Gabriel",
+      "bytes": 88800,
+      "sampleRate": 24000,
+      "sha256": "3b9ba5634f21c937008c5dc94f776ffa76cbfd9166e0176dc57cca2965354747"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "João",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "59e3f1c052685a517e76c93251687c968870f5b1836ce207d0be40af695f7006"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Ana Clara",
+      "bytes": 96000,
+      "sampleRate": 24000,
+      "sha256": "bc0ac929eada4bea32697240951a617c8451edc6afb6056c999483007f542414"
+    },
+    {
+      "perfil": "pf_dora",
+      "texto": "Oi. O som do tradutor está funcionando.",
+      "bytes": 244800,
+      "sampleRate": 24000,
+      "sha256": "9119768c00814fdf623112f30a06f1ac60a9536313bdb0f29fcad982e8664293"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Acontecer",
+      "bytes": 112800,
+      "sampleRate": 24000,
+      "sha256": "7bda81382d57d1b7238cbec707b7f49168b4c80d965433d01669a160dffe1758"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Aluno",
+      "bytes": 84000,
+      "sampleRate": 24000,
+      "sha256": "5fcfadb0de94242ea865bee2fad4359921f3c043160e6fbe94905cacc1264658"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Amarelo",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "ad61819e54d3f4549f7b3c96be84f1c9813b55f2f898b4b93090115cad2a0ec0"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "América",
+      "bytes": 103200,
+      "sampleRate": 24000,
+      "sha256": "f488289e5877b287954ee22db13f1fa714d487af97a6cb4fd294bac87ce8914f"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Aproveitar",
+      "bytes": 110400,
+      "sampleRate": 24000,
+      "sha256": "4727222f8495b7c04592cd5f361465248e915a9d2c48dfa7d3b1e284541efd67"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Bala",
+      "bytes": 76800,
+      "sampleRate": 24000,
+      "sha256": "1045e2384f97aa944006314c3a397365414e5e6bbf07fbe96723bcdc7f48cd34"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Banco",
+      "bytes": 88800,
+      "sampleRate": 24000,
+      "sha256": "058e2296334300ca26350d17414b188e11a0fe9be0fcb5941ce275290cc4ed64"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Banheiro",
+      "bytes": 98400,
+      "sampleRate": 24000,
+      "sha256": "23fc01b455c733af0bb515403dea8c4caa34c32f519426b099f0766e4b6f8445"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Barulho",
+      "bytes": 86400,
+      "sampleRate": 24000,
+      "sha256": "1855932e453546cdb6191be86726ee917369acac484824b5e0b72158997cd7a5"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Cinco",
+      "bytes": 76800,
+      "sampleRate": 24000,
+      "sha256": "614d1810f061f056a592dd118be51bec2efc229224ed4aa1c708c3399956b304"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Conhecer",
+      "bytes": 100800,
+      "sampleRate": 24000,
+      "sha256": "abb48f00514db8ebca1c2b5eaebfab77b227146408b4492b913afde4e9d098f9"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Espelho",
+      "bytes": 91200,
+      "sampleRate": 24000,
+      "sha256": "578ca0d5558790ad6faa876de475558c8aedb72b0d26526e860e2c0e9c2ecee8"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Esquina",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "17cd65ec6cb742204df574340ee10535bb554ee956ba2929753dcffc4373b16e"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Filho",
+      "bytes": 72000,
+      "sampleRate": 24000,
+      "sha256": "7d92352823dadc29ef7624bdadddb0f58c3b6f9ff2b04c90630925a53d1cef48"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Maçã",
+      "bytes": 91200,
+      "sampleRate": 24000,
+      "sha256": "7eb891369b9591c17b99c33c0f7412f77b130de72cc5069831fbf4c2febf949a"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Medo",
+      "bytes": 74400,
+      "sampleRate": 24000,
+      "sha256": "3e0db4ee3fe43807c0b9c72a58cd0c573cca908deddd6e895b78b74d86f1c661"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Ruim",
+      "bytes": 67200,
+      "sampleRate": 24000,
+      "sha256": "b487df540f834cb78ff4f76688038bd70e4b20e0058f330d655456a3db70cc96"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Sapo",
+      "bytes": 69600,
+      "sampleRate": 24000,
+      "sha256": "05fe25235fdb27deedbbd29375bda177403083a50fdb396a4e556e1e67753cb1"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Vacina",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "b60b56c7f1f5d132f9ee0d7960282bb8c1e21ef97d8a5155a8b29869b2ce0133"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Vontade",
+      "bytes": 108000,
+      "sampleRate": 24000,
+      "sha256": "ad8fceb5d971f944e576860c57d9d345fd9f4ed9626baa7fe8d5778e9506e5f3"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Oi",
+      "bytes": 49920,
+      "sampleRate": 24000,
+      "sha256": "9f216e7be31eb877f6748173b1a6661f5b8b0095eb5e6a4e1e5f34a8bacf906c"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Gabriel",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "cfeb17549bbd2064b1ed1a5d5c637ffb1818248fc2ffbc79cb336635e5aa2f66"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "João",
+      "bytes": 93600,
+      "sampleRate": 24000,
+      "sha256": "69403c00dca044c59bd9f4563c643449cdad61a405571e20f514f566d19baf00"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Ana Clara",
+      "bytes": 108000,
+      "sampleRate": 24000,
+      "sha256": "6cec93e029bf6365b9aaecca0f301a28b1c76be4d0cb83f2ecdcfabb68af93b9"
+    },
+    {
+      "perfil": "pm_alex",
+      "texto": "Oi. O som do tradutor está funcionando.",
+      "bytes": 247200,
+      "sampleRate": 24000,
+      "sha256": "6cac2f4792daa70d313d81e579957abaee89654894e11db39bb60806409fb6e9"
+    }
+  ]
+}

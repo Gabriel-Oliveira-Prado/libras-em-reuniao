@@ -1,0 +1,26 @@
+{
+  "backend": "Adaptador HTTP real da extensão e serviço nativo real, pelo Node",
+  "carregamentoMs": 3415.7026,
+  "resultados": [
+    {
+      "esperado": "Olá, tudo bem?",
+      "obtido": "Olá, tudo bem?",
+      "inferenciaMs": 2032.1970999999903,
+      "totalHttpMs": 2046.9097000000002
+    },
+    {
+      "esperado": "Onde é?",
+      "obtido": "Onde é?",
+      "inferenciaMs": 1694.4899999999907,
+      "totalHttpMs": 1703.3510999999999
+    },
+    {
+      "esperado": "Gabriel, você pode repetir o que acabou de falar?",
+      "obtido": "Gabriel, você pode repetir o que acabou de falar.",
+      "inferenciaMs": 2068.1117000000086,
+      "totalHttpMs": 2082.4089999999997
+    }
+  ],
+  "origemEstranhaRecusada": true,
+  "limites": "Áudio sintetizado e chamadas HTTP. Não verifica navegador, permissão do Chrome, microfone, envio de PCM pelo AudioWorklet real, sotaques humanos, Meet ou animação do VLibras."
+}

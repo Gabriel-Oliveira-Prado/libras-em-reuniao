@@ -1,7 +1,9 @@
 import { reamostrar } from "./segmentacao-audio.mjs";
 import { criarEscutaRapida } from "./fala-rapida.mjs";
+import { modeloValido } from "./configuracao-transcricao.mjs";
+import { criarTranscricaoAcelerada } from "./transcricao-acelerada.mjs";
 
-export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
+export function montarFala({ aoTexto, prepararAvatar, dispositivos, aoAtualizarTexto } = {}) {
   const microfone = document.querySelector("#ouvir-microfone");
   const guia = document.querySelector("#ouvir-guia");
   const pararBotao = document.querySelector("#parar-fala");
@@ -9,7 +11,36 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
   const texto = document.querySelector("#texto-fala");
   const tipo = document.querySelector("#tipo-escuta");
   const parcial = document.querySelector("#fala-parcial");
+  const qualidade = document.querySelector("#modelo-transcricao");
+  const motor = document.querySelector("#motor-transcricao");
+  try { if (motor) motor.value = localStorage.getItem("libras-motor-transcricao") === "acelerado" ? "acelerado" : "navegador"; } catch { /* Mantém Navegador. */ }
+  let preferido = "base";
+  try { preferido = modeloValido(localStorage.getItem("libras-modelo-transcricao")); } catch { /* Usa Base sem armazenamento. */ }
+  if (qualidade) qualidade.value = preferido === "small" ? "base" : preferido;
   let sessao, worker, modeloPronto = false, proximoId = 0;
+  const opcaoSmall = document.querySelector("#opcao-small");
+  if (opcaoSmall) fetch(new URL("../modelos/whisper-small/config.json", import.meta.url)).then((r) => {
+    if (!r.ok) return;
+    opcaoSmall.disabled = false;
+    if (preferido === "small" && !sessao && qualidade.value === "base") {
+      qualidade.value = "small";
+      worker?.terminate(); worker = undefined; modeloPronto = false;
+    }
+    document.querySelector("#estado-modelo-transcricao").textContent = "Small instalado: prioriza fidelidade, com maior atraso. Base equilibra processamento e precisão; Tiny é mais leve.";
+  }).catch(() => {});
+
+  function atualizarControles() {
+    const ligada = Boolean(sessao);
+    microfone.disabled = guia.disabled = false;
+    microfone.textContent = sessao?.fonte === "microfone" ? "Desligar microfone" : "Ligar microfone";
+    guia.textContent = sessao?.fonte === "guia" ? "Parar áudio da guia" : "Ouvir guia";
+    microfone.setAttribute?.("aria-pressed", String(sessao?.fonte === "microfone"));
+    guia.setAttribute?.("aria-pressed", String(sessao?.fonte === "guia"));
+    if (pararBotao) pararBotao.hidden = true;
+    tipo.disabled = ligada;
+    if (qualidade) qualidade.disabled = ligada;
+    if (motor) motor.disabled = ligada;
+  }
 
   function configuracaoMicrofone() {
     const id = dispositivos?.selecionado("microfone");
@@ -40,10 +71,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
       worker = undefined;
       modeloPronto = false;
     }
-    microfone.disabled = false;
-    guia.disabled = false;
-    pararBotao.hidden = true;
-    tipo.disabled = false;
+    atualizarControles();
     parcial.textContent = "";
     parcial.hidden = true;
     estado.textContent = mensagem;
@@ -77,12 +105,12 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
     const amostras = atual.fila.shift();
     atual.trabalho = ++proximoId;
     informar(atual);
-    worker.postMessage({ tipo: "transcrever", id: atual.trabalho, amostras }, [amostras.buffer]);
+    worker.postMessage({ tipo: "transcrever", id: atual.trabalho, amostras, modelo: qualidade?.value || "base" }, [amostras.buffer]);
   }
 
   function obterWorker() {
     if (worker) return worker;
-    const iniciado = new Worker(new URL("./transcricao-worker.js", import.meta.url), { type: "module" });
+    const iniciado = motor?.value === "acelerado" ? criarTranscricaoAcelerada() : new Worker(new URL("./transcricao-worker.js", import.meta.url), { type: "module" });
     worker = iniciado;
     iniciado.onmessage = ({ data }) => {
       if (worker !== iniciado) return;
@@ -96,7 +124,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
         iniciado.terminate();
         worker = undefined;
         modeloPronto = false;
-        encerrar("Não foi possível transcrever. Recarregue a extensão e tente novamente.");
+        encerrar(motor?.value === "acelerado" ? "A transcrição acelerada não respondeu. Inicie o serviço local com o ID desta extensão ou escolha Navegador." : "Não foi possível transcrever. Recarregue a extensão e tente novamente.");
         return;
       }
       const atual = sessao;
@@ -106,6 +134,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
       const frase = data.texto?.trim();
       if (frase) {
         texto.value = [texto.value.trim(), frase].filter(Boolean).join(" ").slice(-texto.maxLength);
+        aoAtualizarTexto?.();
         if (aoTexto?.(frase) === false) {
           atual.aviso = "A fila do avatar está cheia. A escuta foi pausada; o texto permanece disponível.";
           finalizarEscuta(atual);
@@ -142,7 +171,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
   function finalizarEscuta(atual) {
     if (sessao !== atual || atual.parando) return;
     atual.parando = true;
-    pararBotao.textContent = "Cancelar pendentes";
+    if (pararBotao) pararBotao.textContent = "Cancelar pendentes";
     if (atual.rapida) {
       estado.textContent = "Concluindo a última fala…";
       atual.rapida.parar();
@@ -162,13 +191,11 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
   }
 
   async function iniciar(fonte) {
-    if (sessao) return;
+    if (sessao) return sessao;
     if (fonte === "microfone" && tipo.value === "rapida") {
       const atual = { fila: [], trabalho: null, online: true, fonte };
       sessao = atual;
-      microfone.disabled = guia.disabled = tipo.disabled = true;
-      pararBotao.hidden = false;
-      pararBotao.textContent = "Parar escuta";
+      atualizarControles();
       estado.textContent = "Abrindo o serviço de voz do Chrome…";
       prepararAvatar?.();
       try {
@@ -195,6 +222,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
           aoTexto(frase) {
             if (sessao !== atual) return false;
             texto.value = [texto.value.trim(), frase].filter(Boolean).join(" ").slice(-texto.maxLength);
+            aoAtualizarTexto?.();
             return aoTexto?.(frase);
           },
           aoParcial(frase) {
@@ -213,19 +241,17 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
             ? "O microfone escolhido não está disponível. Escolha outro nas opções de dispositivos."
             : erro.message);
       }
-      return;
+      return sessao === atual ? atual : undefined;
     }
     if (!navigator.mediaDevices || !window.AudioWorkletNode) {
       estado.textContent = "Abra o tradutor em uma aba do Google Chrome ou digite a frase.";
+      if (qualidade) qualidade.disabled = false;
+      if (motor) motor.disabled = false;
       return;
     }
     const atual = { fila: [], trabalho: null, escutando: false, parando: false, fonte };
     sessao = atual;
-    microfone.disabled = true;
-    guia.disabled = true;
-    tipo.disabled = true;
-    pararBotao.hidden = false;
-    pararBotao.textContent = "Parar escuta";
+    atualizarControles();
     estado.textContent = fonte === "guia" ? "Selecione a guia e compartilhe o áudio." : "Abrindo o microfone…";
     prepararAvatar?.();
     try {
@@ -236,7 +262,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
       }
       await atual.contexto.resume();
       if (sessao !== atual) return;
-      obterWorker().postMessage({ tipo: "carregar" });
+      obterWorker().postMessage({ tipo: "carregar", modelo: qualidade?.value || "base" });
       atual.vad = new Worker(new URL("./vad-worker.js", import.meta.url), { type: "module" });
       atual.vad.onmessage = ({ data }) => {
         if (sessao !== atual) return;
@@ -295,19 +321,40 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
         ? "A captura foi cancelada ou bloqueada. Abra em aba e permita o microfone."
         : "Não foi possível iniciar a escuta. Tente em uma aba do Chrome ou digite a frase.");
     }
+    return sessao === atual ? atual : undefined;
   }
 
-  microfone.addEventListener("click", () => iniciar("microfone"));
-  guia.addEventListener("click", () => iniciar("guia"));
-  pararBotao.addEventListener("click", () => {
-    if (!sessao) return;
-    if (sessao.parando) encerrar("Escuta e transcrições pendentes canceladas.");
-    else finalizarEscuta(sessao);
-  });
+  function alternar(fonte) {
+    if (sessao?.fonte === fonte) {
+      encerrar(fonte === "microfone" ? "Microfone desligado." : "Áudio da guia desligado.");
+      return;
+    }
+    if (sessao) encerrar("");
+    return iniciar(fonte);
+  }
+  microfone.addEventListener("click", () => alternar("microfone"));
+  guia.addEventListener("click", () => alternar("guia"));
+  // Compatibilidade com páginas antigas; o botão separado não é necessário.
+  pararBotao?.addEventListener("click", () => encerrar("Escuta desligada."));
+  atualizarControles();
   const parar = () => encerrar("");
+  parar.iniciar = () => iniciar("microfone");
   parar.preparar = () => {
-    if (tipo.value !== "rapida") obterWorker().postMessage({ tipo: "carregar" });
+    if (tipo.value !== "rapida") obterWorker().postMessage({ tipo: "carregar", modelo: qualidade?.value || "base" });
   };
+  qualidade?.addEventListener("change", () => {
+    if (sessao) return;
+    preferido = modeloValido(qualidade.value);
+    try { localStorage.setItem("libras-modelo-transcricao", preferido); } catch { /* Vale nesta sessão. */ }
+    worker?.terminate(); worker = undefined; modeloPronto = false;
+    parar.preparar();
+  });
+  motor?.addEventListener("change", () => {
+    if (sessao) return;
+    try { localStorage.setItem("libras-motor-transcricao", motor.value === "acelerado" ? "acelerado" : "navegador"); } catch { /* Vale na sessão. */ }
+    worker?.terminate(); worker = undefined; modeloPronto = false;
+    parar.preparar();
+  });
   tipo.addEventListener("change", () => {
     if (sessao) return;
     if (tipo.value === "rapida") {
@@ -318,8 +365,7 @@ export function montarFala({ aoTexto, prepararAvatar, dispositivos } = {}) {
   });
   dispositivos?.observar(({ tipo: dispositivo, removido }) => {
     if (dispositivo !== "microfone" || sessao?.fonte !== "microfone") return;
-    encerrar(removido ? "O microfone escolhido foi desconectado. Escolha outro e ligue novamente." : "Trocando de microfone…");
-    if (!removido) iniciar("microfone");
+    encerrar(removido ? "O microfone escolhido foi desconectado. Escolha outro e ligue novamente." : "Microfone alterado. Clique em Ligar microfone quando quiser ouvir novamente.");
   });
   return parar;
 }

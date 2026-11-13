@@ -53,3 +53,11 @@ export function reamostrarSinal(quadros, passos = 32) {
     return Float32Array.from(quadros[a], (v, j) => v * (1 - peso) + quadros[b][j] * peso);
   });
 }
+
+// Mesmo recorte do treino: preserva dois quadros de contexto em cada ponta.
+// O rastreamento de mãos baixas continua; não deslocamos o sinal para o ombro.
+export function prepararSinal(quadros) {
+  const ativos = quadros.map((v, i) => sinalEmCurso(v) ? i : -1).filter((i) => i >= 0);
+  const recorte = ativos.length >= 4 ? quadros.slice(Math.max(0, ativos[0] - 2), ativos.at(-1) + 3) : quadros;
+  return reamostrarSinal(recorte);
+}

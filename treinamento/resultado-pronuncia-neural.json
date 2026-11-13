@@ -1,0 +1,36 @@
+{
+  "motorASR": "Whisper Tiny CPU no Node",
+  "resultados": [
+    {
+      "perfil": "pf_dora",
+      "textoEsperado": "oi",
+      "transcricao": "Oi!"
+    },
+    {
+      "perfil": "pf_dora",
+      "textoEsperado": "gabriel",
+      "transcricao": "Gabriel."
+    },
+    {
+      "perfil": "pf_dora",
+      "textoEsperado": "oi. o som do tradutor está funcionando",
+      "transcricao": "Oi, o São do Traitor está funcionando."
+    },
+    {
+      "perfil": "pm_alex",
+      "textoEsperado": "oi",
+      "transcricao": "Oi!"
+    },
+    {
+      "perfil": "pm_alex",
+      "textoEsperado": "gabriel",
+      "transcricao": "Gabriel."
+    },
+    {
+      "perfil": "pm_alex",
+      "textoEsperado": "oi. o som do tradutor está funcionando",
+      "transcricao": "Oi, o som do tradutor está funcionando."
+    }
+  ],
+  "limites": "ASR auxiliar sobre áudio gerado. Não comprova naturalidade, pronúncia de todas as palavras ou som nos alto-falantes/Meet."
+}

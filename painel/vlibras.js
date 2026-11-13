@@ -1,3 +1,5 @@
+import { glosaValida } from "../meet/protocolo.mjs";
+
 const TRADUCAO = "https://traducao2.vlibras.gov.br/translate";
 const AVATAR = new URL("https://vlibras.gov.br/app/unity/index.html?v=7.12.2");
 const DICIONARIO = "https://dicionario2.vlibras.gov.br/2018.3.1/WEBGL/";
@@ -15,11 +17,12 @@ async function obterGlosa(texto, signal) {
   return glosa.trim();
 }
 
-export function montarVLibras() {
+export function montarVLibras({ remoto } = {}) {
   const area = document.querySelector("#avatar");
   const estado = document.querySelector("#estado-vlibras");
   const detalhes = document.querySelector("#glosa");
   const textoGlosa = document.querySelector("#texto-glosa");
+  const trecho = document.querySelector("#trecho-avatar");
   const traduzir = document.querySelector("#traduzir");
   const repetir = document.querySelector("#repetir");
   const tentar = document.querySelector("#tentar-avatar");
@@ -27,7 +30,7 @@ export function montarVLibras() {
   const texto = document.querySelector("#texto-fala");
   const pausar = document.querySelector("#pausar-avatar");
   const velocidade = document.querySelector("#velocidade-avatar");
-  let quadro, pronta = false, ultimaGlosa, consulta, espera, inicializacao, prazoReproducao, atual;
+  let quadro, pronta = false, ultimaGlosa, ultimoTexto, consulta, espera, inicializacao, prazoReproducao, atual;
   let emPausa = false;
   let geracao = 0;
   const fila = [];
@@ -87,6 +90,8 @@ export function montarVLibras() {
     atual.travou = false;
     atual.comandoEm = performance.now();
     ultimaGlosa = atual.glosa;
+    ultimoTexto = atual.texto;
+    if (trecho) { trecho.textContent = atual.texto ? `Trecho do avatar: ${atual.texto}` : ""; trecho.hidden = !atual.texto; }
     textoGlosa.textContent = ultimaGlosa;
     detalhes.hidden = false;
     repetir.disabled = false;
@@ -128,6 +133,7 @@ export function montarVLibras() {
   }
 
   function abrirAvatar() {
+    if (remoto?.ativa()) return;
     if (quadro) return;
     estado.textContent = "Carregando o intérprete de Libras…";
     quadro = document.createElement("iframe");
@@ -148,6 +154,7 @@ export function montarVLibras() {
   function adicionar(frase) {
     const limpa = frase.trim();
     if (!limpa) return true;
+    if (remoto?.ativa()) return remoto.adicionar(limpa);
     if (fila.length >= 12) {
       estado.textContent = "O avatar está com muitos trechos pendentes. Aguarde terminar antes de continuar.";
       return false;
@@ -155,6 +162,16 @@ export function montarVLibras() {
     fila.push({ texto: limpa, recebidaEm: performance.now() });
     abrirAvatar();
     traduzirProximo();
+    return true;
+  }
+
+  function mostrarSinal(glosa, rotulo = glosa) {
+    if (!glosaValida(glosa) || typeof rotulo !== "string" || rotulo.length > 160) return false;
+    if (remoto?.ativa()) return remoto.mostrarSinal(glosa, rotulo);
+    if (fila.length >= 12) return false;
+    fila.push({ glosa, texto: rotulo });
+    abrirAvatar();
+    reproduzirProximo();
     return true;
   }
 
@@ -222,6 +239,7 @@ export function montarVLibras() {
   window.addEventListener("message", receberEvento);
 
   function parar() {
+    remoto?.pararAvatar();
     geracao += 1;
     consulta?.abort();
     consulta = undefined;
@@ -229,6 +247,8 @@ export function montarVLibras() {
     atual = undefined;
     mudarPausa(false);
     ultimaGlosa = undefined;
+    ultimoTexto = undefined;
+    if (trecho) { trecho.textContent = ""; trecho.hidden = true; }
     clearTimeout(prazoReproducao);
     if (pronta) { comando("stopAll"); comando("setPauseState", 0); }
     detalhes.hidden = true;
@@ -247,7 +267,7 @@ export function montarVLibras() {
   });
   repetir.addEventListener("click", () => {
     if (!ultimaGlosa || fila.length >= 12) return;
-    fila.push({ glosa: ultimaGlosa });
+    fila.push({ glosa: ultimaGlosa, texto: ultimoTexto });
     reproduzirProximo();
   });
   testar?.addEventListener("click", () => {
@@ -264,7 +284,7 @@ export function montarVLibras() {
       return;
     }
     if (atual) {
-      fila.unshift({ glosa: atual.glosa });
+      fila.unshift({ glosa: atual.glosa, texto: atual.texto });
       atual = undefined;
     }
     clearTimeout(prazoReproducao);
@@ -295,7 +315,12 @@ export function montarVLibras() {
     parar();
   });
 
-  return { adicionar, abrir: abrirAvatar, parar, destruir() {
+  return { adicionar, mostrarSinal, abrir: abrirAvatar, pronta: () => pronta, parar,
+    mudarDestino() {
+      parar(); clearTimeout(espera); clearTimeout(inicializacao);
+      quadro?.remove(); quadro = undefined; pronta = false; pausar.disabled = true;
+    },
+    destruir() {
     parar();
     clearTimeout(espera);
     clearTimeout(inicializacao);

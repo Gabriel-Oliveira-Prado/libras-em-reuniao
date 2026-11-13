@@ -1,30 +1,63 @@
 {
-  "data": "2026-11-13T12:16:06.517Z",
+  "data": "2026-11-13T16:28:55.869Z",
   "tradutor": "https://traducao2.vlibras.gov.br/translate",
   "dicionario": "https://dicionario2.vlibras.gov.br/2018.3.1/WEBGL/",
   "casos": [
     {
-      "texto": "Tudo bem?",
-      "glosa": "TUDO_BEM [INTERROGAÇÃO]",
-      "traducaoMs": 477
+      "texto": "Olá, tudo bem?",
+      "glosa": "OI TUDO_BEM [INTERROGAÇÃO]",
+      "traducaoMs": 440
     },
     {
       "texto": "Como você está?",
       "glosa": "COMO VOCÊ BOM [INTERROGAÇÃO]",
-      "traducaoMs": 142
+      "traducaoMs": 173
+    },
+    {
+      "texto": "Onde é?",
+      "glosa": "ONDE SER [INTERROGAÇÃO]",
+      "traducaoMs": 65
+    },
+    {
+      "texto": "Qual seu nome?",
+      "glosa": "QUAL SEU NOME [INTERROGAÇÃO]",
+      "traducaoMs": 140
+    },
+    {
+      "texto": "Quem é você?",
+      "glosa": "VOCÊ QUEM [INTERROGAÇÃO]",
+      "traducaoMs": 138
+    },
+    {
+      "texto": "Quero te conhecer.",
+      "glosa": "QUERER CONHECER VOCÊ [PONTO]",
+      "traducaoMs": 150
+    },
+    {
+      "texto": "Tudo bem?",
+      "glosa": "TUDO_BEM [INTERROGAÇÃO]",
+      "traducaoMs": 195
     },
     {
       "texto": "Bom dia, tudo bem?",
       "glosa": "BOM_DIA TUDO_BEM [INTERROGAÇÃO]",
-      "traducaoMs": 54
+      "traducaoMs": 72
     }
   ],
   "bundles": [
     {
+      "sinal": "OI",
+      "status": 200,
+      "bytes": 21715,
+      "descargaMs": 477,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/OI",
+      "sha256": "b623634b9030f39f108c3110f53f318f97ea53d079853afcd06919661d4bd166"
+    },
+    {
       "sinal": "TUDO_BEM",
       "status": 200,
       "bytes": 21602,
-      "descargaMs": 414,
+      "descargaMs": 483,
       "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/TUDO_BEM",
       "sha256": "3444617b2d669306159afd26b464efbae82a42a9cd20d49e6fd7dcec1ca3cf48"
     },
@@ -32,7 +65,7 @@
       "sinal": "COMO",
       "status": 200,
       "bytes": 26029,
-      "descargaMs": 423,
+      "descargaMs": 570,
       "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/COMO",
       "sha256": "284d8d5acd0c1c5cbec9bce80bd8200110aec0251e601557edca756945a663ab"
     },
@@ -40,7 +73,7 @@
       "sinal": "VOCÊ",
       "status": 200,
       "bytes": 19807,
-      "descargaMs": 397,
+      "descargaMs": 527,
       "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/VOC%C3%8A",
       "sha256": "787cde5e0f6662716cd201333d6fa92553134f303eb5b7f17da9663385e70278"
     },
@@ -48,15 +81,79 @@
       "sinal": "BOM",
       "status": 200,
       "bytes": 22922,
-      "descargaMs": 467,
+      "descargaMs": 554,
       "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/BOM",
       "sha256": "61e6c6fe80f040a647141ac48ec3e47e1b124eeb57a10c7e8aba6f04d332a5e5"
+    },
+    {
+      "sinal": "ONDE",
+      "status": 200,
+      "bytes": 33695,
+      "descargaMs": 584,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/ONDE",
+      "sha256": "2d8910349ebb8b14210ca8f90fd17606ab4d460b4ec1209ecc1c0d0099325c76"
+    },
+    {
+      "sinal": "SER",
+      "status": 200,
+      "bytes": 22566,
+      "descargaMs": 501,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/SER",
+      "sha256": "41b1c4f9e8c5a46f7122a5f0dadd1e4f7a24cd7eea1eae5624fb96d865db690a"
+    },
+    {
+      "sinal": "QUAL",
+      "status": 200,
+      "bytes": 19002,
+      "descargaMs": 552,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/QUAL",
+      "sha256": "76f057f9fcde6c8dccb9d3025a5750c8de0d1ab2834a86c201c217037daf06a4"
+    },
+    {
+      "sinal": "SEU",
+      "status": 200,
+      "bytes": 19069,
+      "descargaMs": 567,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/SEU",
+      "sha256": "de8f149851f2fe276a8bb465088b7c55268c39caf1ce0006030d7738aa631f0b"
+    },
+    {
+      "sinal": "NOME",
+      "status": 200,
+      "bytes": 19913,
+      "descargaMs": 637,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/NOME",
+      "sha256": "fecdb3df3325805d0d989ba2530c75ebc4ba60e7c5bddc45e5136fcf4887d6db"
+    },
+    {
+      "sinal": "QUEM",
+      "status": 200,
+      "bytes": 22440,
+      "descargaMs": 510,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/QUEM",
+      "sha256": "40120ee69e541bf4c4ad907fbc3f7444975789a60e5b9b07bc83dd317aba7378"
+    },
+    {
+      "sinal": "QUERER",
+      "status": 200,
+      "bytes": 19900,
+      "descargaMs": 589,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/QUERER",
+      "sha256": "efdf4b6199186ee284d078702569500dfb8f1409f7f0e40960f0c25fad78c191"
+    },
+    {
+      "sinal": "CONHECER",
+      "status": 200,
+      "bytes": 18979,
+      "descargaMs": 572,
+      "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/CONHECER",
+      "sha256": "27a74c32b982ca1725306f2854d0a0e395b7f023e03752035e1ca307e2f8899d"
     },
     {
       "sinal": "BOM_DIA",
       "status": 200,
       "bytes": 22576,
-      "descargaMs": 469,
+      "descargaMs": 529,
       "urlFinal": "https://dicionario2.vlibras.gov.br/static/BUNDLES/2018.3.1/WEBGL/BR/BOM_DIA",
       "sha256": "f3fd4aba02d07fb346797249a7b401fd9856591ff32f1e74e70b675697f1e26d"
     }

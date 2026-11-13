@@ -3,16 +3,17 @@ import assert from "node:assert/strict";
 import vm from "node:vm";
 import { readFileSync } from "node:fs";
 const tick = () => new Promise((resolve) => setImmediate(resolve));
-function ambiente(getUserMedia, dispositivos) {
+function ambiente(getUserMedia, dispositivos, carregarDetector) {
   const frames = [], recebidos = [], eventos = {};
   const criar = () => ({ hidden: true, textContent: "", eventos: {}, addEventListener(n, fn) { this.eventos[n] = fn; } });
-  const elementos = Object.fromEntries(["camera", "desenho-maos", "camera-inativa", "alternar-camera", "estado-camera", "maos-detectadas"].map((id) => [id, criar()]));
+  const elementos = Object.fromEntries(["camera", "desenho-maos", "camera-inativa", "alternar-camera", "estado-camera", "maos-detectadas", "qualidade-rastreamento", "estado-rastreamento"].map((id) => [id, criar()]));
+  elementos["qualidade-rastreamento"].value = "lite";
   Object.assign(elementos.camera, { videoWidth: 640, videoHeight: 480, readyState: 2, currentTime: 0, play: async () => {}, pause() {},
     addEventListener(n, fn) { eventos[n] = fn; }, removeEventListener(n) { delete eventos[n]; } });
   elementos["desenho-maos"].getContext = () => ({ clearRect() {} });
-  const contexto = { console: { warn() {} }, setTimeout, clearTimeout, navigator: { mediaDevices: { getUserMedia } },
+  const contexto = { console: { warn() {} }, setTimeout, clearTimeout, performance: { now: () => 1 }, navigator: { mediaDevices: { getUserMedia } },
     document: { querySelector: (s) => elementos[s.slice(1)] },
-    carregarDetectorDeMaos: async () => () => ({ leftHandLandmarks: [Array.from({ length: 21 }, (_, i) => ({ x: 0.3 + i * 0.004, y: 0.4, z: 0 }))], poseLandmarks: [[]], faceLandmarks: [[]] }),
+    carregarDetectorDeMaos: carregarDetector ?? (async () => () => ({ leftHandLandmarks: [Array.from({ length: 21 }, (_, i) => ({ x: 0.3 + i * 0.004, y: 0.4, z: 0 }))], poseLandmarks: [[]], faceLandmarks: [[]] })),
     desenharMaos() {}, requestAnimationFrame: (fn) => { frames.push(fn); return frames.length; }, cancelAnimationFrame() {}, recebidos, dispositivos,
   };
   const fonte = readFileSync(new URL("../painel/camera.js", import.meta.url), "utf8").replace(/^import .*;\r?\n/gm, "").replace("export function", "function");
@@ -36,6 +37,54 @@ test("câmera encaminha mãos e proporção reais, ajusta sobreposição ao muda
   } finally { a.contexto.parar(); }
   assert.equal(paradas, 1);
   assert.equal(a.elementos.camera.srcObject, null);
+});
+
+test("trocar modelo enquanto carrega cancela a sessão anterior sem iniciar quadros antigos", async () => {
+  const faixas = [], perfis = [], pendentes = [];
+  const a = ambiente(async () => {
+    const faixa = { parou: false, stop() { this.parou = true; }, addEventListener() {} };
+    faixas.push(faixa);
+    return { getTracks: () => [faixa], getVideoTracks: () => [faixa] };
+  }, undefined, (perfil) => {
+    perfis.push(perfil);
+    return new Promise((resolve) => pendentes.push(resolve));
+  });
+  try {
+    a.elementos["alternar-camera"].eventos.click(); await tick();
+    a.elementos["qualidade-rastreamento"].value = "heavy";
+    a.elementos["qualidade-rastreamento"].eventos.change(); await tick();
+    assert.deepEqual(perfis, ["lite", "heavy"]);
+    assert.equal(faixas[0].parou, true);
+    pendentes[0](() => { throw new Error("Não usar detector da sessão cancelada"); });
+    await tick();
+    assert.equal(a.frames.length, 0);
+    pendentes[1](Object.assign(() => ({ poseLandmarks: [] }), { nome: "Detalhada · Heavy" }));
+    await tick();
+    assert.equal(a.frames.length, 1);
+    assert.match(a.elementos["estado-rastreamento"].textContent, /Heavy/);
+    a.frames[0](100);
+    assert.equal(a.recebidos.length, 1);
+  } finally { a.contexto.parar(); }
+  assert.equal(faixas[1].parou, true);
+});
+
+test("falha do primeiro quadro GPU recupera a leitura em CPU antes de gerar legenda", async () => {
+  const pedidos = [];
+  const faixa = { stop() {}, addEventListener() {} };
+  const a = ambiente(async () => ({ getTracks: () => [faixa], getVideoTracks: () => [faixa] }), undefined,
+    async (perfil, opcoes) => {
+      pedidos.push({ perfil, cpu: opcoes?.forcarCPU });
+      if (!opcoes?.forcarCPU) return Object.assign(() => { throw new Error("Driver GPU falhou"); }, { aceleracao: "aceleração gráfica", perfil });
+      return Object.assign(() => ({ poseLandmarks: [] }), { aceleracao: "processador", nome: "Lite", perfil });
+    });
+  try {
+    a.elementos["alternar-camera"].eventos.click(); await tick();
+    assert.deepEqual(pedidos, [{ perfil: "lite", cpu: undefined }, { perfil: "lite", cpu: true }]);
+    assert.equal(a.recebidos.length, 0, "a verificação inicial não vira legenda ou cadastro");
+    assert.match(a.elementos["estado-rastreamento"].textContent, /processador/);
+    a.frames.at(-1)(100);
+    assert.equal(a.recebidos.length, 1);
+  } finally { a.contexto.parar(); }
 });
 
 test("trocar câmera aplica deviceId exato, libera captura antiga e para ao desconectar", async () => {

@@ -88,13 +88,16 @@ test("sinal pessoal tem prioridade, fala o nome com legenda e ambiguidade/cadast
     fazer(0);
     assert.deepEqual(falas, ["Gabriel"]);
     assert.equal(elementos["#legenda-camera"].textContent, "Gabriel");
-    ambiguo = true; fazer(2000);
-    assert.deepEqual(falas, ["Gabriel"]);
+    fazer(2000);
+    assert.deepEqual(falas, ["Gabriel", "Gabriel"], "novo movimento do mesmo nome pode ser falado outra vez");
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel Gabriel");
+    ambiguo = true; fazer(4000);
+    assert.deepEqual(falas, ["Gabriel", "Gabriel"]);
     assert.match(elementos["#orientacao-camera"].textContent, /dois sinais pessoais/);
-    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel", "aviso não substitui o que a pessoa sinalizou");
-    capturando = true; fazer(4000);
-    assert.deepEqual(falas, ["Gabriel"]);
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel Gabriel", "aviso não substitui o que a pessoa sinalizou");
+    capturando = true; fazer(6000);
+    assert.deepEqual(falas, ["Gabriel", "Gabriel"]);
     assert.equal(elementos["#area-legenda"].hidden, true);
-    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel", "contagem e instruções ficam fora da legenda");
+    assert.equal(elementos["#legenda-camera"].textContent, "Gabriel Gabriel", "contagem e instruções ficam fora da legenda");
   } finally { Object.assign(globalThis, originais); }
 });

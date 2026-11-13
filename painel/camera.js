@@ -8,6 +8,12 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, disp
   const alternar = document.querySelector("#alternar-camera");
   const estado = document.querySelector("#estado-camera");
   const detectadas = document.querySelector("#maos-detectadas");
+  const qualidade = document.querySelector("#qualidade-rastreamento");
+  const estadoRastreamento = document.querySelector("#estado-rastreamento");
+  try {
+    const salvo = localStorage.getItem("libras-qualidade-rastreamento");
+    if (qualidade && ["full", "heavy", "lite"].includes(salvo)) qualidade.value = salvo;
+  } catch { /* Mantém Lite quando o armazenamento não está disponível. */ }
   let sessao;
 
   function parar(mensagem = "Câmera desligada.") {
@@ -36,7 +42,7 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, disp
       estado.textContent = "Câmera indisponível nesta janela. Abra o tradutor em uma aba do Chrome.";
       return;
     }
-    const atual = { instante: -Infinity, ultimoQuadro: -1 };
+    const atual = { instante: -Infinity, ultimoQuadro: -1, perfil: qualidade?.value || "lite" };
     sessao = atual;
     alternar.disabled = true;
     estado.textContent = "Abrindo a câmera…";
@@ -78,14 +84,27 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, disp
       inativa.hidden = true;
       estado.textContent = "Preparando mãos, corpo e rosto…";
       etapa = "modelo";
-      const detectar = await carregarDetectorDeMaos();
+      let detectar = await carregarDetectorDeMaos(atual.perfil);
       if (sessao !== atual) return;
+      // Alguns drivers aceitam a criação GPU e falham só no primeiro quadro.
+      // Verifica antes de encaminhar landmarks ao reconhecedor ou ao cadastro.
+      if (detectar.aceleracao) {
+        try { detectar(video, performance.now()); }
+        catch (erro) {
+          if (detectar.aceleracao !== "aceleração gráfica") throw erro;
+          estado.textContent = "Ajustando a leitura para o processador…";
+          detectar = await carregarDetectorDeMaos(detectar.perfil || atual.perfil, { forcarCPU: true });
+          if (sessao !== atual) return;
+          detectar(video, performance.now());
+        }
+      }
+      if (estadoRastreamento) estadoRastreamento.textContent = detectar.aviso || `Leitura ativa: ${detectar.nome || "Lite"}${detectar.aceleracao ? ` · ${detectar.aceleracao}` : ""}. Lite é a opção recomendada pelos testes atuais. Full e Heavy são experimentais; confira seus sinais pessoais ao trocar.`;
       alternar.textContent = "Desligar câmera";
       alternar.disabled = false;
       const atualizar = (instante) => {
         if (sessao !== atual) return;
         try {
-          if (instante - atual.instante >= 66 && video.readyState >= 2 && video.currentTime !== atual.ultimoQuadro) {
+          if (instante - atual.instante >= 40 && video.readyState >= 2 && video.currentTime !== atual.ultimoQuadro) {
             atual.instante = instante;
             atual.ultimoQuadro = video.currentTime;
             if (desenho.width !== video.videoWidth || desenho.height !== video.videoHeight) {
@@ -99,7 +118,7 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, disp
             const maos = [resultado.leftHandLandmarks, resultado.rightHandLandmarks].filter((mao) => mao?.length);
             const maoPequena = maos.some((mao) => Math.max(...mao.map((p) => p.x)) - Math.min(...mao.map((p) => p.x)) < 0.04 &&
               Math.max(...mao.map((p) => p.y)) - Math.min(...mao.map((p) => p.y)) < 0.05);
-            desenharMaos(desenho, maos, resultado.poseLandmarks);
+            desenharMaos(desenho, maos, resultado.poseLandmarks, resultado.faceLandmarks);
             detectadas.hidden = maos.length === 0;
             const contagem = `${maos.length} ${maos.length === 1 ? "mão localizada" : "mãos localizadas"}`;
             if (maos.length && detectadas.textContent !== contagem) detectadas.textContent = contagem;
@@ -145,6 +164,14 @@ export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz, disp
     if (tipo !== "camera" || !sessao) return;
     parar(removido ? "A câmera escolhida foi desconectada. Escolha outra câmera e ligue novamente." : "Trocando de câmera…");
     if (!removido) ligar();
+  });
+
+  qualidade?.addEventListener("change", () => {
+    try { localStorage.setItem("libras-qualidade-rastreamento", qualidade.value); } catch { /* Escolha vale para esta sessão. */ }
+    if (estadoRastreamento) estadoRastreamento.textContent = "A escolha foi atualizada. Modelos maiores exigem mais do computador; confira seus sinais pessoais ao trocar.";
+    if (!sessao) return;
+    parar("Trocando a leitura da câmera…");
+    ligar();
   });
 
   return parar;

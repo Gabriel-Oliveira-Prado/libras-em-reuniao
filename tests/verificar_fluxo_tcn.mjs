@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { ReconhecedorTemporal } from "../painel/tcn.mjs";
-import { reamostrarSinal } from "../painel/atributos-sinais.mjs";
+import { prepararSinal } from "../painel/atributos-sinais.mjs";
 import { SegmentadorDeSinais } from "../painel/segmentacao-sinais.mjs";
 const pasta = process.argv[2];
 const m = JSON.parse(readFileSync(resolve(pasta, "candidato-tcn.json"), "utf8"));
@@ -14,7 +14,7 @@ for (const item of amostras) {
   for (let i = 0; i < quadros.length; i++) {
     const seq = segmentador.receber(quadros[i], i * passo);
     if (!seq) continue;
-    const [a, b] = rede.prever(reamostrarSinal(seq));
+    const [a, b] = rede.prever(prepararSinal(seq));
     if (a.className !== "Sem sinal" && a.probability >= m.confianca && a.probability - b.probability >= m.margem) {
       falas.push({ palavra: a.className, confianca: a.probability, instante_ms: i * passo });
     }

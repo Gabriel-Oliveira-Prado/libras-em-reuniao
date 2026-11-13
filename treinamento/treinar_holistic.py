@@ -60,6 +60,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pasta", type=Path, required=True)
     parser.add_argument("--saida", type=Path, required=True)
+    parser.add_argument("--robusto", action="store_true", help="Varia ritmo e pequenas diferenças de execução só no treino")
     args = parser.parse_args()
     manifesto = json.loads((args.pasta / "manifesto.json").read_text(encoding="utf-8"))
     classes = ["Sem sinal"] + sorted({a["classe"] for a in manifesto["amostras"]})
@@ -101,6 +102,29 @@ def main():
         for lote in ordem.split(32):
             # Pequeno ruído de localização, sem espelhar sinais nem mudar o rótulo.
             exemplos = x[lote] + torch.randn_like(x[lote]) * 0.015
+            if args.robusto:
+                exemplos = x[lote].clone()
+                # Variação temporal monotônica: não inverte nem troca a ordem do sinal.
+                potencia = torch.empty(len(lote), 1).uniform_(0.75, 1.3)
+                pontos = torch.linspace(0, 1, 32)[None, :].pow(potencia) * 31
+                a = pontos.floor().long()
+                b = (a + 1).clamp(max=31)
+                peso = (pontos - a)[:, None, :]
+                aa = a[:, None, :].expand(-1, 228, -1)
+                bb = b[:, None, :].expand(-1, 228, -1)
+                exemplos = exemplos.gather(2, aa) * (1 - peso) + exemplos.gather(2, bb) * peso
+                for base in [36, 102]:
+                    presente = exemplos[:, base:base+1, :] > 0.5
+                    # Até 0,10 largura de ombros; não apaga o local linguístico do sinal.
+                    deslocamento = torch.empty(len(lote), 2, 1).uniform_(-0.10, 0.10)
+                    exemplos[:, base+1:base+3, :] += deslocamento * presente
+                    forma = exemplos[:, base+3:base+66, :].reshape(len(lote), 21, 3, 32)
+                    angulo = torch.empty(len(lote), 1, 1).uniform_(-0.07, 0.07)
+                    xx, yy = forma[:, :, 0, :].clone(), forma[:, :, 1, :].clone()
+                    forma[:, :, 0, :] = xx * angulo.cos() - yy * angulo.sin()
+                    forma[:, :, 1, :] = xx * angulo.sin() + yy * angulo.cos()
+                    forma += torch.randn_like(forma) * 0.008 * presente[:, None, :, :]
+                    exemplos[:, base+3:base+66, :] = forma.reshape(len(lote), 63, 32)
             otim.zero_grad(set_to_none=True)
             perda = nn.functional.cross_entropy(modelo(exemplos), y[lote], weight=pesos, label_smoothing=0.05)
             perda.backward()
@@ -157,6 +181,7 @@ def main():
         protocolo="MINDS: pessoas 01,02,05,06,08,10 no treino; 11 na validação/escolha de época; 12 no teste."
                   + (" Oi: pessoa 1 treino, 2 validação, 3 teste. Regressão MINDS reutilizada; não é novo teste independente." if manifesto.get("oi") else " Teste avaliado uma única vez nesta rodada."),
         origem_oi=manifesto.get("oi"),
+        aumento_robusto=bool(args.robusto),
         videos=len(manifesto["amostras"]), classes=classes, parametros=sum(p.numel() for p in modelo.parameters()),
         melhor_epoca=melhor_epoca, segundos=round(time.perf_counter() - inicio, 2),
         pico_memoria_mb=pico_memoria_mb(), inferencia_mediana_ms=float(np.median(latencias)),

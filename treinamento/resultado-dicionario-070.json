@@ -1,0 +1,322 @@
+{
+  "protocolo": "Mesma pessoa MINDS 2. Repetições 1–3 cadastro; 4 confirmação; 5 teste. Outros 14 sinais, repetições 1–2, são desconhecidos.",
+  "origem": "ibmectech/minds-libras-raw",
+  "revisao": "a881a5a4330ec8b00bf6c80618f02fc66345f379",
+  "cadastros": [
+    {
+      "classe": "Acontecer",
+      "aprovado": false,
+      "motivo": "As gravações ficaram diferentes. Cadastre novamente o mesmo gesto, na mesma posição."
+    },
+    {
+      "classe": "Amarelo",
+      "aprovado": true,
+      "limite": 0.08742752646862179
+    },
+    {
+      "classe": "Banheiro",
+      "aprovado": true,
+      "limite": 0.20002793646669081
+    },
+    {
+      "classe": "Conhecer",
+      "aprovado": true,
+      "limite": 0.09945697254945146
+    },
+    {
+      "classe": "Maca",
+      "aprovado": true,
+      "limite": 0.09449582872098139
+    },
+    {
+      "classe": "Vontade",
+      "aprovado": true,
+      "limite": 0.06511400936527102
+    }
+  ],
+  "resumo": {
+    "cadastros_aceitos": 5,
+    "testes_cadastrados": 5,
+    "corretos": 4,
+    "recusas": 1,
+    "errados": 0,
+    "negativos": 28,
+    "negativos_sem_segmento": 0,
+    "negativos_com_fala": 0
+  },
+  "resultados": [
+    {
+      "arquivo": "02AlunoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.8412999999999897
+    },
+    {
+      "arquivo": "02AlunoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.162700000000001
+    },
+    {
+      "arquivo": "04AmericaSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.7293000000000234
+    },
+    {
+      "arquivo": "04AmericaSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 4.540700000000015
+    },
+    {
+      "arquivo": "05AproveitarSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.5500000000000114
+    },
+    {
+      "arquivo": "05AproveitarSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.166799999999995
+    },
+    {
+      "arquivo": "06BalaSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.32650000000001
+    },
+    {
+      "arquivo": "06BalaSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.29170000000002
+    },
+    {
+      "arquivo": "07BancoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.6037000000000035
+    },
+    {
+      "arquivo": "07BancoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.184500000000014
+    },
+    {
+      "arquivo": "09BarulhoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.4350000000000023
+    },
+    {
+      "arquivo": "09BarulhoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.3190999999999917
+    },
+    {
+      "arquivo": "10CincoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.32650000000001
+    },
+    {
+      "arquivo": "10CincoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.779299999999978
+    },
+    {
+      "arquivo": "12EspelhoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.246500000000026
+    },
+    {
+      "arquivo": "12EspelhoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.1790999999999485
+    },
+    {
+      "arquivo": "13EsquinaSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.4326999999999543
+    },
+    {
+      "arquivo": "13EsquinaSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 5.140799999999956
+    },
+    {
+      "arquivo": "14FilhoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.981900000000053
+    },
+    {
+      "arquivo": "14FilhoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.9569999999999936
+    },
+    {
+      "arquivo": "16MedoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.400100000000009
+    },
+    {
+      "arquivo": "16MedoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 4.064099999999996
+    },
+    {
+      "arquivo": "17RuimSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.5043000000000006
+    },
+    {
+      "arquivo": "17RuimSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.5019000000000347
+    },
+    {
+      "arquivo": "18SapoSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 4.290200000000027
+    },
+    {
+      "arquivo": "18SapoSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 4.110600000000034
+    },
+    {
+      "arquivo": "19VacinaSinalizador02-1.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.2819000000000074
+    },
+    {
+      "arquivo": "19VacinaSinalizador02-2.mp4",
+      "esperado": null,
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.2409000000000106
+    },
+    {
+      "arquivo": "01AcontecerSinalizador02-5.mp4",
+      "esperado": "Acontecer",
+      "cadastro_ativo": false,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 3.42349999999999
+    },
+    {
+      "arquivo": "03AmareloSinalizador02-5.mp4",
+      "esperado": "Amarelo",
+      "cadastro_ativo": true,
+      "reconhecido": "Amarelo",
+      "ambiguo": false,
+      "ms": 3.581899999999962
+    },
+    {
+      "arquivo": "08BanheiroSinalizador02-5.mp4",
+      "esperado": "Banheiro",
+      "cadastro_ativo": true,
+      "reconhecido": "Banheiro",
+      "ambiguo": false,
+      "ms": 3.494699999999966
+    },
+    {
+      "arquivo": "11ConhecerSinalizador02-5.mp4",
+      "esperado": "Conhecer",
+      "cadastro_ativo": true,
+      "reconhecido": "Conhecer",
+      "ambiguo": false,
+      "ms": 3.224199999999996
+    },
+    {
+      "arquivo": "15MacaSinalizador02-5.mp4",
+      "esperado": "Maca",
+      "cadastro_ativo": true,
+      "reconhecido": "Maca",
+      "ambiguo": false,
+      "ms": 3.5405000000000086
+    },
+    {
+      "arquivo": "20VontadeSinalizador02-5.mp4",
+      "esperado": "Vontade",
+      "cadastro_ativo": true,
+      "reconhecido": null,
+      "ambiguo": false,
+      "ms": 4.396599999999978
+    }
+  ],
+  "limites": "Ensaio pessoal controlado, uma pessoa. Não mede cadastro real do usuário, gestos inéditos, navegador ou Meet. As classes originais simulam rótulos pessoais, sem atribuir sinais a pessoas reais."
+}

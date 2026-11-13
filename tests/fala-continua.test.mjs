@@ -82,7 +82,7 @@ test("escuta transcreve duas falas automaticamente e descarta resultado após ca
     assert.deepEqual(frases, ["Bom dia.", "Tudo bem?"]);
     assert.equal(elementos["#texto-fala"].value, "Bom dia. Tudo bem?");
     assert.equal(pedidos[0].audio.deviceId.exact, "mic-usb");
-    elementos["#parar-fala"].eventos.click();
+    elementos["#ouvir-microfone"].eventos.click();
     await new Promise((resolve) => setImmediate(resolve));
     assert.equal(encerradas, 1);
     assert.equal(elementos["#parar-fala"].hidden, true);
@@ -105,7 +105,7 @@ test("escuta transcreve duas falas automaticamente e descarta resultado após ca
     assert.equal(elementos["#tipo-escuta"].disabled, true);
     reconhecimentoRapido.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: "Tudo certo." }], { isFinal: true })] });
     assert.deepEqual(frases, ["Bom dia.", "Tudo bem?", "Tudo certo."]);
-    elementos["#parar-fala"].eventos.click();
+    elementos["#ouvir-microfone"].eventos.click();
     assert.equal(elementos["#parar-fala"].hidden, true);
     assert.equal(elementos["#tipo-escuta"].disabled, false);
     await elementos["#ouvir-microfone"].eventos.click();
@@ -114,6 +114,8 @@ test("escuta transcreve duas falas automaticamente e descarta resultado após ca
     aoDispositivo({ tipo: "microfone" });
     await new Promise((resolve) => setImmediate(resolve));
     assert.equal(anterior.abortado, true);
+    assert.equal(capturas, 4, "mudar dispositivo não religa o microfone automaticamente");
+    await elementos["#ouvir-microfone"].eventos.click();
     assert.equal(pedidos.at(-1).audio.deviceId.exact, "mic-webcam");
     anterior.onresult({ results: [Object.assign([{ transcript: "Ignorar microfone antigo" }], { isFinal: true })] });
     assert.equal(frases.length, 3);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Libras em Reunião",
-  "version": "0.5.2",
+  "version": "0.8.4",
   "description": "Protótipo de acessibilidade para o uso de Libras em reuniões online.",
   "icons": {
     "16": "assets/icones/icon-16.png",
@@ -10,7 +10,8 @@
     "128": "assets/icones/icon-128.png"
   },
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
   "action": {
     "default_title": "Abrir Libras em Reunião",
@@ -22,9 +23,62 @@
   "side_panel": {
     "default_path": "painel/index.html"
   },
-  "permissions": ["sidePanel"],
-  "host_permissions": ["https://traducao2.vlibras.gov.br/*"],
+  "permissions": [
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://traducao2.vlibras.gov.br/*",
+    "http://127.0.0.1:11434/*",
+    "http://127.0.0.1:18271/*",
+    "https://meet.google.com/*",
+    "https://vlibras.gov.br/app/unity/*",
+    "https://dicionario2.vlibras.gov.br/*"
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; frame-src https://vlibras.gov.br"
-  }
+  },
+  "minimum_chrome_version": "122",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://meet.google.com/*"
+      ],
+      "js": [
+        "meet/midia-main.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://meet.google.com/*"
+      ],
+      "js": [
+        "meet/conteudo.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://vlibras.gov.br/app/unity/index.html*"
+      ],
+      "js": [
+        "meet/capturar-avatar.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "meet/avatar.html",
+        "meet/avatar.js",
+        "meet/avatar.css"
+      ],
+      "matches": [
+        "https://meet.google.com/*"
+      ]
+    }
+  ]
 }

@@ -1,0 +1,1147 @@
+{
+  "perfil_padrao": "lite",
+  "decisao": "Full e Heavy disponíveis apenas como opções experimentais. Full perdeu um acerto geral e um exemplo de Oi; Heavy produziu uma fala errada e perdeu um exemplo de Oi. Não foram aprovados para substituir o padrão. Um modelo maior de pose não demonstrou ganho na tradução de Libras neste ensaio.",
+  "protocolo": "Regressão exploratória: 40 vídeos conhecidos, 18 fora do vocabulário e 4 exemplos de Oi, todos já examinados em experimentos anteriores. Sem mudar TCN, saudação ou limiares de aceitação. Inclui prioridade de Oi antes da TCN e correção de proporção dos exemplos de saudação.",
+  "ambiente": "MediaPipe 1.2.3, Python CPU, vídeos 640 px, aproximadamente 15 quadros/s",
+  "variantes": {
+    "lite": {
+      "medicao": {
+        "videos": 58,
+        "quadros": 3517,
+        "mediana_ms": 75.59,
+        "p95_ms": 100.46,
+        "media_fracao_quadros_com_maos": 0.9827,
+        "modelo_sha256": "e2dab61191e2dcd0a15f943d8e3ed1dce13c82dfa597b9dd39f562975a50c3f8"
+      },
+      "resumo": {
+        "conhecidos": 40,
+        "conhecidos_corretos": 20,
+        "conhecidos_sem_fala": 20,
+        "conhecidos_com_fala_errada_ou_repetida": 0,
+        "exemplos_oi": 4,
+        "oi_corretos": 4,
+        "outros_sinais": 18,
+        "outros_com_fala": 0
+      },
+      "resultados": [
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-2.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4",
+          "esperado": "Banco",
+          "falas": [
+            "Banco"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4",
+          "esperado": "Banco",
+          "falas": [
+            "Banco"
+          ]
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4",
+          "esperado": "Barulho",
+          "falas": []
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-2.mp4",
+          "esperado": "Barulho",
+          "falas": [
+            "Barulho"
+          ]
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-1.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-1.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4",
+          "esperado": "Maca",
+          "falas": []
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4",
+          "esperado": "Maca",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-1.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4",
+          "esperado": "Sapo",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4",
+          "esperado": "Sapo",
+          "falas": [
+            "Sapo"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "Ajudar_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Oi_Articulador1.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador2.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador3.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi-INES.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        }
+      ]
+    },
+    "full": {
+      "medicao": {
+        "videos": 58,
+        "quadros": 3517,
+        "mediana_ms": 82.09,
+        "p95_ms": 120.63,
+        "media_fracao_quadros_com_maos": 0.9581,
+        "modelo_sha256": "21b07b11eec2e0a3aa0eb80c48daa41c7b1af7667113876980a588d653654c1a"
+      },
+      "resumo": {
+        "conhecidos": 40,
+        "conhecidos_corretos": 19,
+        "conhecidos_sem_fala": 21,
+        "conhecidos_com_fala_errada_ou_repetida": 0,
+        "exemplos_oi": 4,
+        "oi_corretos": 3,
+        "outros_sinais": 18,
+        "outros_com_fala": 0
+      },
+      "resultados": [
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-2.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4",
+          "esperado": "Banco",
+          "falas": [
+            "Banco"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4",
+          "esperado": "Banco",
+          "falas": []
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4",
+          "esperado": "Barulho",
+          "falas": []
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-2.mp4",
+          "esperado": "Barulho",
+          "falas": [
+            "Barulho"
+          ]
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-1.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-1.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4",
+          "esperado": "Maca",
+          "falas": []
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4",
+          "esperado": "Maca",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-1.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4",
+          "esperado": "Sapo",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4",
+          "esperado": "Sapo",
+          "falas": [
+            "Sapo"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "Ajudar_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Oi_Articulador1.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador2.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador3.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi-INES.mp4",
+          "esperado": "Oi",
+          "falas": []
+        }
+      ]
+    },
+    "heavy": {
+      "medicao": {
+        "videos": 58,
+        "quadros": 3517,
+        "mediana_ms": 131.09,
+        "p95_ms": 214.01,
+        "media_fracao_quadros_com_maos": 0.9438,
+        "modelo_sha256": "73a1cd22bffb911077c5a2fe782e6f6982c44d40740eca4cc25fa35cbf96526b"
+      },
+      "resumo": {
+        "conhecidos": 40,
+        "conhecidos_corretos": 21,
+        "conhecidos_sem_fala": 18,
+        "conhecidos_com_fala_errada_ou_repetida": 1,
+        "exemplos_oi": 4,
+        "oi_corretos": 3,
+        "outros_sinais": 18,
+        "outros_com_fala": 0
+      },
+      "resultados": [
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4",
+          "esperado": "Acontecer",
+          "falas": [
+            "Acontecer"
+          ]
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4",
+          "esperado": "Aluno",
+          "falas": []
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4",
+          "esperado": "Amarelo",
+          "falas": [
+            "Amarelo"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4",
+          "esperado": "America",
+          "falas": [
+            "America"
+          ]
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-2.mp4",
+          "esperado": "Aproveitar",
+          "falas": []
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4",
+          "esperado": "Bala",
+          "falas": [
+            "Bala"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4",
+          "esperado": "Banco",
+          "falas": [
+            "Banco"
+          ]
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4",
+          "esperado": "Banco",
+          "falas": [
+            "Banco"
+          ]
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4",
+          "esperado": "Banheiro",
+          "falas": []
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4",
+          "esperado": "Barulho",
+          "falas": [
+            "Barulho"
+          ]
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-2.mp4",
+          "esperado": "Barulho",
+          "falas": [
+            "Barulho"
+          ]
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4",
+          "esperado": "Cinco",
+          "falas": []
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4",
+          "esperado": "Conhecer",
+          "falas": [
+            "Conhecer"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-1.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4",
+          "esperado": "Espelho",
+          "falas": [
+            "Espelho"
+          ]
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-1.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4",
+          "esperado": "Esquina",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4",
+          "esperado": "Filho",
+          "falas": []
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4",
+          "esperado": "Maca",
+          "falas": [
+            "Medo"
+          ]
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4",
+          "esperado": "Maca",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-1.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4",
+          "esperado": "Medo",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4",
+          "esperado": "Ruim",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4",
+          "esperado": "Sapo",
+          "falas": []
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4",
+          "esperado": "Sapo",
+          "falas": [
+            "Sapo"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4",
+          "esperado": "Vacina",
+          "falas": [
+            "Vacina"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4",
+          "esperado": "Vontade",
+          "falas": [
+            "Vontade"
+          ]
+        },
+        {
+          "arquivo": "Ajudar_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Ajudar_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Desculpa_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Não_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Obrigado_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Por favor_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador1.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador2.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Sim_Articulador3.mp4",
+          "esperado": null,
+          "falas": []
+        },
+        {
+          "arquivo": "Oi_Articulador1.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador2.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi_Articulador3.mp4",
+          "esperado": "Oi",
+          "falas": [
+            "Oi"
+          ]
+        },
+        {
+          "arquivo": "Oi-INES.mp4",
+          "esperado": "Oi",
+          "falas": []
+        }
+      ]
+    }
+  },
+  "limites": "Não é uma nova validação independente. Não mede a precisão dos landmarks contra anotações humanas, o filtro de enquadramento do painel, câmera ao vivo, áudio, Chrome ou Meet. Tempos de Python CPU são descritivos; não representam latência de ponta a ponta da extensão."
+}

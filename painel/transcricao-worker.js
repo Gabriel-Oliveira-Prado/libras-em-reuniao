@@ -1,4 +1,5 @@
 import { env, pipeline } from "../vendor/transformers/transformers.min.js";
+import { MODELOS_TRANSCRICAO, modeloValido } from "./configuracao-transcricao.mjs";
 
 env.allowRemoteModels = false;
 env.allowLocalModels = true;
@@ -12,9 +13,9 @@ env.backends.onnx.wasm.wasmPaths = {
 };
 
 let modelo;
-self.onmessage = async ({ data: { tipo, id, amostras } }) => {
+self.onmessage = async ({ data: { tipo, id, amostras, modelo: perfil } }) => {
   try {
-    modelo ??= pipeline("automatic-speech-recognition", "whisper-tiny", { device: "wasm", dtype: "q8" });
+    modelo ??= pipeline("automatic-speech-recognition", MODELOS_TRANSCRICAO[modeloValido(perfil)].pasta, { device: "wasm", dtype: "q8" });
     const transcrever = await modelo;
     if (tipo === "carregar") {
       self.postMessage({ tipo: "carregado" });
@@ -24,7 +25,7 @@ self.onmessage = async ({ data: { tipo, id, amostras } }) => {
     const resultado = await transcrever(amostras, {
       language: "portuguese",
       task: "transcribe",
-      max_new_tokens: 96,
+      max_new_tokens: 224,
     });
     self.postMessage({ id, tipo: "texto", texto: resultado.text.trim(), inferenciaMs: performance.now() - inicio });
   } catch (erro) {

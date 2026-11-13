@@ -5,12 +5,13 @@ const PASSOS = 32, ATRIBUTOS = 228;
 export const chaveNome = (nome) => nome.normalize("NFKD").replace(/\p{M}/gu, "").toLocaleLowerCase("pt-BR").trim().replace(/\s+/g, " ");
 
 export function prepararExemplo(quadros) {
-  if (!Array.isArray(quadros) || quadros.length < 8 || quadros.length > 240 ||
+  if (!Array.isArray(quadros) || quadros.length < 4 || quadros.length > 360 ||
       quadros.some((v) => !(Array.isArray(v) || ArrayBuffer.isView(v)) || v.length !== ATRIBUTOS || !Array.from(v).every((n) => Number.isFinite(n) && Math.abs(n) <= 5))) {
     throw new Error("Gravação inválida. Faça o gesto inteiro com as mãos dentro do quadro.");
   }
-  const ativos = quadros.map((v, i) => sinalEmCurso(v) ? i : -1).filter((i) => i >= 0);
-  if (ativos.length < 8) throw new Error("Poucos quadros de mãos. Repita o gesto um pouco mais devagar.");
+  const superiores = quadros.map((v, i) => sinalEmCurso(v) ? i : -1).filter((i) => i >= 0);
+  const ativos = superiores.length >= 4 ? superiores : quadros.map((v, i) => [36, 102].some((b) => v[b] > 0.5 && Math.abs(v[b + 1]) < 3.5 && v[b + 2] < 2.8) ? i : -1).filter((i) => i >= 0);
+  if (ativos.length < 4) throw new Error("Poucos quadros de mãos. Mantenha os dedos visíveis durante o gesto completo.");
   const recorte = quadros.slice(ativos[0], ativos.at(-1) + 1);
   return reamostrarSinal(recorte, PASSOS).map((v) => Array.from(v, (n) => Math.round(n * 10000) / 10000));
 }

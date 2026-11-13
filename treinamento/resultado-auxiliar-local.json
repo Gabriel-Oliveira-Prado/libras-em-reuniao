@@ -1,0 +1,16 @@
+{
+  "backend": "Adaptador real da extensão, API Ollama local pelo Node",
+  "resultados": [
+    {
+      "original": "ola tudo bem como voce esta",
+      "texto": "Olá, tudo bem? Como você está?",
+      "ms": 13254.9227
+    },
+    {
+      "original": "Gabriel eu nao quero essa merda 42 vezes",
+      "texto": "Gabriel, eu não quero essa merda 42 vezes.",
+      "ms": 5671.392600000001
+    }
+  ],
+  "limites": "Não verifica acesso do Chrome, configuração de origem ou qualidade de interpretação de Libras. Sugestões são manuais; não recebem áudio nem câmera."
+}
