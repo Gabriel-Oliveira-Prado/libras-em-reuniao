@@ -6,6 +6,8 @@ Extensão experimental do Chrome para comunicação no Google Meet usando **Libr
 - **Meus sinais:** cadastro local de sinais pessoais para pessoas, apelidos e termos. Três exemplos e uma confirmação permitem comparar novas sequências de movimento com o cadastro; quando a leitura é aceita, o nome associado aparece na legenda e é falado. Inclui teste, renomeação, pausa, exclusão e backup.
 - **Voz → Libras:** escuta contínua, detector de fala Silero e transcrição local com Whisper Tiny. O microfone também oferece a opção **Resposta rápida**, pelo serviço de voz do Chrome, mediante escolha do usuário. Cada trecho de texto confirmado é enviado ao VLibras automaticamente. O avatar aparece somente neste modo e permanece visível entre as falas.
 
+> **Documentação de IA:** [componentes usados e limites](#agentes-e-modelos-de-ia) · [instalar e testar Ollama/Qwen](#instalar-e-testar-ollama-com-qwen-no-windows) · [o que acompanha o clone](#o-que-acompanha-o-clone-do-github)
+
 ## Abrir e testar
 
 1. Em `chrome://extensions`, carregue sem compactação a pasta `C:\Users\Gabri\source\repos\libras-em-reuniao` ou clique em **Recarregar** na extensão existente. Confira a versão 0.5.2 e feche/reabra o painel.
@@ -90,6 +92,110 @@ O projeto usa **Libras, a Língua Brasileira de Sinais**, incluindo cadastros pe
 - `tests/testar_dicionario_videos.mjs`: usa vetores reais MediaPipe e as mesmas regras de cadastro, segmentação e comparação da extensão. Relatórios separam desenvolvimento e a segunda pessoa usada no ensaio final.
 - `node tests/testar_servico_vlibras.mjs`: consulta a API real com “Tudo bem?”, “Como você está?” e “Bom dia, tudo bem?” e verifica os bundles Unity correspondentes, incluindo o cabeçalho CORS para o iframe. Relatório `treinamento/resultado-vlibras.json`. Não executa o avatar; a tradução de “Como você está?” devolvida pelo serviço foi `COMO VOCÊ BOM [INTERROGAÇÃO]`, sem revisão linguística neste teste.
 - **Pendente:** teste visual no Chrome, câmera/microfone reais e chamada com outro participante. O controle automatizado do navegador foi bloqueado nesta sessão; esses testes não foram declarados como realizados.
+
+## Agentes e modelos de IA
+
+**Estado atual:** a extensão usa modelos de IA especializados. Ainda não há um agente geral integrado que converse, planeje ações ou escolha ferramentas. **Ollama e Qwen são uma proposta de integração opcional; instalar o modelo não ativa uma função nova no painel.**
+
+### Componentes já usados
+
+| Componente | Função no projeto | Onde funciona e como configurar |
+| --- | --- | --- |
+| **MediaPipe Tasks Vision · Holistic Landmarker** | Localiza mãos, dedos, corpo e rosto. Não traduz Libras sozinho. | Local, com o modelo em `modelos/holistic_landmarker.task`. Já vem no projeto; veja [integração](painel/reconhecimento.js) e [documentação oficial](https://developers.google.com/edge/mediapipe/solutions/vision/holistic_landmarker). |
+| **TCN de sinais de Libras** | Analisa sequências de movimento e reconhece o vocabulário experimental de 20 sinais isolados. Não traduz conversa livre. | Local, em `modelos/sinais/tcn.json`; já incluída. Veja [modelo e limites](modelos/sinais/README.md), [execução](painel/tcn.mjs) e [treinamento](treinamento/README.md). |
+| **Dicionário pessoal com DTW** | Compara movimentos com os exemplos cadastrados para nomes e termos. É um algoritmo de comparação temporal, não um agente generativo. | Local, no perfil do Chrome. Configure em **Meus sinais**; [código](painel/dicionario-pessoal.mjs). Os cadastros pessoais não acompanham o GitHub. |
+| **Silero VAD v6.2** | Detecta atividade de fala para separar trechos de áudio. Não identifica quem fala nem isola uma pessoa de outras vozes. | Local, em `modelos/silero_vad.onnx`; já incluído. [Integração](painel/detector-fala.mjs), [documentação oficial](https://github.com/snakers4/silero-vad/tree/v6.2). |
+| **Whisper Tiny quantizado** | Transcreve os trechos de áudio em português. Não reconhece sinais da câmera. | Local, em `modelos/whisper-tiny/`; já incluído. Escolha **Local** em Voz → Libras. [Modelo distribuído](modelos/whisper-tiny/README.md), [integração](painel/transcricao-worker.js). |
+| **Spellophone/eSpeak NG** | Faz a síntese de voz local desta versão. É um sintetizador, não um agente de IA. | Incluído em `vendor/spellophone/`; use **Testar som**. [Integração](painel/voz.js), [projeto oficial](https://github.com/Spelling-Creator/spellophone). |
+| **VLibras** | Traduz o texto em português e apresenta a sinalização pelo avatar. O reconhecimento da câmera é outro componente. | Serviço externo, com internet; já conectado no modo **Voz → Libras**. [Integração](painel/vlibras.js), [projeto oficial](https://www.gov.br/governodigital/pt-br/acessibilidade-e-usuario/vlibras). |
+| **SpeechRecognition do Chrome · Resposta rápida** | Alternativa de transcrição fornecida pelo navegador. | Opcional; selecione **Resposta rápida** e ligue o microfone. Pode enviar áudio ao serviço de voz do Chrome. [Integração](painel/fala-rapida.mjs). |
+| **Ollama + Qwen3.5 4B** | Candidato a auxiliar experimental de texto e imagens. Não há validação de tradução de conversa em Libras neste projeto. | **Proposto, ainda não integrado.** Instalação separada no computador, conforme o guia abaixo. |
+
+Os modelos locais já incluídos funcionam ao carregar a pasta completa da extensão no Chrome. **Ollama, Python e treinamento não são necessários para usar as funções atuais.** As ferramentas de treinamento são para desenvolvimento. O desempenho varia conforme o computador; rastrear os dedos não demonstra compreensão da língua.
+
+### Instalar e testar Ollama com Qwen no Windows
+
+Este procedimento prepara um modelo separado para testes. **A extensão ainda não consulta a API do Ollama e não possui botão para ativar Qwen.** O teste abaixo verifica apenas se o modelo responde a texto, sem testar Libras, webcam ou Meet.
+
+1. Baixe o instalador em [Ollama para Windows](https://ollama.com/download/windows), instale e abra o aplicativo. Depois abra um novo PowerShell. Consulte os [requisitos oficiais do Windows](https://docs.ollama.com/windows).
+2. Confira a instalação:
+
+   ```powershell
+   ollama --version
+   ```
+
+3. Baixe a versão compactada escolhida e confira a lista:
+
+   ```powershell
+   ollama pull qwen3.5:4b-q4_K_M
+   ollama list
+   ```
+
+   O download é de aproximadamente **3,3 GB** no [catálogo oficial](https://ollama.com/library/qwen3.5:4b-q4_K_M). O consumo de RAM durante o uso é maior e depende do contexto. O modelo tem licença Apache-2.0; executar essa versão local não exige chave nem tarifa de API. O primeiro download exige internet; o uso posterior do modelo baixado pode ser local. Não há medição de desempenho deste modelo junto com Meet e os outros modelos do projeto.
+
+4. Para conversar pelo terminal:
+
+   ```powershell
+   ollama run qwen3.5:4b-q4_K_M
+   ```
+
+   Digite uma pergunta em português. Use `/bye` para sair e continuar com o teste da API.
+
+5. Com o aplicativo Ollama aberto, teste a API local no PowerShell:
+
+   ```powershell
+   $pedidoIA = @{
+       model = 'qwen3.5:4b-q4_K_M'
+       messages = @(
+           @{ role = 'user'; content = 'Responda apenas: teste local concluido.' }
+       )
+       stream = $false
+       think = $false
+       options = @{ num_ctx = 2048; num_predict = 80 }
+   } | ConvertTo-Json -Depth 6
+
+   $respostaIA = Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:11434/api/chat' -ContentType 'application/json; charset=utf-8' -Body ([System.Text.Encoding]::UTF8.GetBytes($pedidoIA)) -TimeoutSec 180
+   $respostaIA.message.content
+   ```
+
+   Uma resposta de texto confirma que o serviço e o modelo estão acessíveis nesse computador. Não comprova reconhecimento de Libras. Referências: [instalação e uso](https://docs.ollama.com/quickstart), [API de conversa](https://docs.ollama.com/api/chat), [modelo e licença](https://huggingface.co/Qwen/Qwen3.5-4B).
+
+**Se não funcionar:** se `ollama` não for encontrado, reabra o PowerShell depois de instalar. Se houver recusa de conexão na porta 11434, abra o aplicativo Ollama; para execução manual, use `ollama serve` em outro terminal somente quando o serviço não estiver rodando. Se o modelo estiver ausente, repita `ollama pull`. Para liberar a memória do modelo após o teste, use `ollama stop qwen3.5:4b-q4_K_M`.
+
+### O que falta para conectar Qwen à extensão
+
+A instalação acima não implementa o agente. Uma futura integração precisa:
+
+1. Criar um adaptador de chamadas para `POST http://127.0.0.1:11434/api/chat`, com escolha explícita do usuário, limite de tempo e tratamento de falhas.
+2. Solicitar a permissão de acesso a `http://127.0.0.1:11434/*` no manifesto da extensão. Ela ainda não está presente; se houver uma política `connect-src`, o endereço também precisa estar permitido.
+3. Configurar o Ollama para aceitar a origem exata da extensão. O ID aparece em `chrome://extensions`. Para um teste de desenvolvimento, feche o Ollama da bandeja do Windows e execute no PowerShell, substituindo o marcador pelo ID real:
+
+   ```powershell
+   $env:OLLAMA_ORIGINS = 'chrome-extension://COLE_O_ID_DA_EXTENSAO'
+   ollama serve
+   ```
+
+   Essa variável vale para o serviço iniciado nesse terminal. O serviço deve continuar restrito ao próprio computador. Consulte a [configuração oficial de origens e rede](https://docs.ollama.com/faq).
+
+4. Mostrar quando houver uso de IA e quais dados serão enviados. Preservar o texto reconhecido, sem completar sinais desconhecidos ou alterar automaticamente nomes, palavrões e o sentido da fala.
+5. Medir a latência e avaliar os resultados com exemplos de Libras e pessoas fluentes antes de usar sugestões como tradução ou voz automática.
+
+Qwen recebe texto e imagens, mas não foi validado aqui como tradutor de Libras. A proposta é avaliá-lo como auxiliar opcional. A tradução dos movimentos continua dependendo de um modelo temporal específico de Libras e de sua validação.
+
+### O que acompanha o clone do GitHub
+
+| Item | Acompanha o repositório? | O que outra pessoa precisa fazer |
+| --- | --- | --- |
+| Código da extensão, modelos atuais e bibliotecas locais versionadas | Sim | Clonar ou baixar o projeto completo e carregar a pasta com `manifest.json` no Chrome. Um repositório privado exige acesso concedido pelo proprietário. |
+| Código de um futuro adaptador/agente Ollama | Ainda não existe | Quando implementado e publicado, acompanhará o código do projeto. |
+| Aplicativo Ollama e pesos do Qwen | Não | Cada pessoa instala e baixa no próprio computador seguindo o guia acima. |
+| Assistente de instalação automática do Ollama/Qwen | Ainda não existe | A preparação descrita aqui é manual. |
+| Sinais pessoais e configurações do usuário | Não | Fazer o próprio cadastro ou importar um backup autorizado. |
+| Chaves privadas de serviços de IA | Não | Na opção local descrita, não são necessárias. Uma futura API paga deve manter a chave no servidor, fora da extensão e do GitHub. |
+
+Usar uma IA hospedada pode dispensar a instalação do modelo no computador do usuário, mas exige um serviço mantido por alguém e pode envolver custos e envio de dados pela internet. Essa modalidade também não está implementada.
+
+**Ao adicionar ou trocar uma IA**, atualize este README com nome e versão, função, estado da integração, arquivos usados, instalação, configurações, licença, dados enviados, limites e testes realizados. Registre separadamente os resultados experimentais e o que foi validado no navegador.
 
 ## Estrutura e créditos
 
