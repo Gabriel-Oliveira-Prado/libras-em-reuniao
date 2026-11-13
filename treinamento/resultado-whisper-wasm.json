@@ -1,0 +1,17 @@
+{
+  "backend": "Bundle Transformers.js e Whisper WASM da extensão, no Node, 1 thread",
+  "carregamento_ms": 1692.7536,
+  "resultados": [
+    {
+      "texto": "Bom dia, tudo bem.",
+      "audio_segundos": 2.24,
+      "transcricao_ms": 1953.3914
+    },
+    {
+      "texto": "Eu preciso de ajuda.",
+      "audio_segundos": 2.176,
+      "transcricao_ms": 1790.3127999999997
+    }
+  ],
+  "limites": "Não mede a execução no Chrome nem disputa de CPU com uma chamada no Meet."
+}

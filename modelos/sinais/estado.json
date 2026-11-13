@@ -1,0 +1,5 @@
+{
+  "habilitado": true,
+  "experimental": true,
+  "mensagem": "Reconhecimento experimental: 20 sinais isolados. Pode errar e ainda não traduz frases. Quando a leitura é incerta, não gera voz."
+}

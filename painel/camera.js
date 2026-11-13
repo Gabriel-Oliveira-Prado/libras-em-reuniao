@@ -1,12 +1,13 @@
-import { carregarReconhecedor } from "./reconhecimento.js";
+import { carregarDetectorDeMaos } from "./reconhecimento.js";
+import { desenharMaos } from "./maos.mjs";
 
-export function montarCamera() {
+export function montarCamera({ aoDetectar, aoParar, temModelo, prepararVoz } = {}) {
   const video = document.querySelector("#camera");
+  const desenho = document.querySelector("#desenho-maos");
   const inativa = document.querySelector("#camera-inativa");
   const alternar = document.querySelector("#alternar-camera");
   const estado = document.querySelector("#estado-camera");
-  const letraAtual = document.querySelector("#letra-atual");
-  const texto = document.querySelector("#texto-camera");
+  const detectadas = document.querySelector("#maos-detectadas");
   let sessao;
 
   function parar(mensagem = "Câmera desligada.") {
@@ -16,23 +17,32 @@ export function montarCamera() {
       cancelAnimationFrame(anterior.animacao);
       anterior.stream?.getTracks().forEach((track) => track.stop());
     }
+    desenho.getContext("2d").clearRect(0, 0, desenho.width, desenho.height);
+    desenho.hidden = true;
+    video.pause();
     video.srcObject = null;
     video.hidden = true;
-    letraAtual.hidden = true;
     inativa.hidden = false;
+    detectadas.hidden = true;
     alternar.textContent = "Ligar câmera";
     alternar.disabled = false;
     if (anterior) estado.textContent = mensagem;
+    aoParar?.();
   }
 
   async function ligar() {
-    const atual = { instante: -Infinity, ultimoQuadro: -1, leituras: 0, semMao: 0 };
+    if (!navigator.mediaDevices?.getUserMedia) {
+      estado.textContent = "Câmera indisponível nesta janela. Abra o tradutor em uma aba do Chrome.";
+      return;
+    }
+    const atual = { instante: -Infinity, ultimoQuadro: -1 };
     sessao = atual;
     alternar.disabled = true;
     estado.textContent = "Abrindo a câmera…";
+    let etapa = "camera";
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 640 }, height: { ideal: 480 } },
+        video: { width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } },
         audio: false,
       });
       if (sessao !== atual) {
@@ -43,78 +53,77 @@ export function montarCamera() {
       stream.getVideoTracks()[0].addEventListener("ended", () => {
         if (sessao === atual) parar("A câmera foi desconectada.");
       }, { once: true });
-      estado.textContent = "Carregando o modelo de Libras…";
       video.srcObject = stream;
+      etapa = "video";
       await video.play();
       if (sessao !== atual) return;
+      if (!video.videoWidth || !video.videoHeight) {
+        await new Promise((resolve) => video.addEventListener("loadedmetadata", resolve, { once: true }));
+        if (sessao !== atual) return;
+      }
+      desenho.width = video.videoWidth;
+      desenho.height = video.videoHeight;
       video.hidden = false;
+      desenho.hidden = false;
       inativa.hidden = true;
-      const reconhecer = await carregarReconhecedor();
+      estado.textContent = "Preparando mãos, corpo e rosto…";
+      etapa = "modelo";
+      const detectar = await carregarDetectorDeMaos();
       if (sessao !== atual) return;
       alternar.textContent = "Desligar câmera";
       alternar.disabled = false;
-      estado.textContent = "Câmera ativa. Mostre uma letra com uma mão.";
       const atualizar = (instante) => {
         if (sessao !== atual) return;
         try {
-          if (instante - atual.instante >= 120 && video.readyState >= 2 && video.currentTime !== atual.ultimoQuadro) {
+          if (instante - atual.instante >= 66 && video.readyState >= 2 && video.currentTime !== atual.ultimoQuadro) {
             atual.instante = instante;
             atual.ultimoQuadro = video.currentTime;
-            processar(atual, reconhecer(video, instante));
+            const resultado = detectar(video, instante);
+            // Algumas versões da API Web agrupam landmarks em um array de pessoas.
+            for (const campo of ["leftHandLandmarks", "rightHandLandmarks", "poseLandmarks", "faceLandmarks"]) {
+              if (Array.isArray(resultado[campo]?.[0])) resultado[campo] = resultado[campo][0];
+            }
+            const maos = [resultado.leftHandLandmarks, resultado.rightHandLandmarks].filter((mao) => mao?.length);
+            desenharMaos(desenho, maos, resultado.poseLandmarks);
+            detectadas.hidden = maos.length === 0;
+            if (maos.length) detectadas.textContent = `${maos.length} ${maos.length === 1 ? "mão localizada" : "mãos localizadas"}`;
+            estado.textContent = maos.length
+              ? (temModelo?.() ? "Acompanhando seus movimentos." : "Rastreamento ativo. A tradução automática ainda está em validação.")
+              : "Enquadre rosto, tronco e mãos, com boa iluminação.";
+            aoDetectar?.(resultado, instante, video.videoWidth / video.videoHeight);
           }
           atual.animacao = requestAnimationFrame(atualizar);
         } catch (erro) {
-          console.error(erro);
+          console.warn("Falha no rastreamento das mãos:", erro?.name, erro?.message);
           parar("A leitura da câmera falhou. Desligue e tente ligar novamente.");
         }
       };
       atual.animacao = requestAnimationFrame(atualizar);
     } catch (erro) {
       if (sessao !== atual) return;
-      const mensagem = {
-        NotAllowedError: "Acesso à câmera indisponível. Tente abrir em uma aba e confira a permissão no Chrome.",
-        NotFoundError: "Nenhuma câmera foi encontrada.",
-        NotReadableError: "A câmera está ocupada ou indisponível. Feche outro app que esteja usando a câmera e tente novamente.",
-      }[erro.name];
-      console.error(erro);
-      parar(mensagem ?? "Falha ao iniciar o reconhecedor. Recarregue a extensão e tente novamente.");
+      const mensagem = etapa === "modelo"
+        ? "O detector de mãos não carregou. Recarregue a extensão e tente novamente."
+        : {
+          NotAllowedError: "O Chrome bloqueou a câmera. Abra em aba, clique em Ligar câmera e permita o acesso quando solicitado.",
+          SecurityError: "O Chrome bloqueou a câmera nesta janela. Abra o tradutor em uma aba.",
+          NotFoundError: "Nenhuma câmera foi encontrada neste computador.",
+          NotReadableError: "A câmera está ocupada. Feche outro app que esteja usando a câmera e tente novamente.",
+          OverconstrainedError: "A câmera não atende à configuração solicitada. Tente outra câmera.",
+          AbortError: "A câmera foi interrompida. Tente ligar novamente.",
+        }[erro?.name] ?? "Não foi possível iniciar a câmera. Abra o tradutor em uma aba e tente novamente.";
+      if (erro?.name !== "NotAllowedError" && erro?.name !== "SecurityError") {
+        console.warn("Falha ao iniciar câmera:", etapa, erro?.name, erro?.message);
+      }
+      parar(mensagem);
     }
   }
 
-  function processar(atual, resultado) {
-    const confiavel = resultado?.confianca >= 0.65 && resultado.margem >= 0.12;
-    letraAtual.hidden = !confiavel;
-    if (!confiavel) {
-      atual.candidata = null;
-      atual.leituras = 0;
-      atual.semMao = resultado ? 0 : atual.semMao + 1;
-      if (atual.semMao >= 3) atual.confirmada = null;
-      return;
+  alternar.addEventListener("click", () => {
+    if (sessao) parar();
+    else {
+      prepararVoz?.();
+      ligar();
     }
-    atual.semMao = 0;
-    letraAtual.textContent = resultado.letra;
-    atual.leituras = atual.candidata === resultado.letra ? atual.leituras + 1 : 1;
-    atual.candidata = resultado.letra;
-    if (atual.leituras === 4 && atual.confirmada !== resultado.letra) {
-      acrescentar(resultado.letra);
-      atual.confirmada = resultado.letra;
-      estado.textContent = `Letra ${resultado.letra} adicionada.`;
-    }
-  }
-
-  function acrescentar(caractere) {
-    if (texto.value.length < texto.maxLength) texto.value += caractere;
-  }
-
-  alternar.addEventListener("click", () => sessao ? parar() : ligar());
-  document.querySelector("#adicionar-espaco").addEventListener("click", () => {
-    if (texto.value && !texto.value.endsWith(" ")) acrescentar(" ");
-  });
-  document.querySelector("#apagar-letra").addEventListener("click", () => {
-    texto.value = texto.value.slice(0, -1);
-  });
-  document.querySelector("#limpar-camera").addEventListener("click", () => {
-    texto.value = "";
   });
 
   return parar;

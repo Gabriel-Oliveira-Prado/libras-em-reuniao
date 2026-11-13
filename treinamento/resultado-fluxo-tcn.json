@@ -1,0 +1,423 @@
+{
+  "resumo": {
+    "conhecidos": 40,
+    "corretos": 20,
+    "sem_fala": 20,
+    "falas_erradas_ou_repetidas": 0,
+    "desconhecidos": 18,
+    "desconhecidos_com_fala": 0
+  },
+  "resultados": [
+    {
+      "arquivo": "01AcontecerSinalizador12-1.mp4",
+      "esperado": "Acontecer",
+      "falas": [
+        {
+          "palavra": "Acontecer",
+          "confianca": 0.9748181640415099,
+          "instante_ms": 3474.63768115942
+        }
+      ]
+    },
+    {
+      "arquivo": "01AcontecerSinalizador12-2.mp4",
+      "esperado": "Acontecer",
+      "falas": [
+        {
+          "palavra": "Acontecer",
+          "confianca": 0.9661281359132979,
+          "instante_ms": 3074.7967479674803
+        }
+      ]
+    },
+    {
+      "arquivo": "02AlunoSinalizador12-1.mp4",
+      "esperado": "Aluno",
+      "falas": []
+    },
+    {
+      "arquivo": "02AlunoSinalizador12-2.mp4",
+      "esperado": "Aluno",
+      "falas": []
+    },
+    {
+      "arquivo": "03AmareloSinalizador12-1.mp4",
+      "esperado": "Amarelo",
+      "falas": [
+        {
+          "palavra": "Amarelo",
+          "confianca": 0.9898224164156756,
+          "instante_ms": 4378.743961352658
+        }
+      ]
+    },
+    {
+      "arquivo": "03AmareloSinalizador12-2.mp4",
+      "esperado": "Amarelo",
+      "falas": [
+        {
+          "palavra": "Amarelo",
+          "confianca": 0.9903513965200952,
+          "instante_ms": 4074.0506329113923
+        }
+      ]
+    },
+    {
+      "arquivo": "04AmericaSinalizador12-1.mp4",
+      "esperado": "America",
+      "falas": [
+        {
+          "palavra": "America",
+          "confianca": 0.9735768515183841,
+          "instante_ms": 5071.348314606741
+        }
+      ]
+    },
+    {
+      "arquivo": "04AmericaSinalizador12-2.mp4",
+      "esperado": "America",
+      "falas": [
+        {
+          "palavra": "America",
+          "confianca": 0.9504045657834855,
+          "instante_ms": 4373.809523809524
+        }
+      ]
+    },
+    {
+      "arquivo": "05AproveitarSinalizador12-1.mp4",
+      "esperado": "Aproveitar",
+      "falas": []
+    },
+    {
+      "arquivo": "05AproveitarSinalizador12-2.mp4",
+      "esperado": "Aproveitar",
+      "falas": []
+    },
+    {
+      "arquivo": "06BalaSinalizador12-1.mp4",
+      "esperado": "Bala",
+      "falas": [
+        {
+          "palavra": "Bala",
+          "confianca": 0.962793408996666,
+          "instante_ms": 4373.809523809524
+        }
+      ]
+    },
+    {
+      "arquivo": "06BalaSinalizador12-2.mp4",
+      "esperado": "Bala",
+      "falas": [
+        {
+          "palavra": "Bala",
+          "confianca": 0.9683781006011668,
+          "instante_ms": 4375.280898876404
+        }
+      ]
+    },
+    {
+      "arquivo": "07BancoSinalizador12-1.mp4",
+      "esperado": "Banco",
+      "falas": [
+        {
+          "palavra": "Banco",
+          "confianca": 0.9780478514951364,
+          "instante_ms": 3875.1592356687897
+        }
+      ]
+    },
+    {
+      "arquivo": "07BancoSinalizador12-2.mp4",
+      "esperado": "Banco",
+      "falas": [
+        {
+          "palavra": "Banco",
+          "confianca": 0.9406239139454817,
+          "instante_ms": 5371.7277486911
+        }
+      ]
+    },
+    {
+      "arquivo": "08BanheiroSinalizador12-1.mp4",
+      "esperado": "Banheiro",
+      "falas": []
+    },
+    {
+      "arquivo": "08BanheiroSinalizador12-2.mp4",
+      "esperado": "Banheiro",
+      "falas": []
+    },
+    {
+      "arquivo": "09BarulhoSinalizador12-1.mp4",
+      "esperado": "Barulho",
+      "falas": []
+    },
+    {
+      "arquivo": "09BarulhoSinalizador12-2.mp4",
+      "esperado": "Barulho",
+      "falas": [
+        {
+          "palavra": "Barulho",
+          "confianca": 0.8844791927186376,
+          "instante_ms": 3278.5714285714284
+        }
+      ]
+    },
+    {
+      "arquivo": "10CincoSinalizador12-1.mp4",
+      "esperado": "Cinco",
+      "falas": []
+    },
+    {
+      "arquivo": "10CincoSinalizador12-2.mp4",
+      "esperado": "Cinco",
+      "falas": []
+    },
+    {
+      "arquivo": "11ConhecerSinalizador12-1.mp4",
+      "esperado": "Conhecer",
+      "falas": [
+        {
+          "palavra": "Conhecer",
+          "confianca": 0.9822847938106303,
+          "instante_ms": 4274.096385542169
+        }
+      ]
+    },
+    {
+      "arquivo": "11ConhecerSinalizador12-2.mp4",
+      "esperado": "Conhecer",
+      "falas": [
+        {
+          "palavra": "Conhecer",
+          "confianca": 0.9543982006048803,
+          "instante_ms": 4673.743016759777
+        }
+      ]
+    },
+    {
+      "arquivo": "12EspelhoSinalizador12-1.mp4",
+      "esperado": "Espelho",
+      "falas": [
+        {
+          "palavra": "Espelho",
+          "confianca": 0.894161098534086,
+          "instante_ms": 3874.1721854304637
+        }
+      ]
+    },
+    {
+      "arquivo": "12EspelhoSinalizador12-2.mp4",
+      "esperado": "Espelho",
+      "falas": [
+        {
+          "palavra": "Espelho",
+          "confianca": 0.8859297513247582,
+          "instante_ms": 5572.139303482587
+        }
+      ]
+    },
+    {
+      "arquivo": "13EsquinaSinalizador12-1.mp4",
+      "esperado": "Esquina",
+      "falas": []
+    },
+    {
+      "arquivo": "13EsquinaSinalizador12-2.mp4",
+      "esperado": "Esquina",
+      "falas": []
+    },
+    {
+      "arquivo": "14FilhoSinalizador12-1.mp4",
+      "esperado": "Filho",
+      "falas": []
+    },
+    {
+      "arquivo": "14FilhoSinalizador12-2.mp4",
+      "esperado": "Filho",
+      "falas": []
+    },
+    {
+      "arquivo": "15MacaSinalizador12-1.mp4",
+      "esperado": "Maca",
+      "falas": []
+    },
+    {
+      "arquivo": "15MacaSinalizador12-2.mp4",
+      "esperado": "Maca",
+      "falas": []
+    },
+    {
+      "arquivo": "16MedoSinalizador12-1.mp4",
+      "esperado": "Medo",
+      "falas": []
+    },
+    {
+      "arquivo": "16MedoSinalizador12-2.mp4",
+      "esperado": "Medo",
+      "falas": []
+    },
+    {
+      "arquivo": "17RuimSinalizador12-1.mp4",
+      "esperado": "Ruim",
+      "falas": []
+    },
+    {
+      "arquivo": "17RuimSinalizador12-2.mp4",
+      "esperado": "Ruim",
+      "falas": []
+    },
+    {
+      "arquivo": "18SapoSinalizador12-1.mp4",
+      "esperado": "Sapo",
+      "falas": []
+    },
+    {
+      "arquivo": "18SapoSinalizador12-2.mp4",
+      "esperado": "Sapo",
+      "falas": [
+        {
+          "palavra": "Sapo",
+          "confianca": 0.9764907425445054,
+          "instante_ms": 5272.820512820513
+        }
+      ]
+    },
+    {
+      "arquivo": "19VacinaSinalizador12-1.mp4",
+      "esperado": "Vacina",
+      "falas": [
+        {
+          "palavra": "Vacina",
+          "confianca": 0.9297785252076756,
+          "instante_ms": 3078.014184397163
+        }
+      ]
+    },
+    {
+      "arquivo": "19VacinaSinalizador12-2.mp4",
+      "esperado": "Vacina",
+      "falas": [
+        {
+          "palavra": "Vacina",
+          "confianca": 0.9405107338403332,
+          "instante_ms": 3473.076923076923
+        }
+      ]
+    },
+    {
+      "arquivo": "20VontadeSinalizador12-1.mp4",
+      "esperado": "Vontade",
+      "falas": [
+        {
+          "palavra": "Vontade",
+          "confianca": 0.9180937854737857,
+          "instante_ms": 3179.746835443038
+        }
+      ]
+    },
+    {
+      "arquivo": "20VontadeSinalizador12-2.mp4",
+      "esperado": "Vontade",
+      "falas": [
+        {
+          "palavra": "Vontade",
+          "confianca": 0.9206772117097907,
+          "instante_ms": 3475.5244755244753
+        }
+      ]
+    },
+    {
+      "arquivo": "Ajudar_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Ajudar_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Ajudar_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Desculpa_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Desculpa_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Desculpa_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Não_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Não_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Não_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Obrigado_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Obrigado_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Obrigado_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Por favor_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Por favor_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Por favor_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Sim_Articulador1.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Sim_Articulador2.mp4",
+      "esperado": null,
+      "falas": []
+    },
+    {
+      "arquivo": "Sim_Articulador3.mp4",
+      "esperado": null,
+      "falas": []
+    }
+  ],
+  "limites": "Simula a segmentação real sobre landmarks dos vídeos, com 1 s neutro ao final. Não mede câmera do usuário, voz ou Meet. Sem ajuste posterior nos resultados."
+}

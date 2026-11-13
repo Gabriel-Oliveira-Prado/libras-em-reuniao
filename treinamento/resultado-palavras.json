@@ -1,0 +1,164 @@
+{
+  "metodo": "DTW sobre sequências MediaPipe de duas mãos; 24 passos por vídeo",
+  "fonte": "https://huggingface.co/datasets/ibmectech/v-librasil-raw",
+  "protocolo": "Cada teste usa uma pessoa não vista; as outras duas pessoas compõem o treino. Sem ajuste de limiar nos testes.",
+  "classes": [
+    "Ajudar",
+    "Desculpa",
+    "Não",
+    "Obrigado",
+    "Por favor",
+    "Sim"
+  ],
+  "videos": 18,
+  "acertos": 9,
+  "acuracia": 0.5,
+  "habilitado_na_extensao": false,
+  "limitacao": "Amostra pequena de sinais isolados. Não avalia conversas, sinais desconhecidos nem câmera do usuário.",
+  "resultados": [
+    {
+      "esperado": "Ajudar",
+      "previsto": "Por favor",
+      "ator_teste": 1,
+      "distancia": 0.010710172494583637,
+      "margem": 0.3088532891447473,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Ajudar",
+      "previsto": "Desculpa",
+      "ator_teste": 2,
+      "distancia": 0.01241450929370114,
+      "margem": 0.19873347660312024,
+      "deteccao_maos": 0.9896907216494846
+    },
+    {
+      "esperado": "Ajudar",
+      "previsto": "Por favor",
+      "ator_teste": 3,
+      "distancia": 0.013252997844931872,
+      "margem": 0.2398934202912988,
+      "deteccao_maos": 0.8723404255319149
+    },
+    {
+      "esperado": "Desculpa",
+      "previsto": "Não",
+      "ator_teste": 1,
+      "distancia": 0.004641703772149501,
+      "margem": 0.44898096979480884,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Desculpa",
+      "previsto": "Obrigado",
+      "ator_teste": 2,
+      "distancia": 0.012274233441900574,
+      "margem": 0.05783763210361359,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Desculpa",
+      "previsto": "Desculpa",
+      "ator_teste": 3,
+      "distancia": 0.013150502997868331,
+      "margem": 0.0013334799686203214,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Não",
+      "previsto": "Não",
+      "ator_teste": 1,
+      "distancia": 0.006204621420200742,
+      "margem": 0.48806511933131314,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Não",
+      "previsto": "Desculpa",
+      "ator_teste": 2,
+      "distancia": 0.004641703772149501,
+      "margem": 0.2958545639931667,
+      "deteccao_maos": 0.9285714285714286
+    },
+    {
+      "esperado": "Não",
+      "previsto": "Não",
+      "ator_teste": 3,
+      "distancia": 0.006204621420200742,
+      "margem": 0.5612996857937875,
+      "deteccao_maos": 0.984375
+    },
+    {
+      "esperado": "Obrigado",
+      "previsto": "Obrigado",
+      "ator_teste": 1,
+      "distancia": 0.004734525433492888,
+      "margem": 0.6142711920949271,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Obrigado",
+      "previsto": "Obrigado",
+      "ator_teste": 2,
+      "distancia": 0.004734525433492888,
+      "margem": 0.7204142228517254,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Obrigado",
+      "previsto": "Obrigado",
+      "ator_teste": 3,
+      "distancia": 0.008041185112047142,
+      "margem": 0.3416591086440609,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Por favor",
+      "previsto": "Obrigado",
+      "ator_teste": 1,
+      "distancia": 0.01221431817106981,
+      "margem": 0.07837318665672821,
+      "deteccao_maos": 0.9019607843137255
+    },
+    {
+      "esperado": "Por favor",
+      "previsto": "Desculpa",
+      "ator_teste": 2,
+      "distancia": 0.008423853837536247,
+      "margem": 0.2134716932153642,
+      "deteccao_maos": 0.8947368421052632
+    },
+    {
+      "esperado": "Por favor",
+      "previsto": "Por favor",
+      "ator_teste": 3,
+      "distancia": 0.013457167292667575,
+      "margem": 0.12501819265986502,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Sim",
+      "previsto": "Sim",
+      "ator_teste": 1,
+      "distancia": 0.004916382616462261,
+      "margem": 0.2541858440393092,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Sim",
+      "previsto": "Sim",
+      "ator_teste": 2,
+      "distancia": 0.004916382616462261,
+      "margem": 0.5036542382637584,
+      "deteccao_maos": 1.0
+    },
+    {
+      "esperado": "Sim",
+      "previsto": "Não",
+      "ator_teste": 3,
+      "distancia": 0.012119942700712824,
+      "margem": 0.05702691154867345,
+      "deteccao_maos": 1.0
+    }
+  ]
+}

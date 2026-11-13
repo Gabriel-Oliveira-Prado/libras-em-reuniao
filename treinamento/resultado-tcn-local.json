@@ -1,0 +1,206 @@
+{
+  "torch": "2.15.0+cpu",
+  "python": "3.12.10",
+  "dispositivo": "CPU",
+  "threads": 4,
+  "parametros": 13766,
+  "entrada": "24 passos x 132 atributos das duas mãos, previamente extraídos com MediaPipe",
+  "tempo_total_segundos": 0.91,
+  "pico_memoria_processo_mb": 285.3,
+  "inferencia_mediana_ms": 0.209,
+  "inferencia_p95_ms": 0.379,
+  "acertos": 9,
+  "videos": 18,
+  "habilitado_na_extensao": false,
+  "limites": [
+    "Tempos excluem câmera, extração MediaPipe, espera pelo movimento, navegador e síntese de voz.",
+    "Usa apenas mãos; não mede o pipeline Holistic completo com corpo e rosto.",
+    "18 vídeos / 6 classes são insuficientes para validar conversação ou vocabulário amplo.",
+    "Avaliação exploratória: estas pessoas já foram usadas no experimento DTW anterior; não constitui teste final independente.",
+    "Nenhum hiperparâmetro foi selecionado com base nestes resultados."
+  ],
+  "resultados": [
+    {
+      "pessoa_teste": 1,
+      "treino_segundos": 0.301,
+      "epocas": 120,
+      "videos_treino": 12,
+      "acertos_treino": 12,
+      "videos_teste": 6,
+      "acertos_teste": 3,
+      "perda_final_treino": 0.0011136175598949194,
+      "previsoes": [
+        {
+          "esperado": "Ajudar",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Desculpa",
+          "previsto": "Não"
+        },
+        {
+          "esperado": "Não",
+          "previsto": "Não"
+        },
+        {
+          "esperado": "Obrigado",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Por favor",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Sim",
+          "previsto": "Sim"
+        }
+      ]
+    },
+    {
+      "pessoa_teste": 2,
+      "treino_segundos": 0.261,
+      "epocas": 120,
+      "videos_treino": 12,
+      "acertos_treino": 12,
+      "videos_teste": 6,
+      "acertos_teste": 3,
+      "perda_final_treino": 0.000837061321362853,
+      "previsoes": [
+        {
+          "esperado": "Ajudar",
+          "previsto": "Ajudar"
+        },
+        {
+          "esperado": "Desculpa",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Não",
+          "previsto": "Desculpa"
+        },
+        {
+          "esperado": "Obrigado",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Por favor",
+          "previsto": "Desculpa"
+        },
+        {
+          "esperado": "Sim",
+          "previsto": "Sim"
+        }
+      ]
+    },
+    {
+      "pessoa_teste": 3,
+      "treino_segundos": 0.282,
+      "epocas": 120,
+      "videos_treino": 12,
+      "acertos_treino": 12,
+      "videos_teste": 6,
+      "acertos_teste": 3,
+      "perda_final_treino": 0.0006939912564121187,
+      "previsoes": [
+        {
+          "esperado": "Ajudar",
+          "previsto": "Por favor"
+        },
+        {
+          "esperado": "Desculpa",
+          "previsto": "Por favor"
+        },
+        {
+          "esperado": "Não",
+          "previsto": "Não"
+        },
+        {
+          "esperado": "Obrigado",
+          "previsto": "Obrigado"
+        },
+        {
+          "esperado": "Por favor",
+          "previsto": "Por favor"
+        },
+        {
+          "esperado": "Sim",
+          "previsto": "Não"
+        }
+      ]
+    }
+  ],
+  "dados": [
+    {
+      "arquivo": "Ajudar_Articulador1.maos-v1.npz",
+      "sha256": "f0bc1e331efe3e140b9a39935b85614ab49b1b2e7a494645709dd23772608d2f"
+    },
+    {
+      "arquivo": "Ajudar_Articulador2.maos-v1.npz",
+      "sha256": "56e37ac44a4ff0805b6ba9a5e148a46c1844a8662d4905f72ed4930844b00685"
+    },
+    {
+      "arquivo": "Ajudar_Articulador3.maos-v1.npz",
+      "sha256": "2e7cb2c5b98e997d66aaca409c9417e324340dcfb31046d976cf7ee3d991b1b5"
+    },
+    {
+      "arquivo": "Desculpa_Articulador1.maos-v1.npz",
+      "sha256": "fdcd026a717c1e9f2bd0faaf0fe1b75c25372dd6ac9b7d57d277d18bf324d2df"
+    },
+    {
+      "arquivo": "Desculpa_Articulador2.maos-v1.npz",
+      "sha256": "a183b47d1b771eb314b8ca48df8f5242de15b8027b5899adcbe4a4f8dcc15825"
+    },
+    {
+      "arquivo": "Desculpa_Articulador3.maos-v1.npz",
+      "sha256": "d2ac6cf49f11f7a50144edcf2229caed0e3aa511ada5f056c9a6f710611c7228"
+    },
+    {
+      "arquivo": "Não_Articulador1.maos-v1.npz",
+      "sha256": "b8ed5dbf276fdcd53c0e94fcbd165ecb8067272b34534f426c6f16471d532d49"
+    },
+    {
+      "arquivo": "Não_Articulador2.maos-v1.npz",
+      "sha256": "90a3001118b2100c07f58628020acaa3e2cfd4e228c1346be3da395bdd82bed1"
+    },
+    {
+      "arquivo": "Não_Articulador3.maos-v1.npz",
+      "sha256": "31e982c429f9850f44af723f53a79faea5a2c75ebfcfcbee09c7dda717cc251a"
+    },
+    {
+      "arquivo": "Obrigado_Articulador1.maos-v1.npz",
+      "sha256": "97783af3edbae92ccbe95813d08fdb21c76d50aebdd477b6f2b3c2fbb5393d64"
+    },
+    {
+      "arquivo": "Obrigado_Articulador2.maos-v1.npz",
+      "sha256": "71c8de6a64b3d0834ef71efd942ae96e9378fabdb9b7bd56362822ed1f9f82a7"
+    },
+    {
+      "arquivo": "Obrigado_Articulador3.maos-v1.npz",
+      "sha256": "0c085a1cbf1c0377417cd87a52718bcb82531e29cb0c3167487649d3533ff08a"
+    },
+    {
+      "arquivo": "Por favor_Articulador1.maos-v1.npz",
+      "sha256": "69e943ee3170857decea023dbe4f54e80adb68fe2279359212f64210df627c4e"
+    },
+    {
+      "arquivo": "Por favor_Articulador2.maos-v1.npz",
+      "sha256": "9a3a43889a555791c2e77a6a1f7ec85cc48e0b39b90e1bd00fccd5f37fb1c4ec"
+    },
+    {
+      "arquivo": "Por favor_Articulador3.maos-v1.npz",
+      "sha256": "d2ff0f2648a7902f8bb71f5d588f53e0be64a22ea1539fd18b97c66fa36ccad8"
+    },
+    {
+      "arquivo": "Sim_Articulador1.maos-v1.npz",
+      "sha256": "9b15316ac6f7ff166173de6cb5c0294ba7831e820c17f65b913bf18cff69aa7a"
+    },
+    {
+      "arquivo": "Sim_Articulador2.maos-v1.npz",
+      "sha256": "45fd234bf6c9f1b92f3c9d3356dbdc9bd49f9039b69435432805c3985272330f"
+    },
+    {
+      "arquivo": "Sim_Articulador3.maos-v1.npz",
+      "sha256": "24c699b42f1edac1bd6042ece6ce6a1d3d91ec5ad9e2decdc30f0a851d206218"
+    }
+  ]
+}

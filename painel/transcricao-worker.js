@@ -12,17 +12,21 @@ env.backends.onnx.wasm.wasmPaths = {
 };
 
 let modelo;
-self.onmessage = async ({ data: { id, amostras } }) => {
+self.onmessage = async ({ data: { tipo, id, amostras } }) => {
   try {
     modelo ??= pipeline("automatic-speech-recognition", "whisper-tiny", { device: "wasm", dtype: "q8" });
     const transcrever = await modelo;
-    self.postMessage({ id, tipo: "pronto" });
+    if (tipo === "carregar") {
+      self.postMessage({ tipo: "carregado" });
+      return;
+    }
+    const inicio = performance.now();
     const resultado = await transcrever(amostras, {
       language: "portuguese",
       task: "transcribe",
       max_new_tokens: 96,
     });
-    self.postMessage({ id, tipo: "texto", texto: resultado.text.trim() });
+    self.postMessage({ id, tipo: "texto", texto: resultado.text.trim(), inferenciaMs: performance.now() - inicio });
   } catch (erro) {
     modelo = undefined;
     self.postMessage({ id, tipo: "erro", erro: String(erro) });

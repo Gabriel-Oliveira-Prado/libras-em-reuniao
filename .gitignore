@@ -1,1 +1,3 @@
 .vs/
+tests/fixtures/
+__pycache__/

@@ -1,0 +1,16 @@
+{
+  "backend": "ONNX CPU Node (não mede Chrome)",
+  "ruido_segundos": 10,
+  "transcricoes_ruido": 0,
+  "frases": [
+    {
+      "segundos": 2.24,
+      "texto": "Bom dia, tudo bem."
+    },
+    {
+      "segundos": 2.176,
+      "texto": "Eu preciso de ajuda."
+    }
+  ],
+  "limites": "Áudio sintetizado e ruído artificial. Não avalia microfone real nem separação entre pessoas."
+}

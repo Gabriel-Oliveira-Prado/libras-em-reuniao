@@ -10,63 +10,86 @@
     <main>
       <header class="marca">
         <img src="../assets/logo.svg" alt="" width="44" height="44">
-        <h1>Libras em Reunião</h1>
+        <div>
+          <h1>Libras em Reunião</h1>
+          <p class="subtitulo">Comunicação no Meet, um passo de cada vez</p>
+        </div>
         <a class="abrir-aba" href="./index.html" target="_blank" rel="noopener">Abrir em aba</a>
       </header>
       <nav class="modos" aria-label="Sentido da tradução">
-        <button type="button" aria-controls="modo-camera" aria-pressed="true">Libras para voz</button>
-        <button type="button" aria-controls="modo-fala" aria-pressed="false">Voz para Libras</button>
+        <button type="button" aria-controls="modo-camera" aria-pressed="true">Sinais → voz</button>
+        <button type="button" aria-controls="modo-fala" aria-pressed="false">Voz → Libras</button>
       </nav>
-      <section id="modo-camera" aria-labelledby="titulo-camera">
-        <h2 id="titulo-camera">Soletração pela câmera</h2>
-        <p>Mostre uma letra com a mão e mantenha a posição até ela entrar no texto. Para repetir a mesma letra, retire a mão do quadro primeiro.</p>
-        <div class="quadro-camera">
-          <video id="camera" aria-label="Prévia da câmera" autoplay muted playsinline hidden></video>
-          <span id="camera-inativa">Câmera desligada</span>
-          <span id="letra-atual" aria-label="Letra detectada" hidden></span>
-        </div>
+      <section class="interprete" id="interprete" aria-label="Intérprete de Libras" hidden>
+        <div id="avatar" class="quadro-avatar"></div>
+        <p id="estado-vlibras" role="status">Carregando o intérprete…</p>
         <div class="acoes">
-          <button type="button" id="alternar-camera">Ligar câmera</button>
-          <button type="button" id="adicionar-espaco" class="secundario">Espaço</button>
-          <button type="button" id="apagar-letra" class="secundario">Apagar letra</button>
+          <button type="button" id="repetir" class="secundario" disabled>Repetir sinalização</button>
+          <button type="button" id="tentar-avatar" class="secundario" hidden>Tentar novamente</button>
         </div>
-        <p id="estado-camera" role="status"></p>
-        <details>
-          <summary>Letras disponíveis</summary>
-          <p>A, B, C, D, E, F, G, I, K, L, M, N, O, P, Q, R, S, T, U, V e W. O modelo reconhece as formas de mão que aprendeu para essas letras.</p>
-        </details>
-        <label for="texto-camera">Texto para falar</label>
-        <textarea id="texto-camera" rows="3" maxlength="500" placeholder="As letras aparecem aqui. Você também pode corrigir o texto."></textarea>
-        <div class="acoes">
-          <button type="button" id="falar">Falar em português</button>
-          <button type="button" id="limpar-camera" class="secundario">Limpar</button>
-        </div>
-        <p id="estado-voz" role="status"></p>
-        <p class="privacidade">Para os outros ouvirem no Meet, abra o tradutor em uma aba e apresente essa aba com o áudio ativado.</p>
-      </section>
-      <section id="modo-fala" aria-labelledby="titulo-fala" hidden>
-        <h2 id="titulo-fala">Fala em português</h2>
-        <p>Use o microfone ou selecione a guia da reunião. Para ouvir a reunião, marque <strong>Compartilhar áudio da guia</strong> na janela do Chrome.</p>
-        <div class="acoes">
-          <button type="button" id="ouvir-microfone">Usar microfone</button>
-          <button type="button" id="ouvir-guia" class="secundario">Ouvir guia</button>
-          <button type="button" id="parar-fala" class="secundario" hidden>Transcrever trecho</button>
-        </div>
-        <p id="estado-fala" role="status"></p>
-        <label for="texto-fala">Texto em português</label>
-        <textarea id="texto-fala" rows="4" maxlength="500" placeholder="Fale, digite ou cole uma frase curta."></textarea>
-        <div class="acoes">
-          <button type="button" id="traduzir">Mostrar em Libras</button>
-          <button type="button" id="repetir" class="secundario" disabled>Repetir</button>
-          <button type="button" id="limpar-fala" class="secundario">Limpar</button>
-        </div>
-        <p class="privacidade">A transcrição roda no computador. Ao pedir a tradução, apenas o texto é enviado ao VLibras.</p>
-        <p id="estado-vlibras" role="status"></p>
-        <div id="avatar" class="quadro-avatar" hidden></div>
         <details id="glosa" hidden>
           <summary>Ver glosa do VLibras</summary>
           <p id="texto-glosa"></p>
         </details>
+      </section>
+      <section id="modo-camera" aria-labelledby="titulo-camera">
+        <h2 id="titulo-camera">Sinalize e ouça</h2>
+        <p class="instrucao">Enquadre rosto, tronco e mãos. Faça um sinal e abaixe as mãos por um instante. Quando reconhecido, ele aparece na legenda e é falado automaticamente.</p>
+        <div class="quadro-camera">
+          <video id="camera" aria-label="Prévia da câmera" autoplay muted playsinline hidden></video>
+          <canvas id="desenho-maos" aria-hidden="true" hidden></canvas>
+          <span id="camera-inativa">Câmera desligada</span>
+          <span id="maos-detectadas" hidden></span>
+          <span id="sinal-atual" hidden></span>
+          <span id="legenda-camera" aria-live="polite">Aguardando a câmera</span>
+        </div>
+        <div class="acoes">
+          <button type="button" id="alternar-camera">Ligar câmera</button>
+          <button type="button" id="testar-som" class="secundario">Testar som</button>
+        </div>
+        <p id="estado-camera" role="status"></p>
+        <p id="estado-modelo" role="status">Preparando o reconhecimento…</p>
+        <details class="ajuda">
+          <summary>Quais sinais estão disponíveis?</summary>
+          <p>Acontecer, aluno, amarelo, América, aproveitar, bala, banco, banheiro, barulho, cinco, conhecer, espelho, esquina, filho, maçã, medo, ruim, sapo, vacina e vontade.</p>
+          <p>“Oi” ainda está em treinamento e não está habilitado. Use Testar som para conferir a voz sem depender do reconhecimento.</p>
+          <p>Outros sinais ainda podem não ser reconhecidos ou ser confundidos. Não há censura de palavras: este vocabulário é o que o modelo foi treinado para reconhecer.</p>
+        </details>
+        <label for="texto-camera">Mensagem em português</label>
+        <textarea id="texto-camera" rows="3" maxlength="500" placeholder="O sinal reconhecido aparece aqui. Você também pode digitar e falar."></textarea>
+        <div class="acoes">
+          <button type="button" id="falar">Falar mensagem</button>
+          <button type="button" id="limpar-camera" class="secundario">Limpar</button>
+        </div>
+        <p id="estado-voz" role="status"></p>
+        <details class="ajuda">
+          <summary>Como compartilhar o áudio no Meet</summary>
+          <p>Para os outros ouvirem, abra o tradutor em uma aba e apresente essa aba no Meet com o áudio da guia ativado.</p>
+        </details>
+      </section>
+      <section id="modo-fala" aria-labelledby="titulo-fala" hidden>
+        <h2 id="titulo-fala">Ouvir e mostrar em Libras</h2>
+        <p class="instrucao">Ligue o microfone e fale perto dele. O texto aparece e o avatar sinaliza a cada pequena pausa. A redução de ruído ajuda com sons do ambiente, mas pode captar outras pessoas falando.</p>
+        <label for="tipo-escuta">Transcrição do microfone</label>
+        <select id="tipo-escuta" aria-describedby="privacidade-escuta">
+          <option value="local" selected>Local — áudio neste computador</option>
+          <option value="rapida">Resposta rápida — serviço de voz do Chrome</option>
+        </select>
+        <p id="privacidade-escuta" class="privacidade">Resposta rápida pode enviar áudio ao serviço de voz do Chrome e depende de internet. Local usa o Whisper no computador. Ouvir guia sempre usa Local.</p>
+        <div class="acoes">
+          <button type="button" id="ouvir-microfone">Ligar microfone</button>
+          <button type="button" id="ouvir-guia" class="secundario">Ouvir guia</button>
+          <button type="button" id="parar-fala" class="secundario" hidden>Parar escuta</button>
+        </div>
+        <p id="estado-fala" role="status"></p>
+        <p id="fala-parcial" role="status" hidden></p>
+        <label for="texto-fala">Últimas falas em português</label>
+        <textarea id="texto-fala" rows="4" maxlength="500" placeholder="Fale, digite ou cole uma frase curta."></textarea>
+        <div class="acoes">
+          <button type="button" id="traduzir">Sinalizar texto editado</button>
+          <button type="button" id="limpar-fala" class="secundario">Limpar</button>
+        </div>
+        <p class="privacidade">Enquanto a escuta estiver ligada, cada trecho de texto confirmado é enviado automaticamente ao VLibras. O avatar precisa de tempo para traduzir, carregar e executar os sinais. Ao ouvir a reunião, marque “Compartilhar áudio da guia”.</p>
       </section>
     </main>
     <script type="module" src="./painel.js"></script>

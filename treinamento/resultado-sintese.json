@@ -1,0 +1,28 @@
+{
+  "motor": "Spellophone/eSpeak WASM distribuído com a extensão",
+  "carregamento_ms": 75.4268,
+  "resultados": [
+    {
+      "texto": "Oi",
+      "sampleRate": 22050,
+      "segundos": 0.233015873015873,
+      "rms": 0.1224141731378746,
+      "sintese_ms": 5.282799999999995
+    },
+    {
+      "texto": "Oi. O som do tradutor está funcionando.",
+      "sampleRate": 22050,
+      "segundos": 2.7118367346938776,
+      "rms": 0.09182430407634762,
+      "sintese_ms": 6.017399999999995
+    },
+    {
+      "texto": "merda",
+      "sampleRate": 22050,
+      "segundos": 0.40258503401360546,
+      "rms": 0.07821280459776282,
+      "sintese_ms": 1.417900000000003
+    }
+  ],
+  "limites": "Executado no Node. Valida a síntese de áudio, não o volume, a política de autoplay do Chrome ou o áudio compartilhado no Meet."
+}

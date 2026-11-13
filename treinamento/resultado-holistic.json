@@ -1,0 +1,1712 @@
+{
+  "origem": "https://zenodo.org/records/2667329",
+  "espelho": "ibmectech/minds-libras-raw",
+  "revisao": "a881a5a4330ec8b00bf6c80618f02fc66345f379",
+  "protocolo": "Pessoas 01,02,05,06,08,10: treino; 11: validação/escolha de época; 12: teste uma única vez.",
+  "videos": 320,
+  "classes": [
+    "Sem sinal",
+    "Acontecer",
+    "Aluno",
+    "Amarelo",
+    "America",
+    "Aproveitar",
+    "Bala",
+    "Banco",
+    "Banheiro",
+    "Barulho",
+    "Cinco",
+    "Conhecer",
+    "Espelho",
+    "Esquina",
+    "Filho",
+    "Maca",
+    "Medo",
+    "Ruim",
+    "Sapo",
+    "Vacina",
+    "Vontade"
+  ],
+  "parametros": 39861,
+  "melhor_epoca": 202,
+  "segundos": 34.27,
+  "pico_memoria_mb": 351.2,
+  "inferencia_mediana_ms": 0.5530999042093754,
+  "holistic_mediana_ms": 39.082499919459224,
+  "holistic_p95_ms": 49.27337998524308,
+  "fala_automatica_habilitada": false,
+  "limites": [
+    "Sinais isolados e fundo controlado; não avalia conversas contínuas.",
+    "Uma única pessoa de teste; não mede a câmera do usuário nem todos os sinais desconhecidos.",
+    "Trechos de repouso não substituem validação com gestos cotidianos e sinais fora do vocabulário.",
+    "Não existe filtro de palavrões; a cobertura depende das classes presentes no treinamento."
+  ],
+  "resultados": {
+    "validacao": {
+      "exemplos": 111,
+      "sinais": 40,
+      "acertos_sinais": 40,
+      "repousos": 71,
+      "falsos_positivos_repouso": 0,
+      "falas_aceitas": 23,
+      "falas_corretas": 23,
+      "previsoes": [
+        {
+          "arquivo": "01AcontecerSinalizador11-1.mp4",
+          "esperado": "Acontecer",
+          "previsto": "Acontecer",
+          "confianca": 0.9526318907737732,
+          "aceito": true
+        },
+        {
+          "arquivo": "01AcontecerSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.9008765816688538,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8684743046760559,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador11-2.mp4",
+          "esperado": "Acontecer",
+          "previsto": "Acontecer",
+          "confianca": 0.9454535245895386,
+          "aceito": true
+        },
+        {
+          "arquivo": "01AcontecerSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8776194453239441,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8523266315460205,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-1.mp4",
+          "esperado": "Aluno",
+          "previsto": "Aluno",
+          "confianca": 0.6331987380981445,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8666797280311584,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8411529660224915,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-2.mp4",
+          "esperado": "Aluno",
+          "previsto": "Aluno",
+          "confianca": 0.5122153162956238,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8618401288986206,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8671702742576599,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-1.mp4",
+          "esperado": "Amarelo",
+          "previsto": "Amarelo",
+          "confianca": 0.9870326519012451,
+          "aceito": true
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8667699098587036,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7807400226593018,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-2.mp4",
+          "esperado": "Amarelo",
+          "previsto": "Amarelo",
+          "confianca": 0.9852973818778992,
+          "aceito": true
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8776482939720154,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8246399760246277,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador11-1.mp4",
+          "esperado": "America",
+          "previsto": "America",
+          "confianca": 0.9766501188278198,
+          "aceito": true
+        },
+        {
+          "arquivo": "04AmericaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.88211989402771,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador11-2.mp4",
+          "esperado": "America",
+          "previsto": "America",
+          "confianca": 0.9687402844429016,
+          "aceito": true
+        },
+        {
+          "arquivo": "04AmericaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.876722514629364,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8019916415214539,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-1.mp4",
+          "esperado": "Aproveitar",
+          "previsto": "Aproveitar",
+          "confianca": 0.20619149506092072,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8940560817718506,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7876566648483276,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-2.mp4",
+          "esperado": "Aproveitar",
+          "previsto": "Aproveitar",
+          "confianca": 0.15316879749298096,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8910652995109558,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8136252164840698,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador11-1.mp4",
+          "esperado": "Bala",
+          "previsto": "Bala",
+          "confianca": 0.9081307649612427,
+          "aceito": true
+        },
+        {
+          "arquivo": "06BalaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8676552176475525,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7930884957313538,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador11-2.mp4",
+          "esperado": "Bala",
+          "previsto": "Bala",
+          "confianca": 0.9277202486991882,
+          "aceito": true
+        },
+        {
+          "arquivo": "06BalaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8710030913352966,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7864369750022888,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador11-1.mp4",
+          "esperado": "Banco",
+          "previsto": "Banco",
+          "confianca": 0.8152456879615784,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8235683441162109,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8170483112335205,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador11-2.mp4",
+          "esperado": "Banco",
+          "previsto": "Banco",
+          "confianca": 0.8523337244987488,
+          "aceito": true
+        },
+        {
+          "arquivo": "07BancoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8722922801971436,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8253033757209778,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-1.mp4",
+          "esperado": "Banheiro",
+          "previsto": "Banheiro",
+          "confianca": 0.6919710040092468,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8749781250953674,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8378476500511169,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-2.mp4",
+          "esperado": "Banheiro",
+          "previsto": "Banheiro",
+          "confianca": 0.6974038481712341,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8711109757423401,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8273873925209045,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-1.mp4",
+          "esperado": "Barulho",
+          "previsto": "Barulho",
+          "confianca": 0.6531174778938293,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8521630764007568,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8542124629020691,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-2.mp4",
+          "esperado": "Barulho",
+          "previsto": "Barulho",
+          "confianca": 0.7028499245643616,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8701385259628296,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8538999557495117,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador11-1.mp4",
+          "esperado": "Cinco",
+          "previsto": "Cinco",
+          "confianca": 0.8959710597991943,
+          "aceito": true
+        },
+        {
+          "arquivo": "10CincoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8852472901344299,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador11-2.mp4",
+          "esperado": "Cinco",
+          "previsto": "Cinco",
+          "confianca": 0.8785759210586548,
+          "aceito": true
+        },
+        {
+          "arquivo": "10CincoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.869049072265625,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8727034330368042,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador11-1.mp4",
+          "esperado": "Conhecer",
+          "previsto": "Conhecer",
+          "confianca": 0.965335488319397,
+          "aceito": true
+        },
+        {
+          "arquivo": "11ConhecerSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.838069498538971,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8429958820343018,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador11-2.mp4",
+          "esperado": "Conhecer",
+          "previsto": "Conhecer",
+          "confianca": 0.9188624024391174,
+          "aceito": true
+        },
+        {
+          "arquivo": "11ConhecerSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7999718189239502,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-1.mp4",
+          "esperado": "Espelho",
+          "previsto": "Espelho",
+          "confianca": 0.7134602069854736,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8225553631782532,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8482542037963867,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-2.mp4",
+          "esperado": "Espelho",
+          "previsto": "Espelho",
+          "confianca": 0.7995089888572693,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7885789275169373,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8227256536483765,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador11-1.mp4",
+          "esperado": "Esquina",
+          "previsto": "Esquina",
+          "confianca": 0.9726207852363586,
+          "aceito": true
+        },
+        {
+          "arquivo": "13EsquinaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8689482808113098,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7885766625404358,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador11-2.mp4",
+          "esperado": "Esquina",
+          "previsto": "Esquina",
+          "confianca": 0.9704083800315857,
+          "aceito": true
+        },
+        {
+          "arquivo": "13EsquinaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8434715270996094,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador11-1.mp4",
+          "esperado": "Filho",
+          "previsto": "Filho",
+          "confianca": 0.4411810338497162,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8422578573226929,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador11-2.mp4",
+          "esperado": "Filho",
+          "previsto": "Filho",
+          "confianca": 0.3918493688106537,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7948749661445618,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador11-1.mp4",
+          "esperado": "Maca",
+          "previsto": "Maca",
+          "confianca": 0.9345070123672485,
+          "aceito": true
+        },
+        {
+          "arquivo": "15MacaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8587877750396729,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8275947570800781,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador11-2.mp4",
+          "esperado": "Maca",
+          "previsto": "Maca",
+          "confianca": 0.8316692113876343,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8724506497383118,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8262077569961548,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-1.mp4",
+          "esperado": "Medo",
+          "previsto": "Medo",
+          "confianca": 0.6918745636940002,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8758054375648499,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7840721011161804,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-2.mp4",
+          "esperado": "Medo",
+          "previsto": "Medo",
+          "confianca": 0.5138012170791626,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8851221799850464,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7980430722236633,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador11-1.mp4",
+          "esperado": "Ruim",
+          "previsto": "Ruim",
+          "confianca": 0.7483700513839722,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.889683723449707,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8381630182266235,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador11-2.mp4",
+          "esperado": "Ruim",
+          "previsto": "Ruim",
+          "confianca": 0.8787345290184021,
+          "aceito": true
+        },
+        {
+          "arquivo": "17RuimSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8232030868530273,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador11-1.mp4",
+          "esperado": "Sapo",
+          "previsto": "Sapo",
+          "confianca": 0.8697947263717651,
+          "aceito": true
+        },
+        {
+          "arquivo": "18SapoSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8280501365661621,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador11-2.mp4",
+          "esperado": "Sapo",
+          "previsto": "Sapo",
+          "confianca": 0.9145816564559937,
+          "aceito": true
+        },
+        {
+          "arquivo": "18SapoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8539215922355652,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.773573100566864,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador11-1.mp4",
+          "esperado": "Vacina",
+          "previsto": "Vacina",
+          "confianca": 0.9679368138313293,
+          "aceito": true
+        },
+        {
+          "arquivo": "19VacinaSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8328650593757629,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador11-2.mp4",
+          "esperado": "Vacina",
+          "previsto": "Vacina",
+          "confianca": 0.9796088337898254,
+          "aceito": true
+        },
+        {
+          "arquivo": "19VacinaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8524938821792603,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8054046630859375,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-1.mp4",
+          "esperado": "Vontade",
+          "previsto": "Vontade",
+          "confianca": 0.9063894152641296,
+          "aceito": true
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8128911852836609,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7195855975151062,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-2.mp4",
+          "esperado": "Vontade",
+          "previsto": "Vontade",
+          "confianca": 0.8965854048728943,
+          "aceito": true
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8639891743659973,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador11-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.5270996689796448,
+          "aceito": false
+        }
+      ]
+    },
+    "teste": {
+      "exemplos": 115,
+      "sinais": 40,
+      "acertos_sinais": 35,
+      "repousos": 75,
+      "falsos_positivos_repouso": 0,
+      "falas_aceitas": 20,
+      "falas_corretas": 20,
+      "previsoes": [
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4",
+          "esperado": "Acontecer",
+          "previsto": "Acontecer",
+          "confianca": 0.9644213318824768,
+          "aceito": true
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.861903727054596,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8249733448028564,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4",
+          "esperado": "Acontecer",
+          "previsto": "Acontecer",
+          "confianca": 0.9528550505638123,
+          "aceito": true
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8362846374511719,
+          "aceito": false
+        },
+        {
+          "arquivo": "01AcontecerSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8035522103309631,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4",
+          "esperado": "Aluno",
+          "previsto": "Aluno",
+          "confianca": 0.7543754577636719,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8767548203468323,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8479188680648804,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4",
+          "esperado": "Aluno",
+          "previsto": "Aluno",
+          "confianca": 0.720458447933197,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8581167459487915,
+          "aceito": false
+        },
+        {
+          "arquivo": "02AlunoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7919888496398926,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4",
+          "esperado": "Amarelo",
+          "previsto": "Amarelo",
+          "confianca": 0.9869601726531982,
+          "aceito": true
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8375017046928406,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.6069858074188232,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4",
+          "esperado": "Amarelo",
+          "previsto": "Amarelo",
+          "confianca": 0.9850442409515381,
+          "aceito": true
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.825995922088623,
+          "aceito": false
+        },
+        {
+          "arquivo": "03AmareloSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.794906735420227,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4",
+          "esperado": "America",
+          "previsto": "America",
+          "confianca": 0.970349907875061,
+          "aceito": true
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8370856046676636,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8628731966018677,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4",
+          "esperado": "America",
+          "previsto": "America",
+          "confianca": 0.9508312344551086,
+          "aceito": true
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.84633469581604,
+          "aceito": false
+        },
+        {
+          "arquivo": "04AmericaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8202102184295654,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4",
+          "esperado": "Aproveitar",
+          "previsto": "Bala",
+          "confianca": 0.3129342794418335,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8351083397865295,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7546648383140564,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-2.mp4",
+          "esperado": "Aproveitar",
+          "previsto": "Bala",
+          "confianca": 0.14749717712402344,
+          "aceito": false
+        },
+        {
+          "arquivo": "05AproveitarSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8353272676467896,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4",
+          "esperado": "Bala",
+          "previsto": "Bala",
+          "confianca": 0.9541023373603821,
+          "aceito": true
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8770962357521057,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8090105056762695,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4",
+          "esperado": "Bala",
+          "previsto": "Bala",
+          "confianca": 0.9565984606742859,
+          "aceito": true
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.810769259929657,
+          "aceito": false
+        },
+        {
+          "arquivo": "06BalaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.791469156742096,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4",
+          "esperado": "Banco",
+          "previsto": "Banco",
+          "confianca": 0.9753986597061157,
+          "aceito": true
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7786888480186462,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.746350109577179,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4",
+          "esperado": "Banco",
+          "previsto": "Banco",
+          "confianca": 0.9460286498069763,
+          "aceito": true
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8715512752532959,
+          "aceito": false
+        },
+        {
+          "arquivo": "07BancoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8430823683738708,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4",
+          "esperado": "Banheiro",
+          "previsto": "Banheiro",
+          "confianca": 0.673532247543335,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8494870066642761,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8228002190589905,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4",
+          "esperado": "Banheiro",
+          "previsto": "Sapo",
+          "confianca": 0.4696308374404907,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8194981813430786,
+          "aceito": false
+        },
+        {
+          "arquivo": "08BanheiroSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8038082718849182,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4",
+          "esperado": "Barulho",
+          "previsto": "Barulho",
+          "confianca": 0.8318766355514526,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8499296307563782,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7934268116950989,
+          "aceito": false
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-2.mp4",
+          "esperado": "Barulho",
+          "previsto": "Barulho",
+          "confianca": 0.8666110038757324,
+          "aceito": true
+        },
+        {
+          "arquivo": "09BarulhoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8110804557800293,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4",
+          "esperado": "Cinco",
+          "previsto": "Cinco",
+          "confianca": 0.4280637502670288,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8562946319580078,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.6313356161117554,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4",
+          "esperado": "Cinco",
+          "previsto": "Cinco",
+          "confianca": 0.40153586864471436,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8581963181495667,
+          "aceito": false
+        },
+        {
+          "arquivo": "10CincoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7683086395263672,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4",
+          "esperado": "Conhecer",
+          "previsto": "Conhecer",
+          "confianca": 0.9790215492248535,
+          "aceito": true
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8173519968986511,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7576442360877991,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4",
+          "esperado": "Conhecer",
+          "previsto": "Conhecer",
+          "confianca": 0.9492102861404419,
+          "aceito": true
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8727946281433105,
+          "aceito": false
+        },
+        {
+          "arquivo": "11ConhecerSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8104350566864014,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-1.mp4",
+          "esperado": "Espelho",
+          "previsto": "Espelho",
+          "confianca": 0.9284705519676208,
+          "aceito": true
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7350741624832153,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4",
+          "esperado": "Espelho",
+          "previsto": "Espelho",
+          "confianca": 0.910930335521698,
+          "aceito": true
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8522926568984985,
+          "aceito": false
+        },
+        {
+          "arquivo": "12EspelhoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7744613885879517,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-1.mp4",
+          "esperado": "Esquina",
+          "previsto": "Esquina",
+          "confianca": 0.4586898982524872,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.880917489528656,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4",
+          "esperado": "Esquina",
+          "previsto": "Esquina",
+          "confianca": 0.6412588357925415,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8650470972061157,
+          "aceito": false
+        },
+        {
+          "arquivo": "13EsquinaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8469240069389343,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4",
+          "esperado": "Filho",
+          "previsto": "Filho",
+          "confianca": 0.4102399945259094,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8428134918212891,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.792303740978241,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4",
+          "esperado": "Filho",
+          "previsto": "Filho",
+          "confianca": 0.4903557598590851,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8750823736190796,
+          "aceito": false
+        },
+        {
+          "arquivo": "14FilhoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7569660544395447,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4",
+          "esperado": "Maca",
+          "previsto": "Medo",
+          "confianca": 0.5530842542648315,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8118544816970825,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7939328551292419,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4",
+          "esperado": "Maca",
+          "previsto": "Medo",
+          "confianca": 0.543000340461731,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7489664554595947,
+          "aceito": false
+        },
+        {
+          "arquivo": "15MacaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8288854360580444,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador12-1.mp4",
+          "esperado": "Medo",
+          "previsto": "Medo",
+          "confianca": 0.39920899271965027,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8209854960441589,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4",
+          "esperado": "Medo",
+          "previsto": "Medo",
+          "confianca": 0.28586748242378235,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8656517863273621,
+          "aceito": false
+        },
+        {
+          "arquivo": "16MedoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8399140238761902,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4",
+          "esperado": "Ruim",
+          "previsto": "Ruim",
+          "confianca": 0.3560742139816284,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8030135631561279,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8284948468208313,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4",
+          "esperado": "Ruim",
+          "previsto": "Ruim",
+          "confianca": 0.4524649679660797,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.860727846622467,
+          "aceito": false
+        },
+        {
+          "arquivo": "17RuimSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8312727212905884,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4",
+          "esperado": "Sapo",
+          "previsto": "Sapo",
+          "confianca": 0.5697778463363647,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8527849912643433,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7724412679672241,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4",
+          "esperado": "Sapo",
+          "previsto": "Sapo",
+          "confianca": 0.9625585079193115,
+          "aceito": true
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8596882820129395,
+          "aceito": false
+        },
+        {
+          "arquivo": "18SapoSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7992594838142395,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4",
+          "esperado": "Vacina",
+          "previsto": "Vacina",
+          "confianca": 0.9173195958137512,
+          "aceito": true
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.848546028137207,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7874208688735962,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4",
+          "esperado": "Vacina",
+          "previsto": "Vacina",
+          "confianca": 0.9524653553962708,
+          "aceito": true
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7529295086860657,
+          "aceito": false
+        },
+        {
+          "arquivo": "19VacinaSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7642337083816528,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4",
+          "esperado": "Vontade",
+          "previsto": "Vontade",
+          "confianca": 0.9055233597755432,
+          "aceito": true
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.797408401966095,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-1.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.7648784518241882,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4",
+          "esperado": "Vontade",
+          "previsto": "Vontade",
+          "confianca": 0.9054110646247864,
+          "aceito": true
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8707311153411865,
+          "aceito": false
+        },
+        {
+          "arquivo": "20VontadeSinalizador12-2.mp4:repouso",
+          "esperado": "Sem sinal",
+          "previsto": "Sem sinal",
+          "confianca": 0.8163151741027832,
+          "aceito": false
+        }
+      ]
+    }
+  },
+  "historico": [
+    {
+      "epoca": 20,
+      "perda_validacao": 0.3387002944946289,
+      "acuracia_validacao": 0.9279279112815857
+    },
+    {
+      "epoca": 40,
+      "perda_validacao": 0.3858562111854553,
+      "acuracia_validacao": 0.9459459185600281
+    },
+    {
+      "epoca": 60,
+      "perda_validacao": 0.30820053815841675,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 80,
+      "perda_validacao": 0.30775970220565796,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 100,
+      "perda_validacao": 0.3365572690963745,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 120,
+      "perda_validacao": 0.2638983130455017,
+      "acuracia_validacao": 0.954954981803894
+    },
+    {
+      "epoca": 140,
+      "perda_validacao": 0.2860598564147949,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 160,
+      "perda_validacao": 0.26979976892471313,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 180,
+      "perda_validacao": 0.2712545394897461,
+      "acuracia_validacao": 0.954954981803894
+    },
+    {
+      "epoca": 200,
+      "perda_validacao": 0.2665330767631531,
+      "acuracia_validacao": 0.954954981803894
+    },
+    {
+      "epoca": 220,
+      "perda_validacao": 0.263240247964859,
+      "acuracia_validacao": 0.9639639854431152
+    },
+    {
+      "epoca": 240,
+      "perda_validacao": 0.2570933997631073,
+      "acuracia_validacao": 0.954954981803894
+    }
+  ]
+}
